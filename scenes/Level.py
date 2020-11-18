@@ -1,15 +1,12 @@
 from scenes.Scene import *
+from config.Settings import *
 
 class Level:
     scene = Scene()
-    tilesImg = {}
-    charsImg = {}
 
-    def __init__(self, tilemap, objectmap, scene, tilesImg, charsImg):
-        self.tilemap = tilemap
-        self.objectmap = objectmap
+    def __init__(self, tilemap, objectmap, scene, game):
+        self.tilemap = TILEMAPS + tilemap
+        self.objectmap = TILEMAPS + objectmap
         self.scene = scene
-        self.tilesImg = tilesImg
-        self.charsImg = charsImg
-
+        self.game = game
     

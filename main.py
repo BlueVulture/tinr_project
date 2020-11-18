@@ -9,51 +9,53 @@ from pygame import *
 import pygame as pg
 from reloadr import autoreload
 
-tiles = {};
-chars = {};
-data = {};
+class Game():
+    tiles = {}
+    chars = {}
+    data = {}
 
-@autoreload
-def load():
-    environmentSheet = Spritesheet("roguelikeSheet_transparent_no_margins.png")
-    charactersSheet = Spritesheet("roguelikeChar_transparent_no_margins.png")
-
-    tiles = Loader.loadTiles(environmentSheet)
-    chars = Loader.loadCharacters(charactersSheet)
-
-
-@autoreload
-def init():
-    load()
-    global scene
-    scene = Town("town_tile.txt", "town_obj.txt", Scene, tiles, chars)
-    scene.readTiles()
-
-@autoreload
-def update():
-    pass
+    def __init__(self):
+        pg.init()
+        self.D = DisplayManager(WINSIZE, "Game", "medievalEnvironment_03.png")
+        self.clock = time.Clock()
+        self.clock.tick()
+        self.init()
 
 
-@autoreload
-def draw(): 
-    for o in scene.scene.tiles:
-        D.screen.blit(tiles["grass_tile"], (10, 10))
-    D.update()
+    def load(self):
+        environmentSheet = Spritesheet("roguelikeSheet_transparent_no_margins.png")
+        charactersSheet = Spritesheet("roguelikeChar_transparent_no_margins.png")
+
+        self.tiles = Loader.loadTiles(environmentSheet)
+        self.chars = Loader.loadCharacters(charactersSheet)
 
 
-clock = time.Clock()
+    def init(self):
+        self.load()
+        print(self.tiles)
+        self.level = Town("town_tile.txt", "town_obj.txt", Scene, self)
+        self.level.readTiles()
 
-WINSIZE = [1024, 512]
-D = DisplayManager(WINSIZE, "Game", "medievalEnvironment_03.png")
 
-init()
-load()
+    def update(self):
+        for e in pg.event.get():
+            if e.type == pg.QUIT:
+                display.quit()
 
-clock.tick()
+
+    def draw(self): 
+        for o in self.level.scene.tiles:
+            self.D.screen.blit(self.tiles["grass_tile"], o.getPosition())
+        display.update()
+
+    def run(self):
+        self.clock.tick(60)
+        self.update()
+        self.draw()
+
+g = Game()
 
 done = False
 while not done:
-    clock.tick(60)
-    pg.event.get()
-    update()
-    draw()
+    g.run()
+    

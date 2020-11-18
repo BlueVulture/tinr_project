@@ -7,8 +7,7 @@ class Loader:
         assets = {}
         assets["grass_tile"] = sheet.imageAt((16*5, 0, 16, 16), scale=3)
         assets["dirt_tile"] = sheet.imageAt((16*6, 0, 16, 16), scale=3)
-        assets["stone"] = sheet.imageAt((16*5, 0, 16, 16), scale=3)
-        assets["grass"] = sheet.imageAt((16*5, 0, 16, 16), scale=3)
+        assets["stone_tile"] = sheet.imageAt((16*5, 0, 16, 16), scale=3)
 
         return assets
 
