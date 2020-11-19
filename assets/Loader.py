@@ -1,5 +1,6 @@
 from pygame import *
 import pygame as pg
+from config.Settings import *
 
 class Loader:
 
@@ -14,5 +15,6 @@ class Loader:
     def loadCharacters(sheet):
         assets = {}
         assets["npc"] = sheet.imageAt((0, 6*16, 16, 16), scale=3)
+        assets ["player"] = image.load(RESOURCES + "characters/medievalUnit_01.png")
 
         return assets

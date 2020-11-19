@@ -12,11 +12,10 @@ from reloadr import autoreload
 class Game():
     tiles = {}
     chars = {}
-    data = {}
 
     def __init__(self):
         pg.init()
-        self.D = DisplayManager(WINSIZE, "Game", "medievalEnvironment_03.png")
+        self.D = DisplayManager(WINSIZE, TITLE, ICON)
         self.clock = time.Clock()
         self.clock.tick()
         self.init()
@@ -32,9 +31,12 @@ class Game():
 
     def init(self):
         self.load()
-        print(self.tiles)
+
+        self.all_sprites = pg.sprite.Group()
+        self.tiles_g = pg.sprite.Group()
+        self.entities_g = pg.sprite.Group()
+        
         self.level = Town("town_tile.txt", "town_obj.txt", Scene, self)
-        self.level.readTiles()
 
 
     def update(self):
@@ -42,14 +44,22 @@ class Game():
             if e.type == pg.QUIT:
                 display.quit()
 
+        self.entities_g.update()
+
+        # for o in self.level.scene.objects:
+        #     print(o.groups)
+
 
     def draw(self): 
-        for o in self.level.scene.tiles:
-            self.D.screen.blit(self.tiles["grass_tile"], o.getPosition())
+        for t in self.level.scene.tiles:
+            self.D.screen.blit(t.image, t.getPosition())
+
+        for o in self.level.scene.objects:
+            self.D.screen.blit(o.image, (o.getPosition()))
         display.update()
 
     def run(self):
-        self.clock.tick(60)
+        self.clock.tick(FPS)
         self.update()
         self.draw()
 

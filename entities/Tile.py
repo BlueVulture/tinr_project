@@ -4,4 +4,6 @@ import pygame as pg
 
 
 class Tile(Entity):
-    pass
+    def __init__(self, x, y, name, image, game):
+        self.groups = game.all_sprites, game.tiles_g
+        Entity.__init__(self, x, y, name, image, game)

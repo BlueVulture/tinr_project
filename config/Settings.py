@@ -3,3 +3,7 @@ TILEMAPS = "D:\\Users\\Domen\\Documents\\Datoteke\\Sola\\Studij\\3letnik\TINR\\t
 
 TILESIZE = 32
 WINSIZE = [1024, 512]
+TITLE = "Game"
+FPS = 60
+
+ICON = "medievalEnvironment_03.png"
