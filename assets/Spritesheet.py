@@ -14,7 +14,7 @@ class Spritesheet:
         
         # Loads image from x, y, x+offset, y+offset.
         rect = pg.Rect(rectangle)
-        image = pg.Surface(rect.size).convert() 
+        image = pg.Surface(rect.size, pg.SRCALPHA)
         image.blit(self.sheet, (0, 0), rect)
         image = pg.transform.scale(image, (rect[2]*scale, rect[3]*scale))
 

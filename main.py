@@ -13,6 +13,7 @@ from reloadr import autoreload
 class Game():
     tiles = {}
     chars = {}
+    objects = {}
 
     def __init__(self):
         pg.init()
@@ -30,6 +31,7 @@ class Game():
 
         self.tiles = Loader.loadTiles(environmentSheet)
         self.chars = Loader.loadCharacters(charactersSheet)
+        self.objects = Loader.loadObjects(environmentSheet)
 
 
     def init(self):

@@ -15,7 +15,13 @@ class Loader:
 
     def loadCharacters(sheet):
         assets = {}
-        assets["npc"] = sheet.imageAt((0, 6*TM_ROW, TM_COL, TM_ROW), scale=3)
+        assets["npc"] = sheet.imageAt((0, 6*TM_ROW, TM_COL, TM_ROW))
         assets ["player"] = image.load(RESOURCES + "characters/medievalUnit_01.png")
+
+        return assets
+
+    def loadObjects(sheet):
+        assets = {}
+        assets ["campfire"] = sheet.imageAt((TM_COL*14, TM_ROW*8, TM_COL, TM_ROW), scale=3)
 
         return assets

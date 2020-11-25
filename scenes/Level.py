@@ -34,12 +34,15 @@ class Level:
 
 
     def readObjects(self):
+        e = None
         with open(self.objectmap, "rt") as f:
             for row, line in enumerate(f):
                 for column, tile in enumerate(line):
-                    # print(tile)
                     if(tile == "P"):
-                        e = Player(32, 32, "player", self.game.chars["player"], self.game)
+                        e = Player(row*TILESIZE, column*TILESIZE, "player", self.game.chars["npc"], self.game)
+                    elif(tile == "C"):
+                        e = Entity(row*TILESIZE, column*TILESIZE, "campfire", self.game.objects["campfire"], self.game)
 
+                    if(tile != "." and tile != "\n"):
                         self.scene.addObject(self.scene, e)
-                        # print("?")
+                        print(e)

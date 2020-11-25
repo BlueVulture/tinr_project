@@ -14,7 +14,7 @@ class Player(Entity):
 
     def update(self):
         self.move()
-        print(self.x, self.y)
+        # print(self.x, self.y)
 
     def move(self):
         self.vx, self.vy = 0, 0

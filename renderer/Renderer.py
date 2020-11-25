@@ -15,9 +15,9 @@ class Renderer:
         if(self.grid):
             self.draw_grid()
 
-        # for o in self.game.level.scene.objects:
-        #     self.screen.blit(o.image, (o.getPosition()))
-        self.game.entities_g.draw(self.screen)
+        for o in self.game.level.scene.objects:
+            self.screen.blit(o.image, (o.getPosition()))
+        # self.game.entities_g.draw(self.screen)
 
        
         display.update()
