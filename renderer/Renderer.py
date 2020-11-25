@@ -12,11 +12,14 @@ class Renderer:
         for t in self.game.level.scene.tiles:
             self.screen.blit(t.image, t.getPosition())
 
-        for o in self.game.level.scene.objects:
-            self.screen.blit(o.image, (o.getPosition()))
-
         if(self.grid):
             self.draw_grid()
+
+        # for o in self.game.level.scene.objects:
+        #     self.screen.blit(o.image, (o.getPosition()))
+        self.game.entities_g.draw(self.screen)
+
+       
         display.update()
 
     def draw_grid(self):

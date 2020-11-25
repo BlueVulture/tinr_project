@@ -10,6 +10,7 @@ class Entity(pg.sprite.Sprite):
         self.y = y
         self.name = name
         self.image = image
+        self.rect = self.image.get_rect()
 
     def update(self):
         # print((self.x, self.y))

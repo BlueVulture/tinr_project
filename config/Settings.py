@@ -12,7 +12,7 @@ ICON = "medievalEnvironment_03.png"
 
 # Basic game variables
 TILESIZE = 64
-PLAYER_SPEED = 100
+PLAYER_SPEED = 300
 TM_ROW = 16
 TM_COL = 16
 

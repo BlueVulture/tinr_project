@@ -9,10 +9,12 @@ class Player(Entity):
         Entity.__init__(self, x, y, name, image, game)
         self.groups = game.all_sprites, game.entities_g
         game.entities_g.add(self)
+        self.game = game
         self.vx, self.vy = 0, 0
 
     def update(self):
         self.move()
+        print(self.x, self.y)
 
     def move(self):
         self.vx, self.vy = 0, 0
@@ -30,5 +32,8 @@ class Player(Entity):
             self.vx *= 0.7071
             self.vy *= 0.7071
 
-        # self.x += self.vx * self.game.dt
-        # self.y += self.vy * self.game.dt
+        self.x += self.vx * self.game.dt
+        self.y += self.vy * self.game.dt
+
+        self.rect.x = self.x
+        self.rect.y = self.y

@@ -17,10 +17,11 @@ class Game():
     def __init__(self):
         pg.init()
         self.gameDisplay = DisplayManager(WINSIZE, TITLE, ICON)
-        self.renderer = Renderer(self)
+        
         self.clock = time.Clock()
         self.clock.tick()
         self.init()
+        self.renderer = Renderer(self)
 
 
     def load(self):
@@ -39,6 +40,8 @@ class Game():
         self.entities_g = pg.sprite.Group()
         
         self.level = Town("town_tile.txt", "town_obj.txt", Scene, self)
+        print(self.clock.tick(FPS))
+        print(self.clock.tick(FPS)/1000)
 
 
     def update(self):
@@ -46,8 +49,10 @@ class Game():
             if e.type == pg.QUIT:
                 display.quit()
 
-        self.entities_g.update()
+        self.dt = self.clock.tick_busy_loop(FPS) / 1000
 
+        self.entities_g.update()
+        
 
     def draw(self): 
         self.renderer.render()
