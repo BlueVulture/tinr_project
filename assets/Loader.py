@@ -6,15 +6,16 @@ class Loader:
 
     def loadTiles(sheet):
         assets = {}
-        assets["grass_tile"] = sheet.imageAt((16*5, 0, 16, 16), scale=3)
-        assets["dirt_tile"] = sheet.imageAt((16*6, 0, 16, 16), scale=3)
-        assets["stone_tile"] = sheet.imageAt((16*5, 0, 16, 16), scale=3)
+        assets["grass_tile_1"] = sheet.imageAt((TM_COL*5, 0, TM_COL, TM_ROW))
+        assets["grass_tile_2"] = sheet.imageAt((TM_COL*5, TM_ROW*1, TM_COL, TM_ROW))
+        assets["dirt_tile"] = sheet.imageAt((TM_COL*6, 0, TM_COL, TM_ROW))
+        assets["stone_tile"] = sheet.imageAt((TM_COL*7, 0, TM_COL, TM_ROW))
 
         return assets
 
     def loadCharacters(sheet):
         assets = {}
-        assets["npc"] = sheet.imageAt((0, 6*16, 16, 16), scale=3)
+        assets["npc"] = sheet.imageAt((0, 6*TM_ROW, TM_COL, TM_ROW), scale=3)
         assets ["player"] = image.load(RESOURCES + "characters/medievalUnit_01.png")
 
         return assets

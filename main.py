@@ -1,3 +1,4 @@
+from renderer.Renderer import Renderer
 from scenes.Town import Town
 from scenes.Scene import Scene
 from assets.Loader import Loader
@@ -15,7 +16,8 @@ class Game():
 
     def __init__(self):
         pg.init()
-        self.D = DisplayManager(WINSIZE, TITLE, ICON)
+        self.gameDisplay = DisplayManager(WINSIZE, TITLE, ICON)
+        self.renderer = Renderer(self)
         self.clock = time.Clock()
         self.clock.tick()
         self.init()
@@ -46,17 +48,10 @@ class Game():
 
         self.entities_g.update()
 
-        # for o in self.level.scene.objects:
-        #     print(o.groups)
-
 
     def draw(self): 
-        for t in self.level.scene.tiles:
-            self.D.screen.blit(t.image, t.getPosition())
+        self.renderer.render()
 
-        for o in self.level.scene.objects:
-            self.D.screen.blit(o.image, (o.getPosition()))
-        display.update()
 
     def run(self):
         self.clock.tick(FPS)

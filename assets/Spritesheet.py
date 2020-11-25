@@ -3,11 +3,15 @@ import pygame as pg
 from config.Settings import *
 
 class Spritesheet:
-    def __init__(self, filename):
+    def __init__(self, filename, tilesize=16):
         self.sheet = image.load(RESOURCES + filename)
+        self.tilesize = tilesize
 
-    def imageAt(self, rectangle, colorkey = None, scale = 1):
+    def imageAt(self, rectangle, colorkey = None, scale=None):
         """Load a specific image from a specific rectangle."""
+        if(scale == None):
+            scale = int(TILESIZE/self.tilesize)
+        
         # Loads image from x, y, x+offset, y+offset.
         rect = pg.Rect(rectangle)
         image = pg.Surface(rect.size).convert() 
