@@ -11,10 +11,13 @@ class Entity(pg.sprite.Sprite):
         self.name = name
         self.image = image
         self.rect = self.image.get_rect()
+        self.components = []
+        self.game = game
+        self.scene = self.game.level.scene
 
     def update(self):
-        # print((self.x, self.y))
-        pass
+        for c in self.components:
+            c.action()
 
     def getPosition(self):
         return (self.x, self.y)

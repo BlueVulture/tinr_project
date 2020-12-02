@@ -10,10 +10,12 @@ from pygame import *
 import pygame as pg
 from reloadr import autoreload
 
+@autoreload
 class Game():
     tiles = {}
     chars = {}
     objects = {}
+    level = None
 
     def __init__(self):
         pg.init()
@@ -38,22 +40,26 @@ class Game():
         self.load()
 
         self.all_sprites = pg.sprite.Group()
-        self.tiles_g = pg.sprite.Group()
-        self.entities_g = pg.sprite.Group()
         
-        self.level = Town("town_tile.txt", "town_obj.txt", Scene, self)
+        self.level = Town("town_tile.txt", "town_obj.txt", self)
+        self.level.buildLevel();
         print(self.clock.tick(FPS))
         print(self.clock.tick(FPS)/1000)
+        print(self.level.scene.objects)
 
 
     def update(self):
         for e in pg.event.get():
             if e.type == pg.QUIT:
                 display.quit()
+            
 
         self.dt = self.clock.tick_busy_loop(FPS) / 1000
 
-        self.entities_g.update()
+        for o in self.level.scene.objects:
+            o.update()
+
+        
         
 
     def draw(self): 

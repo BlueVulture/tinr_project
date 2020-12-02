@@ -6,8 +6,8 @@ from entities.Tile import *
 
 
 class Town(Level):
-    def __init__(self, tilemap, objectmap, scene, game):
-        Level.__init__(self, tilemap, objectmap, scene, game)
+    def __init__(self, tilemap, objectmap, game, scene=None):
+        Level.__init__(self, tilemap, objectmap, game, scene)
         
 
 

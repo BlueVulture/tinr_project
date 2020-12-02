@@ -1,3 +1,5 @@
+from entities.Rooster import Rooster
+from entities.Campfire import Campfire
 from random import randrange
 from entities.Player import *
 from config.Settings import TILESIZE
@@ -6,14 +8,19 @@ from scenes.Scene import *
 from entities.Tile import *
 
 class Level:
-    scene = Scene()
+    scene = Scene
 
-    def __init__(self, tilemap, objectmap, scene, game):
+    def __init__(self, tilemap, objectmap, game, scene=None):
         self.tilemap = TILEMAPS + tilemap
         self.objectmap = TILEMAPS + objectmap
-        self.scene = scene
         self.game = game
+        if(scene):
+            self.scene = scene
+        
+ 
 
+    def buildLevel(self):
+        print(self.scene)
         self.readTiles()
         self.readObjects()
     
@@ -29,7 +36,7 @@ class Level:
                     elif(tile == ","):
                         name, tileName = "grass", "grass_tile_2"
 
-                    t = Tile(row*TILESIZE, column*TILESIZE, name, self.game.tiles[tileName], self.game, rotation)
+                    t = Tile(column*TILESIZE, row*TILESIZE, name, self.game.tiles[tileName], self.game, rotation)
                     self.scene.addTile(self.scene, t)
 
 
@@ -39,9 +46,11 @@ class Level:
             for row, line in enumerate(f):
                 for column, tile in enumerate(line):
                     if(tile == "P"):
-                        e = Player(row*TILESIZE, column*TILESIZE, "player", self.game.chars["npc"], self.game)
+                        e = Player(column*TILESIZE, row*TILESIZE, "player", self.game.chars["npc"], self.game)
                     elif(tile == "C"):
-                        e = Entity(row*TILESIZE, column*TILESIZE, "campfire", self.game.objects["campfire"], self.game)
+                        e = Campfire(column*TILESIZE, row*TILESIZE, "campfire", self.game.objects["campfire_on"], self.game)
+                    elif(tile == "R"):
+                        e = Rooster(column*TILESIZE, row*TILESIZE, "rooster", self.game.objects["rooster"], self.game)
 
                     if(tile != "." and tile != "\n"):
                         self.scene.addObject(self.scene, e)
