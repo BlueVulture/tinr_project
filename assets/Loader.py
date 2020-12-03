@@ -1,5 +1,5 @@
 from pygame import *
-import pygame as pg
+
 from config.Settings import *
 
 

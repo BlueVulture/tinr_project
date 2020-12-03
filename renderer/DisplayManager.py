@@ -1,5 +1,5 @@
 from pygame import *
-import pygame as pg
+
 
 class DisplayManager:
     def __init__(self, windowSize, caption, icon):

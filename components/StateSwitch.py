@@ -5,5 +5,7 @@ class StateSwitch:
         self.parent = parent
 
     def action(self):
+        pass
+
         
 

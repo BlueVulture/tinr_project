@@ -1,5 +1,6 @@
-from pygame import *
 import pygame as pg
+from pygame import *
+
 from config.Settings import *
 
 

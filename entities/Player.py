@@ -1,8 +1,8 @@
-from entities.Rooster import Rooster
+import pygame as pg
+
 from config.Settings import *
 from entities.Entity import Entity
-from pygame import *
-import pygame as pg
+from entities.Rooster import Rooster
 
 
 class Player(Entity):
@@ -18,15 +18,11 @@ class Player(Entity):
         keys = pg.key.get_pressed()
         if keys[pg.K_e] and not self.down:
             self.down = True
-            
-            p = Rooster(self.x +100, self.y+100, "rooster", self.game.objects["rooster"], self.game)
+
+            p = Rooster(self.x + 100, self.y + 100, "rooster", self.game.objects["rooster"], self.game)
             self.scene.addObject(self.scene, p)
-                
-                
-            
         elif not keys[pg.K_e]:
             self.down = False
-
 
     def move(self):
         self.vx, self.vy = 0, 0

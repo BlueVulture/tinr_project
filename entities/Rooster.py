@@ -1,7 +1,5 @@
-from config.Settings import *
 from entities.Entity import Entity
-from pygame import *
-import pygame as pg
+
 
 class Rooster(Entity):
     def __init__(self, x, y, name, image, game):

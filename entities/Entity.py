@@ -1,6 +1,5 @@
-from config.Settings import *
-from pygame import *
 import pygame as pg
+
 
 class Entity(pg.sprite.Sprite):
     def __init__(self, x, y, name, image, game):
@@ -20,4 +19,7 @@ class Entity(pg.sprite.Sprite):
             c.action()
 
     def getPosition(self):
-        return (self.x, self.y)
+        return self.x, self.y
+
+    def addComponent(self, component, args):
+        self.components.append(component(self, args))

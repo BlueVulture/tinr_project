@@ -1,9 +1,11 @@
+import pathlib
+
 # Load from
-RESOURCES = "D:\\Users\\Domen\\Documents\\Datoteke\\Sola\\Studij\\3letnik\TINR\\tinr_project\\resources\\"
-TILEMAPS = "D:\\Users\\Domen\\Documents\\Datoteke\\Sola\\Studij\\3letnik\TINR\\tinr_project\\tilemaps\\generated\\"
+RESOURCES = str(pathlib.Path(__file__).parent.parent.absolute()) + "\\resources\\"
+TILEMAPS = str(pathlib.Path(__file__).parent.parent.absolute()) + "\\tilemaps\\generated\\"
 
 # Basic window variables
-WIDTH = 1024   
+WIDTH = 1024
 HEIGHT = 512
 WINSIZE = [WIDTH, HEIGHT]
 TITLE = "Game"
@@ -24,3 +26,13 @@ LIGHTGREY = (100, 100, 100)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
+
+# Entities
+rooster = {
+    "name": "rooster",
+    "components": {
+        "Movable": {
+            "Vector": (10, 20)
+        }
+    }
+}

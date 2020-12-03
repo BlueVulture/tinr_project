@@ -1,13 +1,13 @@
+import pygame as pg
+from pygame import *
+
+from assets.Loader import *
+from assets.Spritesheet import *
+from entities.Player import *
+from renderer.DisplayManager import *
 from renderer.Renderer import Renderer
 from scenes.Town import Town
-from scenes.Scene import Scene
-from assets.Loader import *
-from renderer.DisplayManager import *
-from assets.Spritesheet import *
-from config.Settings import *
-from entities.Player import *
-from pygame import *
-import pygame as pg
+from physics.PhysicsEngine import *
 
 
 class Game:
@@ -18,29 +18,46 @@ class Game:
 
     def __init__(self):
         pg.init()
-        self.all_sprites = pg.sprite.Group()
+
+        # Display
         self.gameDisplay = DisplayManager(WINSIZE, TITLE, ICON)
 
+        # Set clock
         self.clock = time.Clock()
         self.clock.tick()
-        self.init()
-        self.renderer = Renderer(self)
+        self.dt = self.clock.tick_busy_loop(FPS) / 1000
 
+        # Initialize
+        self.init()
+
+        # Set up rendered, physics
+        self.renderer = Renderer(self)
+        self.physics = PhysicsEngine(self)
+
+        # Create spritegroup (for pg.Sprite inheritance)
+        self.all_sprites = pg.sprite.Group()
+
+    #
     def load(self):
+        # Load sheets
         environmentSheet = Spritesheet("roguelikeSheet_transparent_no_margins.png")
         charactersSheet = Spritesheet("roguelikeChar_transparent_no_margins.png")
 
+        # Load images from sheets into dicts
         self.tiles = loadTiles(environmentSheet)
         self.chars = loadCharacters(charactersSheet)
         self.objects = loadObjects(environmentSheet)
 
     def init(self):
+        # Load all
         self.load()
 
+        # Set level and build it
         self.level = Town("town_tile.txt", "town_obj.txt", self)
         self.level.buildLevel()
+
+        # Diagnostics
         print(self.clock.tick(FPS))
-        print(self.clock.tick(FPS) / 1000)
         print(self.level.scene.objects)
 
     def update(self):
