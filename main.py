@@ -22,6 +22,9 @@ class Game:
         # Display
         self.gameDisplay = DisplayManager(WINSIZE, TITLE, ICON)
 
+        # Create spritegroup (for pg.Sprite inheritance)
+        self.all_sprites = pg.sprite.Group()
+
         # Set clock
         self.clock = time.Clock()
         self.clock.tick()
@@ -31,14 +34,11 @@ class Game:
         self.init()
 
         # Set up rendered, physics
-        self.renderer = Renderer(self)
+        self.renderer = Renderer(self, grid=True)
         self.physics = PhysicsEngine(self)
 
-        # Create spritegroup (for pg.Sprite inheritance)
-        self.all_sprites = pg.sprite.Group()
-
-    #
     def load(self):
+        """ Load resources """
         # Load sheets
         environmentSheet = Spritesheet("roguelikeSheet_transparent_no_margins.png")
         charactersSheet = Spritesheet("roguelikeChar_transparent_no_margins.png")
@@ -47,8 +47,10 @@ class Game:
         self.tiles = loadTiles(environmentSheet)
         self.chars = loadCharacters(charactersSheet)
         self.objects = loadObjects(environmentSheet)
+        self.all_images = {**self.tiles, **self.chars, **self.objects}
 
     def init(self):
+        """ Initialize gamestate """
         # Load all
         self.load()
 
@@ -57,10 +59,11 @@ class Game:
         self.level.buildLevel()
 
         # Diagnostics
-        print(self.clock.tick(FPS))
+        print(self.clock.tick_busy_loop(FPS) / 1000)
         print(self.level.scene.objects)
 
     def update(self):
+        """ Update logic """
         for e in pg.event.get():
             if e.type == pg.QUIT:
                 display.quit()
@@ -70,12 +73,19 @@ class Game:
         for o in self.level.scene.objects:
             o.update()
 
+    def physicsUpdate(self):
+        """ Update physics """
+        self.physics.physicsUpdate()
+
     def draw(self):
+        """ Call to renderer """
         self.renderer.render()
 
     def run(self):
+        """ Gameloop """
         self.clock.tick(FPS)
         self.update()
+        self.physicsUpdate()
         self.draw()
 
 

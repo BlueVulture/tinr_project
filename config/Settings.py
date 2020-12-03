@@ -14,9 +14,10 @@ ICON = "medievalEnvironment_03.png"
 
 # Basic game variables
 TILESIZE = 64
-PLAYER_SPEED = 375
+PLAYER_SPEED = 256
 TM_ROW = 16
 TM_COL = 16
+DEFAULT_POSITION = (100, 100)
 
 # Colors 
 WHITE = (255, 255, 255)
@@ -27,12 +28,7 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 
-# Entities
-rooster = {
-    "name": "rooster",
-    "components": {
-        "Movable": {
-            "Vector": (10, 20)
-        }
-    }
-}
+
+
+
+

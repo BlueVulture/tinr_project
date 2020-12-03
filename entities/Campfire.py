@@ -2,8 +2,8 @@ from entities.Entity import Entity
 
 
 class Campfire(Entity):
-    def __init__(self, x, y, name, image, game):
-        Entity.__init__(self, x, y, name, image, game)
+    def __init__(self, position, name, image, game):
+        Entity.__init__(self, position, name, image, game)
 
     def update(self):
         pass
