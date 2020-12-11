@@ -14,6 +14,8 @@ class Game:
     tiles = {}
     chars = {}
     objects = {}
+    all_images = {}
+    events = None
     level = None
 
     def __init__(self):
@@ -34,7 +36,7 @@ class Game:
         self.init()
 
         # Set up rendered, physics
-        self.renderer = Renderer(self, grid=True)
+        self.renderer = Renderer(self, grid=True, debug=True)
         self.physics = PhysicsEngine(self)
 
     def load(self):
@@ -64,7 +66,8 @@ class Game:
 
     def update(self):
         """ Update logic """
-        for e in pg.event.get():
+        self.events = pg.event.get()
+        for e in self.events:
             if e.type == pg.QUIT:
                 display.quit()
 
@@ -87,6 +90,7 @@ class Game:
         self.update()
         self.physicsUpdate()
         self.draw()
+
 
 
 g = Game()

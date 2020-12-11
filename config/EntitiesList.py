@@ -26,7 +26,13 @@ entities = {
         "image": "rooster",
         "components": {
             "Movable": {
-                "vector": pg.Vector2(50, 0)
+                "vector": pg.Vector2(0, 0)
+            },
+            "Rigidbody": {
+                "mass": 0
+            },
+            "BoxCollider": {
+
             }
         }
     },
@@ -43,11 +49,17 @@ entities = {
         "name": "player",
         "image": "npc",
         "components": {
+            "Rigidbody": {
+                "mass": 1
+            },
+            "BoxCollider": {
+
+            }
         }
     },
     "dog": {
         "class": "Entity",
-        "name": "rooster",
+        "name": "dog",
         "image": "rooster",
         "components": {
             "Movable": {

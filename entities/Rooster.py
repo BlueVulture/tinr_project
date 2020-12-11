@@ -10,10 +10,11 @@ class Rooster(Entity):
         self.rect.y = self.y
         
     def update(self):
+        pass
         # print(self.rect)
-        if self.is_collided_with(self.game.level.scene.objects[0]):
-            self.addComponent(Movable, {"vector": pg.Vector2(50, 0)})
+        # if self.is_collided_with(self.game.level.scene.objects[0]):
+        #     self.addComponent(Movable, {"vector": pg.Vector2(50, 0)})
 
-    def is_collided_with(self, sprite):
-        return self.rect.colliderect(sprite.rect)
+    # def is_collided_with(self, sprite):
+    #     return self.rect.colliderect(sprite.rect)
 

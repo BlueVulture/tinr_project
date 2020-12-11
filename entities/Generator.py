@@ -7,11 +7,14 @@ from components.PhysicsComponents import *
 
 
 class Generator:
-    def __init__(self, game):
+    def __init__(self, game, debug=False):
         self.game = game
+        self.debug = debug
 
     def generate(self, entity, position=None, oArgs=None):
-        print(entity)
+        if self.debug:
+            print(entity)
+
         e = entities[entity]
         if position is None:
             if "position" in e.keys():
@@ -25,6 +28,8 @@ class Generator:
         for c, args in e["components"].items():
             component = eval(c)
             generated.addComponent(component, args)
+        if self.debug:
+            print(entities[entity])
+            print(generated.rect)
 
-        print(entities[entity])
         return generated

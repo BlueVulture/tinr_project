@@ -3,6 +3,12 @@ class Component:
         self.parent = parent
         self.args = args
 
+    def action(self):
+        pass
+
+    def update(self):
+        pass
+
 
 class Consumable(Component):
     def __init__(self, parent, args):

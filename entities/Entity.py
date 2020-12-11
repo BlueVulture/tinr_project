@@ -15,6 +15,8 @@ class Entity(pg.sprite.Sprite):
             self.rect = pg.Rect(self.x, self.y, TILESIZE, TILESIZE)
         else:
             self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
         self.components = {}
         self.game = game
         self.scene = self.game.level.scene

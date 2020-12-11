@@ -18,7 +18,7 @@ class Level:
         self.tilemap = TILEMAPS + tilemap
         self.objectmap = TILEMAPS + objectmap
         self.game = game
-        self.generator = Generator(self.game)
+        self.generator = Generator(self.game, debug=True)
         if scene:
             self.scene = scene
 
@@ -47,15 +47,7 @@ class Level:
             for row, line in enumerate(f):
                 for column, tag in enumerate(line):
                     obj = entityTags[tag]
-
-                    # if tag == "P":
-                    #     e = Player((column * TILESIZE, row * TILESIZE), "player", self.game.chars["npc"], self.game)
-                    # elif tile == "C":
-                    #     e = Campfire(column * TILESIZE, row * TILESIZE, "campfire", self.game.objects["campfire_on"], self.game)
-                    # elif tile == "R":
-                    #     e = Rooster(column * TILESIZE, row * TILESIZE, "rooster", self.game.objects["rooster"], self.game)
-
                     if obj is not None:
                         # self.scene.addObject(self.scene, e)
                         self.scene.addObject(self.scene, self.generator.generate(obj, (column * TILESIZE, row * TILESIZE)))
-                        print(tag)
+                        # print(tag)
