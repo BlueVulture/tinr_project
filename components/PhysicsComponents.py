@@ -35,7 +35,8 @@ class BoxCollider(Component):
             self.rect = parent.rect
 
     def action(self):
-        print(self.rect)
+        # print(self.rect)
+        pass
 
 
 class CircleCollider(Component):

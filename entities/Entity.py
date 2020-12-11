@@ -31,7 +31,8 @@ class Entity(pg.sprite.Sprite):
         self.scene = self.game.level.scene
 
     def update(self):
-        pass
+        for key, c in self.components.items():
+            c.action()
 
     def getPosition(self):
         return self.x, self.y
@@ -41,3 +42,8 @@ class Entity(pg.sprite.Sprite):
             self.components[component.__name__] = component
         else:
             self.components[component.__name__] = component(self, args)
+
+    def changeImage(self, image):
+        self.image = self.game.all_images[image]
+        preScale = self.image.get_rect()
+        self.image = pg.transform.scale(self.image, (int(preScale.width * self.scale[0]), int(preScale.height * self.scale[1])))

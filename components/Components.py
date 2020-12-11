@@ -34,6 +34,33 @@ class Animated(Component):
         super().__init__(parent, args)
         self.images = self.checkArgs("images")
         self.time = self.checkArgs("time")
+        self.deltaTime = self.time/len(self.images)
+        self.currentFrame = 0
+        self.currentTime = 0
+        print(self.deltaTime)
+
+    def action(self):
+        self.animate()
+
+    def animate(self):
+        # print(str(self.currentTime) + " " + str(self.currentFrame))
+        if self.currentTime >= (self.currentFrame+1)*self.deltaTime:
+            self.currentFrame += 1
+            self.parent.changeImage(self.images[self.currentFrame])
+            self.currentTime += self.parent.game.dt
+        else:
+            self.currentTime += self.parent.game.dt
+
+        if self.currentTime > self.time:
+            self.currentFrame = 0
+            self.currentTime = 0
+            self.parent.changeImage(self.images[self.currentFrame])
+
+
+
+
+
+
 
 
 

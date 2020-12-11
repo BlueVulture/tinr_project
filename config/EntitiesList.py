@@ -50,7 +50,7 @@ entities = {
             },
             "BoxCollider": {},
             "Animated": {
-                "images": [],
+                "images": ["campfire_1", "campfire_2"],
                 "time": 1
             }
         }
