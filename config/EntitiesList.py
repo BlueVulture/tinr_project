@@ -14,7 +14,8 @@ tileTags = {
     ".": "grass_1",
     ":": "grass_2",
     ",": "stone_1",
-    ";": "stone_2"
+    ";": "stone_2",
+    "\n": None
 }
 
 
@@ -29,32 +30,39 @@ entities = {
                 "vector": pg.Vector2(0, 0)
             },
             "Rigidbody": {
+                "active": False,
                 "mass": 0
             },
-            "BoxCollider": {
-
-            }
+            "BoxCollider": {}
         }
     },
     "campfire": {
         "class": "Entity",
         "name": "campfire",
-        "image": "campfire_on",
+        "image": "campfire_1",
         "components": {
-            "Interactable": {}
+            "Interactable": {},
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {},
+            "Animated": {
+                "images": [],
+                "time": 1
+            }
         }
     },
     "player": {
         "class": "Player",
         "name": "player",
-        "image": "npc",
+        "image": "jester",
         "components": {
             "Rigidbody": {
+                "active": True,
                 "mass": 1
             },
-            "BoxCollider": {
-
-            }
+            "BoxCollider": {}
         }
     },
     "dog": {

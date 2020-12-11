@@ -19,6 +19,7 @@ class PhysicsEngine:
         pass
 
     def physicsUpdate(self):
+        """ Updates all physical components of objects in the scene. """
         for o in self.scene.objects:
             if "Movable" in o.components.keys():
                 o.components["Movable"].update()
@@ -33,6 +34,13 @@ class PhysicsEngine:
                         self.collisionCheck(o, o2)
 
     def collisionCheck(self, object1, object2):
+        """
+        Checks for collisions between the given two objects.
+        Currently implements two collision types:
+
+        - AABB - AABB collisions
+        - AABB - Circle collisions
+        """
         # AABB - AABB collision check
         if boxCheck(object1) and boxCheck(object2):
             rect1 = object1.components["BoxCollider"].rect
@@ -48,6 +56,14 @@ class PhysicsEngine:
             pass
 
     def resolveCollision(self, object1, object2):
+        """ Collision resolution method. Restricts object movement for active-passive collisions. """
+        # TO-DO: active - active
+        # IDEA:
+        #   normalize mass of both objects (ie. obj1.mass + obj2.mass = 1),
+        #   then move BOTH objects by multiplicating their normalized mass
+        #   with how much they should move.
+        #   Also implement velocity, so then maybe normalized mass + velocity?
+        #   Transform component for velocity
         if object1.components["Rigidbody"].mass == 0:
             collider = object2
             collide = object1
@@ -64,8 +80,6 @@ class PhysicsEngine:
         down = rect1.y - (rect2.y + rect2.height)
 
         minDir = max(right, left, up, down)
-
-        # print(str(collider.x) + " " + str(collider.y))
 
         if minDir == right:
             collider.x -= right

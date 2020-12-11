@@ -6,7 +6,7 @@ class Movable(Component):
 
     def __init__(self, parent, args):
         super().__init__(parent, args)
-        self.vector = args["vector"]
+        self.vector = self.checkArgs("vector")
 
     def update(self):
         self.parent.x += self.vector.x * self.parent.game.dt
@@ -22,19 +22,27 @@ class Rigidbody(Component):
     """ Physics component for collisions """
     def __init__(self, parent, args):
         super().__init__(parent, args)
-        self.mass = args["mass"]
-
-    def resolveCollision(self, collider):
-        if self.mass == 0:
-            return
-        else:
-            pass
+        self.mass = self.checkArgs("mass")
+        self.active = self.checkArgs("active")
 
 
 class BoxCollider(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
-        self.rect = parent.rect
+        if "rect" in args.keys():
+            self.rect = args["rect"]
+        else:
+            self.rect = parent.rect
+
+    def action(self):
+        print(self.rect)
+
+
+class CircleCollider(Component):
+    def __init__(self, parent, args):
+        super().__init__(parent, args)
+        if "rect" in args.keys():
+            self.rect = args["rect"]
 
     def action(self):
         print(self.rect)

@@ -31,18 +31,16 @@ class Level:
         name, tileName = "", ""
         with open(self.tilemap, "rt") as f:
             for row, line in enumerate(f):
-                for column, tile in enumerate(line):
+                for column, tag in enumerate(line):
+                    tile = tileTags[tag]
                     rotation = randrange(4)
-                    if tile == ".":
-                        name, tileName = "grass", "grass_tile_1"
-                    elif tile == ",":
-                        name, tileName = "grass", "grass_tile_2"
-
-                    t = Tile((column * TILESIZE, row * TILESIZE), name, self.game.tiles[tileName], self.game, rotation)
-                    self.scene.addTile(self.scene, t)
+                    if tile is not None:
+                        t = Tile((column * TILESIZE, row * TILESIZE), name, self.game.tiles[tile], self.game,
+                                 rotation)
+                        self.scene.addTile(self.scene, t)
 
     def readObjects(self):
-        e = None
+        # e = None
         with open(self.objectmap, "rt") as f:
             for row, line in enumerate(f):
                 for column, tag in enumerate(line):
