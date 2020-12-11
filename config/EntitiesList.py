@@ -25,6 +25,7 @@ entities = {
         "class": "Entity",
         "name": "rooster",
         "image": "rooster",
+        "scale": (0.75, 0.75),
         "components": {
             "Movable": {
                 "vector": pg.Vector2(0, 0)
@@ -40,6 +41,7 @@ entities = {
         "class": "Entity",
         "name": "campfire",
         "image": "campfire_1",
+        "scale": (0.75, 0.75),
         "components": {
             "Interactable": {},
             "Rigidbody": {

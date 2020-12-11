@@ -2,12 +2,11 @@ import pygame as pg
 
 from config.Settings import *
 from entities.Entity import Entity
-from entities.Rooster import Rooster
 
 
 class Player(Entity):
-    def __init__(self, position, name, image, game):
-        Entity.__init__(self, position, name, image, game)
+    def __init__(self, position, name, image, game, scale=(1, 1)):
+        Entity.__init__(self, position, name, image, game, scale=scale)
         self.vx, self.vy = 0, 0
         self.down = False
 

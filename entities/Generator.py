@@ -22,9 +22,14 @@ class Generator:
             else:
                 position = DEFAULT_POSITION
 
+        if "scale" in e.keys():
+            scale = e["scale"]
+        else:
+            scale = (1, 1)
+
         entityClass = eval(e["class"])
 
-        generated = entityClass(position, e["name"], self.game.all_images[e["image"]], self.game)
+        generated = entityClass(position, e["name"], self.game.all_images[e["image"]], self.game, scale=scale)
         for c, args in e["components"].items():
             component = eval(c)
             generated.addComponent(component, args)
