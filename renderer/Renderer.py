@@ -34,3 +34,5 @@ class Renderer:
     def drawColliders(self, object):
         rect = object.rect
         pg.draw.rect(self.screen, (255,0,0), (rect.x, rect.y, rect.width, rect.height), 3)
+        if "CircleCollider" in object.components.keys():
+            object.components["CircleCollider"].circle.draw(self.screen, BLUE, 3)

@@ -13,6 +13,7 @@ characterImages = {
     "barbarian": (0, 6),
     "blacksmith": (1, 6),
     "jester": (0, 10),
+    "orc_base": (0, 3)
 }
 
 objectImages = {

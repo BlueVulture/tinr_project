@@ -12,6 +12,9 @@ class Component:
     def update(self):
         pass
 
+    def collisionDetected(self, object):
+        pass
+
     def checkArgs(self, key):
         if key in self.args.keys():
             return self.args[key]

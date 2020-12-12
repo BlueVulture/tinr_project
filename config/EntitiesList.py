@@ -1,10 +1,14 @@
 import pygame as pg
 
 # Object tags to entities
+from physics.CustomShapes import Circle
+
 entityTags = {
     "P": "player",
     "R": "rooster",
     "C": "campfire",
+    "E": "enemy",
+    "O": "orc",
     ".": None,
     "\n": None
 }
@@ -26,6 +30,7 @@ entities = {
         "name": "rooster",
         "image": "rooster",
         "scale": (0.75, 0.75),
+        "tags" : ["static"],
         "components": {
             "Movable": {
                 "vector": pg.Vector2(0, 0)
@@ -34,7 +39,9 @@ entities = {
                 "active": False,
                 "mass": 0
             },
-            "BoxCollider": {}
+            "BoxCollider": {
+                "kinematic": True
+            }
         }
     },
     "campfire": {
@@ -42,13 +49,16 @@ entities = {
         "name": "campfire",
         "image": "campfire_1",
         "scale": (0.75, 0.75),
+        "tags" : ["static"],
         "components": {
             "Interactable": {},
             "Rigidbody": {
                 "active": False,
                 "mass": 0
             },
-            "BoxCollider": {},
+            "BoxCollider": {
+                "kinematic": True
+            },
             "Animated": {
                 "images": ["campfire_1", "campfire_2"],
                 "time": 1
@@ -59,21 +69,58 @@ entities = {
         "class": "Player",
         "name": "player",
         "image": "jester",
+        "tags" : ["player"],
         "components": {
             "Rigidbody": {
                 "active": True,
                 "mass": 1
             },
-            "BoxCollider": {}
+            "BoxCollider": {
+                "kinematic": True
+            }
         }
     },
-    "dog": {
+    "enemy": {
         "class": "Entity",
-        "name": "dog",
-        "image": "rooster",
+        "name": "enemy",
+        "image": "barbarian",
+        "tags" : ["enemy"],
         "components": {
-            "Movable": {
-                "vector": pg.Vector2(50, 0)
+            "Rigidbody": {
+                "active": True,
+                "mass": 1
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 150
+            },
+            "enemyAI": {
+                "speed": 128
+            }
+        }
+    },
+    "orc": {
+        "class": "Entity",
+        "name": "neutral",
+        "image": "orc_base",
+        "tags": ["neutral"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 1
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 150
+            },
+            "animalAI": {
+                "speed": 128
             }
         }
     },

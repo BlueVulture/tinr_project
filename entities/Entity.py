@@ -8,6 +8,7 @@ class Entity(pg.sprite.Sprite):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.name = name
+        self.tags = []
         self.scale = scale
         self.image = image
 
@@ -47,3 +48,6 @@ class Entity(pg.sprite.Sprite):
         self.image = self.game.all_images[image]
         preScale = self.image.get_rect()
         self.image = pg.transform.scale(self.image, (int(preScale.width * self.scale[0]), int(preScale.height * self.scale[1])))
+
+    def addTag(self, tag):
+        self.tags.append(tag)

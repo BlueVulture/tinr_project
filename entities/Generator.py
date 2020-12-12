@@ -2,6 +2,7 @@ from config.EntitiesList import *
 from config.Settings import *
 from entities.Entity import *
 from entities.Player import *
+from components.AIComponents import *
 from components.PhysicsComponents import *
 # from entities import *
 
@@ -33,6 +34,10 @@ class Generator:
         for c, args in e["components"].items():
             component = eval(c)
             generated.addComponent(component, args)
+
+        for t in e["tags"]:
+            generated.addTag(t)
+
         if self.debug:
             print(entities[entity])
             print(generated.rect)

@@ -92,7 +92,6 @@ class Game:
         self.draw()
 
 
-
 g = Game()
 
 done = False
