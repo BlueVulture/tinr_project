@@ -36,7 +36,7 @@ class Game:
         self.init()
 
         # Set up rendered, physics
-        self.renderer = Renderer(self, grid=True, debug=True)
+        self.renderer = Renderer(self, grid=False, debug=True)
         self.physics = PhysicsEngine(self)
 
     def load(self):

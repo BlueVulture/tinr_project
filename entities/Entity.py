@@ -33,7 +33,7 @@ class Entity(pg.sprite.Sprite):
 
     def update(self):
         for key, c in self.components.items():
-            c.action()
+            c.update()
 
     def getPosition(self):
         return self.x, self.y

@@ -20,7 +20,19 @@ objectImages = {
     "campfire_off": (13, 8),
     "campfire_1": (14, 8),
     "campfire_2": (15, 8),
-    "rooster": (15, 5)
+    "rooster": (15, 5),
+    "tree_1_bot": (13, 11),
+    "tree_1_top": (13, 10),
+    "tree_2_bot": (14, 11),
+    "tree_2_top": (14, 10),
+    "tree_3_bot": (15, 11),
+    "tree_3_top": (15, 10),
+    "tree_4_bot": (16, 11),
+    "tree_4_top": (16, 10),
+    "tent_1_bl": (46, 11),
+    "tent_1_br": (47, 11),
+    "tent_1_tl": (46, 10),
+    "tent_1_tr": (47, 10)
 }
 
 

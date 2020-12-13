@@ -19,6 +19,10 @@ class Renderer:
 
         for o in self.game.level.scene.objects:
             self.screen.blit(o.image, (o.getPosition()))
+            if "MultiTile" in o.components.keys():
+                multi = o.components["MultiTile"]
+                multi.draw(self.screen)
+
             if self.debug:
                 self.drawColliders(o)
         # self.game.entities_g.draw(self.screen)
@@ -33,6 +37,10 @@ class Renderer:
 
     def drawColliders(self, object):
         rect = object.rect
-        pg.draw.rect(self.screen, (255,0,0), (rect.x, rect.y, rect.width, rect.height), 3)
+        pg.draw.rect(self.screen, RED, (rect.x, rect.y, rect.width, rect.height), 10)
+
+        if "BoxCollider" in object.components.keys():
+            object.components["BoxCollider"].draw(self.screen, GREEN, 3)
+
         if "CircleCollider" in object.components.keys():
-            object.components["CircleCollider"].circle.draw(self.screen, BLUE, 3)
+            object.components["CircleCollider"].draw(self.screen, BLUE, 3)

@@ -42,7 +42,7 @@ class Animated(Component):
         self.currentTime = 0
         print(self.deltaTime)
 
-    def action(self):
+    def update(self):
         self.animate()
 
     def animate(self):
@@ -58,6 +58,18 @@ class Animated(Component):
             self.currentFrame = 0
             self.currentTime = 0
             self.parent.changeImage(self.images[self.currentFrame])
+
+class MultiTile(Component):
+    def __init__(self, parent, args):
+        super().__init__(parent, args)
+        self.parts = self.checkArgs("parts")
+        self.size = self.checkArgs("size")
+
+    def draw(self, screen):
+        o = self.parent
+        for pos, i in self.parts.items():
+            image = self.parent.game.all_images[i]
+            screen.blit(image, (o.x + pos[0] * o.rect.width, o.y + pos[1] * o.rect.height))
 
 
 

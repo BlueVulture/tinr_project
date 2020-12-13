@@ -9,6 +9,9 @@ entityTags = {
     "C": "campfire",
     "E": "enemy",
     "O": "orc",
+    "T": "tree",
+    "t": "tent",
+    "B": "blacksmith",
     ".": None,
     "\n": None
 }
@@ -120,6 +123,76 @@ entities = {
                 "circle": 150
             },
             "animalAI": {
+                "speed": 128
+            }
+        }
+    },
+    "tree": {
+        "class": "Entity",
+        "name": "tree",
+        "image": "tree_1_bot",
+        "scale": (1, 1),
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "MultiTile": {
+                "parts": {
+                    (0, -1): "tree_1_top"
+                },
+                "size": (1, 2)
+            }
+        }
+    },
+    "tent": {
+        "class": "Entity",
+        "name": "tent",
+        "image": "tent_1_bl",
+        "scale": (1, 1),
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True,
+                "rect": [0, 0, 128, 64]
+            },
+            "MultiTile": {
+                "parts": {
+                    (1, 0): "tent_1_br",
+                    (0, -1): "tent_1_tl",
+                    (1, -1): "tent_1_tr",
+                },
+                "size": (2, 2)
+            }
+        }
+    },
+
+    "blacksmith": {
+        "class": "Entity",
+        "name": "neutral",
+        "image": "blacksmith",
+        "tags": ["neutral"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 1
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 150
+            },
+            "wanderingAI": {
                 "speed": 128
             }
         }

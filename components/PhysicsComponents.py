@@ -38,7 +38,8 @@ class BoxCollider(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
         if "rect" in args.keys():
-            self.rect = args["rect"]
+            rect = args["rect"]
+            self.rect = pg.Rect(parent.x + rect[0], parent.y + rect[1], rect[2], rect[3])
         else:
             self.rect = parent.rect
 
@@ -50,6 +51,9 @@ class BoxCollider(Component):
     def action(self):
         # print(self.rect)
         pass
+
+    def draw(self, screen, color, outline):
+        pg.draw.rect(screen, color, (self.rect.x, self.rect.y, self.rect.width, self.rect.height), outline)
 
 
 class CircleCollider(Component):
@@ -75,6 +79,9 @@ class CircleCollider(Component):
     def action(self):
         # print(self.circle)
         pass
+
+    def draw(self, screen, color, outline):
+        self.circle.draw(screen, color, outline)
 
 
 class TransformComponent(Component):
