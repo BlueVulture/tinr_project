@@ -5,7 +5,7 @@ from random import *
 from physics.Math import *
 
 
-class enemyAI(Component):
+class EnemyAI(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
         self.speed = self.checkArgs("speed")
@@ -36,7 +36,7 @@ class enemyAI(Component):
             self.parent.rect.y = self.parent.y
 
 
-class animalAI(Component):
+class AnimalAI(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
         self.speed = self.checkArgs("speed")
@@ -67,7 +67,7 @@ class animalAI(Component):
             self.parent.rect.y = self.parent.y
 
 
-class wanderingAI(Component):
+class WanderingAI(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
         self.speed = self.checkArgs("speed")

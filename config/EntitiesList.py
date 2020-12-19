@@ -1,4 +1,5 @@
 import pygame as pg
+from config.SoundList import *
 
 # Object tags to entities
 from physics.CustomShapes import Circle
@@ -65,6 +66,12 @@ entities = {
             "Animated": {
                 "images": ["campfire_1", "campfire_2"],
                 "time": 1
+            },
+            "SoundEffect": {
+                "play": True,
+                "time": "length",
+                "sound": "campfire_s",
+                "volume": 0.5
             }
         }
     },
@@ -80,6 +87,12 @@ entities = {
             },
             "BoxCollider": {
                 "kinematic": True
+            },
+            "SoundEffect": {
+                "play": False,
+                "time": 0.2,
+                "sound": "grass_step_s",
+                "volume": 1
             }
         }
     },
@@ -100,7 +113,7 @@ entities = {
                 "kinematic": False,
                 "circle": 150
             },
-            "enemyAI": {
+            "EnemyAI": {
                 "speed": 128
             }
         }
@@ -122,8 +135,14 @@ entities = {
                 "kinematic": False,
                 "circle": 150
             },
-            "animalAI": {
+            "AnimalAI": {
                 "speed": 128
+            },
+            "SoundEffect": {
+                "play": True,
+                "time": 3,
+                "sound": "pig_s",
+                "volume": 0.5
             }
         }
     },
@@ -192,7 +211,7 @@ entities = {
                 "kinematic": False,
                 "circle": 150
             },
-            "wanderingAI": {
+            "WanderingAI": {
                 "speed": 128
             }
         }

@@ -38,6 +38,8 @@ class Generator:
         for t in e["tags"]:
             generated.addTag(t)
 
+        generated.init()
+
         if self.debug:
             print(entities[entity])
             print(generated.rect)

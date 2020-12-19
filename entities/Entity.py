@@ -31,6 +31,9 @@ class Entity(pg.sprite.Sprite):
         self.game = game
         self.scene = self.game.level.scene
 
+    def init(self):
+        pass
+
     def update(self):
         for key, c in self.components.items():
             c.update()

@@ -15,6 +15,7 @@ class Game:
     chars = {}
     objects = {}
     all_images = {}
+    sounds = {}
     events = None
     level = None
 
@@ -31,6 +32,7 @@ class Game:
         self.clock = time.Clock()
         self.clock.tick()
         self.dt = self.clock.tick_busy_loop(FPS) / 1000
+        pg.mixer.init(channels=8)
 
         # Initialize
         self.init()
@@ -50,6 +52,7 @@ class Game:
         self.chars = loadCharacters(charactersSheet)
         self.objects = loadObjects(environmentSheet)
         self.all_images = {**self.tiles, **self.chars, **self.objects}
+        self.sounds = loadSounds()
 
     def init(self):
         """ Initialize gamestate """

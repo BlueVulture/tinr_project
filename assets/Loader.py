@@ -1,7 +1,8 @@
-from pygame import *
+import pygame as pg
 
 from config.Settings import *
 from config.ImageList import *
+from config.SoundList import *
 
 def loadTiles(sheet):
     assets = {}
@@ -29,3 +30,10 @@ def loadObjects(sheet):
 
     return assets
 
+
+def loadSounds():
+    assets = {}
+    for key, sound in sounds.items():
+        assets[key] = pg.mixer.Sound(SOUNDS + sound)
+
+    return assets

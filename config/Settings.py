@@ -2,6 +2,7 @@ import pathlib
 
 # Load from
 RESOURCES = str(pathlib.Path(__file__).parent.parent.absolute()) + "\\resources\\"
+SOUNDS = str(pathlib.Path(__file__).parent.parent.absolute()) + "\\resources\\sounds\\"
 TILEMAPS = str(pathlib.Path(__file__).parent.parent.absolute()) + "\\tilemaps\\generated\\"
 
 # Basic window variables

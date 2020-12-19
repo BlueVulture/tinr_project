@@ -8,13 +8,19 @@ class Player(Entity):
     def __init__(self, position, name, image, game, scale=(1, 1)):
         Entity.__init__(self, position, name, image, game, scale=scale)
         self.vx, self.vy = 0, 0
-        self.down = False
+        self.moving = False
+        self.sound = None
+
+    def init(self):
+        self.sound = self.components["SoundEffect"]
 
     def update(self):
         self.move()
         for i, c in self.components.items():
             # c.action()
             pass
+        if self.sound:
+            self.playSound()
 
     def move(self):
         velocity = pg.Vector2((0, 0))
@@ -37,3 +43,15 @@ class Player(Entity):
 
         self.rect.x = self.x
         self.rect.y = self.y
+
+        if velocity.x != 0 or velocity.y != 0:
+            self.moving = True
+        else:
+            self.moving = False
+
+        # print(velocity)
+
+    def playSound(self):
+        if self.moving:
+            # print("playing")
+            self.sound.playSoundOnRepeat()
