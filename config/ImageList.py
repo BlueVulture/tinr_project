@@ -35,4 +35,8 @@ objectImages = {
     "tent_1_tr": (47, 10)
 }
 
+otherImages = {
+    "heart": (23, 22)
+}
+
 

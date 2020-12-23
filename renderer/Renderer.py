@@ -1,6 +1,7 @@
 import pygame as pg
 from pygame import *
 from config.Settings import *
+from interface.GuiManager import *
 
 
 class Renderer:
@@ -9,23 +10,35 @@ class Renderer:
         self.screen = game.gameDisplay.screen
         self.grid = grid
         self.debug = debug
+        self.camera = None
+        self.guiRenderer = None
+
+    def setGuiRenderer(self, guiRenderer):
+        self.guiRenderer = guiRenderer
+
+    def setCamera(self, camera):
+        self.camera = camera
+
+    def draw(self, entity):
+        self.screen.blit(entity.image, self.camera.apply(entity))
 
     def render(self):
         for t in self.game.level.scene.tiles:
-            self.screen.blit(t.image, t.getPosition())
+           self.draw(t)
 
         if self.grid:
             self.drawGrid()
 
         for o in self.game.level.scene.objects:
-            self.screen.blit(o.image, (o.getPosition()))
+            self.draw(o)
             if "MultiTile" in o.components.keys():
                 multi = o.components["MultiTile"]
-                multi.draw(self.screen)
+                multi.draw(self.screen, self.camera)
 
             if self.debug:
                 self.drawColliders(o)
-        # self.game.entities_g.draw(self.screen)
+        if self.guiRenderer:
+            self.guiRenderer.render(self.debug)
 
         display.update()
 
@@ -37,10 +50,11 @@ class Renderer:
 
     def drawColliders(self, object):
         rect = object.rect
-        pg.draw.rect(self.screen, RED, (rect.x, rect.y, rect.width, rect.height), 10)
+        rPos = self.camera.applyPosition((rect.x, rect.y))
+        pg.draw.rect(self.screen, RED, (rPos[0], rPos[1], rect.width, rect.height), 10)
 
         if "BoxCollider" in object.components.keys():
-            object.components["BoxCollider"].draw(self.screen, GREEN, 3)
+            object.components["BoxCollider"].draw(self.screen, GREEN, 3, self.camera)
 
         if "CircleCollider" in object.components.keys():
-            object.components["CircleCollider"].draw(self.screen, BLUE, 3)
+            object.components["CircleCollider"].draw(self.screen, BLUE, 3, self.camera)

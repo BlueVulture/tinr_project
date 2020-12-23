@@ -6,8 +6,8 @@ SOUNDS = str(pathlib.Path(__file__).parent.parent.absolute()) + "\\resources\\so
 TILEMAPS = str(pathlib.Path(__file__).parent.parent.absolute()) + "\\tilemaps\\generated\\"
 
 # Basic window variables
-WIDTH = 1024
-HEIGHT = 512
+WIDTH = 1366
+HEIGHT = 768
 WINSIZE = [WIDTH, HEIGHT]
 TITLE = "Game"
 FPS = 60

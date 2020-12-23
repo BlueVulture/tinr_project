@@ -69,11 +69,11 @@ class MultiTile(Component):
         self.parts = self.checkArgs("parts")
         self.size = self.checkArgs("size")
 
-    def draw(self, screen):
+    def draw(self, screen, camera):
         o = self.parent
         for pos, i in self.parts.items():
             image = self.parent.game.all_images[i]
-            screen.blit(image, (o.x + pos[0] * o.rect.width, o.y + pos[1] * o.rect.height))
+            screen.blit(image, camera.applyPosition((o.x + pos[0] * o.rect.width, o.y + pos[1] * o.rect.height)))
 
 
 class SoundEffect(Component):
@@ -117,5 +117,6 @@ class SoundEffect(Component):
         else:
             self.currentTime += self.dt
 
-
+class MusicComponent(Component):
+    pass
 

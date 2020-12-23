@@ -4,6 +4,7 @@ from config.Settings import *
 from config.ImageList import *
 from config.SoundList import *
 
+
 def loadTiles(sheet):
     assets = {}
     for image, position in tileImages.items():
@@ -25,6 +26,15 @@ def loadCharacters(sheet):
 def loadObjects(sheet):
     assets = {}
     for image, position in objectImages.items():
+        if type(position) is tuple:
+            assets[image] = sheet.imageAt((TM_COL * position[0], TM_ROW * position[1], TM_COL, TM_ROW))
+
+    return assets
+
+
+def loadOther(sheet):
+    assets = {}
+    for image, position in otherImages.items():
         if type(position) is tuple:
             assets[image] = sheet.imageAt((TM_COL * position[0], TM_ROW * position[1], TM_COL, TM_ROW))
 

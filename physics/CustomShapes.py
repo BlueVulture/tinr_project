@@ -9,5 +9,5 @@ class Circle:
         self.r = self.radius
         self.position = (self.x, self.y)
 
-    def draw(self, screen, color, thicness):
-        pg.draw.circle(screen, color, (self.x, self.y), self.radius, thicness)
+    def draw(self, screen, color, thicness, camera):
+        pg.draw.circle(screen, color, camera.applyPosition((self.x, self.y)), self.radius, thicness)

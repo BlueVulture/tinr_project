@@ -34,7 +34,7 @@ entities = {
         "name": "rooster",
         "image": "rooster",
         "scale": (0.75, 0.75),
-        "tags" : ["static"],
+        "tags": ["static"],
         "components": {
             "Movable": {
                 "vector": pg.Vector2(0, 0)

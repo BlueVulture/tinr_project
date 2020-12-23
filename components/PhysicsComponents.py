@@ -52,8 +52,9 @@ class BoxCollider(Component):
         # print(self.rect)
         pass
 
-    def draw(self, screen, color, outline):
-        pg.draw.rect(screen, color, (self.rect.x, self.rect.y, self.rect.width, self.rect.height), outline)
+    def draw(self, screen, color, outline, camera):
+        position = camera.applyPosition((self.rect.x, self.rect.y))
+        pg.draw.rect(screen, color, (position[0], position[1], self.rect.width, self.rect.height), outline)
 
 
 class CircleCollider(Component):
@@ -80,8 +81,8 @@ class CircleCollider(Component):
         # print(self.circle)
         pass
 
-    def draw(self, screen, color, outline):
-        self.circle.draw(screen, color, outline)
+    def draw(self, screen, color, outline, camera):
+        self.circle.draw(screen, color, outline, camera)
 
 
 class TransformComponent(Component):

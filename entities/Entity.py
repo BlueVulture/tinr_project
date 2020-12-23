@@ -18,6 +18,7 @@ class Entity(pg.sprite.Sprite):
             preScale = self.image.get_rect()
             self.image = pg.transform.scale(self.image, (int(preScale.width*scale[0]), int(preScale.height*scale[1])))
             self.rect = self.image.get_rect()
+
         if scale < (1, 1):
             self.x = position[0] + (TILESIZE - self.rect.width)/2
             self.y = position[1] + (TILESIZE - self.rect.height)/2
@@ -39,7 +40,8 @@ class Entity(pg.sprite.Sprite):
             c.update()
 
     def getPosition(self):
-        return self.x, self.y
+
+        return round(self.x, 2), round(self.y, 2)
 
     def addComponent(self, component, args=None):
         if args is None:

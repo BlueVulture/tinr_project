@@ -10,9 +10,14 @@ class Player(Entity):
         self.vx, self.vy = 0, 0
         self.moving = False
         self.sound = None
+        self.label = None
 
     def init(self):
         self.sound = self.components["SoundEffect"]
+        for c in self.game.gui.components:
+            if c.name == "Position":
+                self.label = c
+        # self.label = self.game.gui.c
 
     def update(self):
         self.move()
@@ -21,6 +26,10 @@ class Player(Entity):
             pass
         if self.sound:
             self.playSound()
+
+        # print(self.label.name)
+        if self.label:
+            self.label.setText(self.getPosition())
 
     def move(self):
         velocity = pg.Vector2((0, 0))
