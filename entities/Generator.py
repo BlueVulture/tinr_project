@@ -5,19 +5,26 @@ from entities.Player import *
 from components.AIComponents import *
 from components.PhysicsComponents import *
 # from entities import *
+from entities.Tile import Tile
 
 
 class Generator:
     def __init__(self, game, debug=False):
         self.game = game
         self.debug = debug
+        self.count = 0
 
-    def generate(self, entity, position=None, oArgs=None, rectangle=None, gid=None, n=None):
-        if self.debug:
+    def generate(self, entity, position=None, oArgs=None, rectangle=None, gid=None, n=None, type=None):
+        if self.debug and DEBUG:
             # print(entity)
             pass
 
-        if entity not in entities.keys():
+        if type is "tile":
+            obj = oArgs["obj"]
+            entityID = self.count
+            self.count += 1
+            return Tile(position, "tile", self.game.all_images[obj], self.game, entityID)
+        elif entity not in entities.keys():
             return None
 
         e = entities[entity]
@@ -45,7 +52,10 @@ class Generator:
         else:
             name = n
 
-        generated = entityClass(position, name, image, self.game, scale=scale, rect=rectangle)
+        entityID = self.count
+        self.count += 1
+
+        generated = entityClass(position, name, image, self.game, entityID, scale=scale, rect=rectangle)
 
         for c, args in e["components"].items():
             component = eval(c)
@@ -56,7 +66,7 @@ class Generator:
 
         generated.init()
 
-        if self.debug:
+        if self.debug and DEBUG:
             print(entities[entity])
             print(generated.rect)
 

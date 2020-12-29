@@ -1,63 +1,62 @@
 class Scene:
+    # Index of entities
+    index = {}
+
+    # All entities
     entities = []
+
+    # Entity types
     structures = []
     objects = []
     tiles = []
     characters = []
+
+    # Interactions with game world
     layers = []
     updatable = []
 
     def __init__(self):
-        pass
+        self.index = {}
+        self.entities = []
+        self.structures = []
+        self.objects = []
+        self.tiles = []
+        self.characters = []
+        self.layers = []
+        self.updatable = []
 
-    def addEntity(self, entity, entityType, layer, updatable=False):
+    def addEntity(self, entity, entityType, layer, entityID, updatable=False):
         self.entities.append(entity)
+        includedIn = ["self.entities"]
+
         if len(self.layers) <= layer:
             for x in range((layer-len(self.layers))+1):
                 self.layers.append([])
 
         self.layers[layer].append(entity)
+        includedIn.append("self.layers["+str(layer)+"]")
 
         if entityType == "tile":
             self.tiles.append(entity)
+            includedIn.append("self.tiles")
         elif entityType == "object":
             self.objects.append(entity)
+            includedIn.append("self.objects")
         elif entityType == "character":
             self.characters.append(entity)
+            includedIn.append("self.characters")
         elif entityType == "structure":
             self.structures.append(entity)
+            includedIn.append("self.structures")
 
         if updatable:
             self.updatable.append(entity)
+            includedIn.append("self.updatable")
 
-    def addTile(self, tile):
-        self.entities.append(tile)
-        self.tiles.append(tile)
+        self.index[entityID] = includedIn
 
-    def addObject(self, object):
-        self.entities.append(object)
-        self.objects.append(object)
+    def removeEntity(self, entity, entityID):
+        for i in self.index[entityID]:
+            eval(i).remove(entity)
 
-    def addStructure(self, structure):
-        self.structures.append(structure)
-        self.objects.append(structure)
 
-    def addCharacter(self, character):
-        self.entities.append(character)
-        self.characters.append(character)
-
-    def removeTile(self, tile):
-        self.entities.remove(tile)
-        self.tiles.remove(tile)
-
-    def removeObject(self, object):
-        self.entities.remove(object)
-        self.objects.remove(object)
-
-    def removeCharacter(self, character):
-        self.entities.remove(character)
-        self.characters.remove(character)
-
-    def removeStructure(self, structure):
-        self.structures.remove(structure)
-        self.objects.remove(structure)

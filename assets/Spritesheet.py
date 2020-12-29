@@ -6,7 +6,7 @@ from config.Settings import *
 
 class Spritesheet:
     def __init__(self, filename, tilesize=16):
-        self.sheet = image.load(RESOURCES + filename)
+        self.sheet = image.load(RESOURCES + "spritesheets\\" + filename)
         self.width = self.sheet.get_width()
         self.height = self.sheet.get_height()
         self.tilesize = tilesize
@@ -25,12 +25,3 @@ class Spritesheet:
 
         return image
 
-    def imagesAt(self, rects, colorkey=None, scale=1):
-        """Load a whole bunch of images and return them as a list."""
-        return [self.image_at(rect, colorkey, scale) for rect in rects]
-
-    def loadStrip(self, rect, image_count, colorkey=None, scale=1):
-        """Load a whole strip of images, and return them as a list."""
-        tups = [(rect[0] + rect[2] * x, rect[1], rect[2], rect[3])
-                for x in range(image_count)]
-        return self.images_at(tups, colorkey, scale)

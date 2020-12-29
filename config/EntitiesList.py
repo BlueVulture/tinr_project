@@ -48,6 +48,14 @@ entities = {
             }
         }
     },
+    "cameraPoint": {
+        "class": "Entity",
+        "name": "cameraPoint",
+        "image": None,
+        "tags": ["static"],
+        "components": {
+        }
+    },
     "campfire": {
         "class": "Entity",
         "name": "campfire",
@@ -55,17 +63,23 @@ entities = {
         "scale": (0.75, 0.75),
         "tags" : ["static"],
         "components": {
-            "Interactable": {},
+            "Interactable": {
+                "text": "\'E\'"
+            },
             "Rigidbody": {
-                "active": False,
+                "active": True,
                 "mass": 0
             },
             "BoxCollider": {
                 "kinematic": True
             },
             "Animated": {
-                "images": ["campfire_1", "campfire_2"],
+                "images": [1369, 1370, 1371, 1372],
                 "time": 1
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 150
             },
             "SoundEffect": {
                 "play": True,
@@ -242,7 +256,10 @@ entities = {
             },
             "WanderingAI": {
                 "speed": 128
-            }
+            },
+            "Interactable": {
+                "text": "\'E\'"
+            },
         }
     },
     "structure": {
@@ -272,6 +289,23 @@ entities = {
             },
             "BoxCollider": {
                 "kinematic": True
+            },
+        }
+    },
+    "consumable": {
+        "class": "Entity",
+        "name": "consumable",
+        "image": None,
+        "tags": ["static", "removable"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "Consumable": {
             },
         }
     }

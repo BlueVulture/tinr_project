@@ -5,8 +5,8 @@ from entities.Entity import Entity
 
 
 class Player(Entity):
-    def __init__(self, position, name, image, game, scale=(1, 1), rect=None):
-        Entity.__init__(self, position, name, image, game, scale=scale, rect=rect)
+    def __init__(self, position, name, image, game, entityID, scale=(1, 1), rect=None):
+        Entity.__init__(self, position, name, image, game, entityID, scale=scale, rect=rect)
         self.vx, self.vy = 0, 0
         self.moving = False
         self.sound = None
@@ -14,9 +14,7 @@ class Player(Entity):
 
     def init(self):
         self.sound = self.components["SoundEffect"]
-        for c in self.game.gui.components:
-            if c.name == "Position":
-                self.label = c
+        self.label = self.game.gui.getElement(name="Position")
         # self.label = self.game.gui.c
 
     def update(self):

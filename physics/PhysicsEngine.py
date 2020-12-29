@@ -1,6 +1,7 @@
 from math import *
 from physics.Math import *
 
+
 def boxCheck(object):
     """ Check if object has BoxCollider """
     if "BoxCollider" in object.components.keys():
@@ -21,9 +22,13 @@ class PhysicsEngine:
         self.scene = self.game.level.scene
         pass
 
+    def setScene(self):
+        self.scene = self.game.level.scene
+
     def physicsUpdate(self):
         """ Updates all physical components of objects in the scene. """
         for o in self.scene.updatable:
+            # print(o.name)
             if "BoxCollider" in o.components.keys():
                 o.components["BoxCollider"].physicsUpdate()
 
@@ -73,17 +78,19 @@ class PhysicsEngine:
         circle = object1.components["CircleCollider"].circle
         rect = object2.components["BoxCollider"].rect
 
-        closestX = clamp(circle.x, rect.x, rect.x+rect.width)
-        closestY = clamp(circle.y, rect.y, rect.y+rect.height)
+        closestX = clamp(circle.x, rect.x, rect.x + rect.width)
+        closestY = clamp(circle.y, rect.y, rect.y + rect.height)
 
         distanceX = circle.x - closestX
         distanceY = circle.y - closestY
 
-        distanceSquared = (distanceX**2) + (distanceY**2)
+        distanceSquared = (distanceX ** 2) + (distanceY ** 2)
         # print(object1.name + "" + object2.name)
-        if distanceSquared < (circle.radius * circle.radius):
+        if distanceSquared < (circle.radius * circle.radius) and not object1.components["CircleCollider"].kinematic:
             object1.components["CircleCollider"].detected(object2)
 
+        if distanceSquared < (circle.radius * circle.radius) and object1.components["CircleCollider"].kinematic:
+            pass
 
     def resolveCollision(self, object1, object2):
         """ Collision resolution method. Restricts object movement for active-passive collisions. """
@@ -95,13 +102,23 @@ class PhysicsEngine:
         #   Also implement velocity, so then maybe normalized mass + velocity?
         #   Transform component for velocity
 
-
-        if object1.components["Rigidbody"].mass == 0:
+        if object1.components["Rigidbody"].mass > object2.components["Rigidbody"].mass:
             collider = object2
             collide = object1
         else:
             collider = object1
             collide = object2
+
+        colliderRigid = collider.components["Rigidbody"]
+        collideRigid = collide.components["Rigidbody"]
+
+        if collideRigid.mass == 0:
+            colliderWeight = 1
+            collideWeight = 0
+        else:
+            massSum = collideRigid.mass + colliderRigid.mass
+            colliderWeight = (colliderRigid.mass / massSum)
+            collideWeight = (collideRigid.mass / massSum)
 
         rect1 = collider.components["BoxCollider"].rect
         rect2 = collide.components["BoxCollider"].rect
@@ -114,16 +131,25 @@ class PhysicsEngine:
         minDir = max(right, left, up, down)
 
         if minDir == right:
-            collider.x -= right
+            collider.x -= right * colliderWeight
+            collide.x += right * collideWeight
         elif minDir == left:
-            collider.x += left
+            collider.x += left * colliderWeight
+            collide.x -= left * collideWeight
         elif minDir == up:
-            collider.y += up
+            collider.y += up * colliderWeight
+            collide.y -= up * collideWeight
         elif minDir == down:
-            collider.y -= down
+            collider.y -= down * colliderWeight
+            collide.y += down * collideWeight
+
+        collider.components["BoxCollider"].detected(collide)
+        collide.components["BoxCollider"].detected(collider)
 
         rect1.x = collider.x
         rect1.y = collider.y
+        rect2.x = collide.x
+        rect2.y = collide.y
 
         # print(str(collider.x) + " " + str(collider.y))
         #
@@ -133,5 +159,3 @@ class PhysicsEngine:
         #
         # print(rect1)
         # print(rect2)
-
-

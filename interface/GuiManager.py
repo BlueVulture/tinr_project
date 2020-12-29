@@ -3,7 +3,7 @@ from interface.GuiComponents import *
 from config.Settings import *
 
 
-class GuiScene:
+class Gui:
     components = []
 
     def __init__(self, game):
@@ -14,9 +14,24 @@ class GuiScene:
     def setFont(self, font, size):
         fontPath = RESOURCES + "fonts\\" + font
         self.gameFont = pg.font.Font(fontPath, size)
+        for c in self.components:
+            c.resetFont()
 
     def addTextBox(self, position, text):
-        self.components.append(TextDisplay(self, {"text": "test", "position": (0, 0)}))
+        self.components.append(TextBox(self, {"text": text, "position": position}))
+
+    def addButton(self, position, text):
+        self.components.append(Button(self, {"text": text, "position": position}))
+
+    def getElement(self, name=None, id=None):
+        if name:
+            for c in self.components:
+                if c.name == name:
+                    return c
+        elif id:
+            for c in self.components:
+                if c.id == id:
+                    return c
 
 
 class GuiRenderer:
@@ -34,14 +49,13 @@ class GuiGenerator:
         self.game = game
 
     def generate(self, interfaceList):
-        gui = GuiScene(self.game)
+        gui = Gui(self.game)
 
-        for o in interfaceList:
+        for k, o in interfaceList.items():
             args = o["args"]
             args["name"] = o["name"]
-            args["id"] = o["id"]
+            args["id"] = k
             component = eval(o["type"])(gui, args, self.game.gameDisplay.screen)
             gui.components.append(component)
 
         return gui
-

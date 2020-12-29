@@ -1,6 +1,7 @@
 from components.Components import *
 from config.Settings import *
 from physics.Math import *
+import pygame as pg
 
 
 class GuiComponent:
@@ -10,6 +11,8 @@ class GuiComponent:
         self.screen = screen
         self.name = self.checkArgs("name")
         self.id = self.checkArgs("id")
+        self.gameFont = self.parent.gameFont
+        self.customFont = False
 
     def init(self):
         pass
@@ -20,22 +23,41 @@ class GuiComponent:
     def update(self):
         pass
 
-    def checkArgs(self, key):
+    def resetFont(self):
+        if not self.customFont:
+            self.gameFont = self.parent.gameFont
+
+    def checkArgs(self, key, alternative=None):
         if key in self.args.keys():
             return self.args[key]
+        elif alternative:
+            return alternative
         else:
             return None
 
 
-class TextDisplay(GuiComponent):
+class TextBox(GuiComponent):
     def __init__(self, parent, args, screen):
         super().__init__(parent, args, screen)
         self.text = self.checkArgs("text")
         self.position = self.checkArgs("position")
         self.centered = self.checkArgs("centered")
+        self.font = self.checkArgs("font")
+        self.fontSize = self.checkArgs("fontSize")
+        self.textColor = self.checkArgs("textColor", BLACK)
+        print(self.checkArgs("name"))
+
+        if self.font and self.fontSize:
+            fontPath = RESOURCES + "fonts\\" + self.font
+            self.gameFont = pg.font.Font(fontPath, self.fontSize)
+            self.customFont = True
+        else:
+            self.gameFont = self.parent.gameFont
+
+        print(self.font, self.fontSize, self.textColor, self.gameFont, self.customFont)
 
     def render(self, debug=False):
-        label = self.parent.gameFont.render(self.text, True, BLACK)
+        label = self.gameFont.render(self.text, True, self.textColor)
         if self.centered:
             position = (self.position[0]-label.get_rect().width/2, self.position[1])
         else:
@@ -46,12 +68,13 @@ class TextDisplay(GuiComponent):
         self.text = str(text)
 
 
-class ImageDisplay(GuiComponent):
+class ImageBox(GuiComponent):
     def __init__(self, parent, args, screen):
         super().__init__(parent, args, screen)
         image = self.checkArgs("image")
         self.image = self.parent.game.named_images[image]
         self.position = self.checkArgs("position")
+        self.centered = self.checkArgs("centered")
         self.rect = self.image.get_rect()
         self.rect.x = self.position[0]
         self.rect.y = self.position[1]
@@ -65,35 +88,79 @@ class ImageDisplay(GuiComponent):
 class Button(GuiComponent):
     def __init__(self, parent, args, screen):
         super().__init__(parent, args, screen)
-        self.background = self.checkArgs("background")
-        self.color = self.checkArgs("color")
-        image = self.checkArgs("image")
-        if image:
-            self.image = self.parent.game.named_images[image]
+        self.backgroundColor = self.checkArgs("backgroundColor")
+        self.image = self.checkArgs("image")
         self.text = self.checkArgs("text")
         self.position = self.checkArgs("position")
         self.size = self.checkArgs("size")
+        self.centered = self.checkArgs("centered")
+        self.verticalAlign = self.checkArgs("vertical")
+        self.action = self.checkArgs("action")
+        self.active = self.checkArgs("active", True)
+
+        self.cover = pg.Surface(self.size, pg.SRCALPHA)
+        self.cover.set_alpha(128)
+        self.cover.fill(DARKGREY)
+
+        if self.backgroundColor:
+            self.background = pg.Surface(self.size)
+            self.background.fill(self.backgroundColor)
+        else:
+            self.background = None
+
+        if self.centered:
+            self.position = (self.position[0]-self.size[0]/2, self.position[1])
+
+        if self.image:
+            self.image = pg.transform.scale(self.image, self.size)
 
     def render(self, debug=False):
-        # print(self.args)
         if self.background:
-            pg.draw.rect(self.screen, BLUE, (self.position[0], self.position[1], self.size[0], self.size[1]), 2)
-        else:
-            pg.draw.rect(self.screen, RED, (self.position[0], self.position[1], self.size[0], self.size[1]), 2)
+            self.screen.blit(self.background, self.position)
+
+        if self.image:
+            self.screen.blit(self.image, self.position)
 
         if self.text:
             label = self.parent.gameFont.render(self.text, True, BLACK)
-            self.screen.blit(label, self.position)
+            r = label.get_rect()
 
-        if debug:
-            # pg.draw.rect(self.screen, RED, self.rect, 2)
+            if self.centered:
+                xPosition = self.position[0]+(self.size[0] / 2) - (r.width / 2)
+            else:
+                xPosition = self.position[0]
+
+            lPosition = (xPosition, self.position[1]+self.size[1]/2 - r.height / 2)
+            self.screen.blit(label, lPosition)
+
+        if debug and DEBUG:
+            pg.draw.rect(self.screen, BLUE, (self.position[0], self.position[1], self.size[0], self.size[1]), 2)
             pass
 
+        if not self.active:
+            self.screen.blit(self.cover, self.position)
+
     def update(self):
-        for e in self.parent.game.events:
-            if e.type == pg.MOUSEBUTTONDOWN:
-                pos = pg.mouse.get_pos()
-                if positionWithin(pos, (self.position[0], self.position[1], self.size[0], self.size[1])):
-                    print("Clicked on button!")
-                else:
-                    print("Click!")
+        if self.active:
+            for e in self.parent.game.events:
+                if e.type == pg.MOUSEBUTTONDOWN:
+                    pos = pg.mouse.get_pos()
+                    if positionWithin(pos, (self.position[0], self.position[1], self.size[0], self.size[1])):
+                        print("Clicked on button " + self.id)
+                        self.resolveBtnClick()
+
+    def resolveBtnClick(self):
+        action = self.action
+
+        if action is "quit":
+            pg.display.quit()
+        elif action is "resume":
+            self.parent.game.unpause()
+        elif action is "settings":
+            self.parent.game.menuManager.setMenu("SettingsMenu")
+        elif action is "back":
+            self.parent.game.menuManager.setMenu("back")
+        elif action is "new":
+            self.parent.game.setLevel("Town", "town_map.json")
+        elif action is "continue":
+            pass

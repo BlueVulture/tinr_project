@@ -56,6 +56,11 @@ class BoxCollider(Component):
         position = camera.applyPosition((self.rect.x, self.rect.y))
         pg.draw.rect(screen, color, (position[0], position[1], self.rect.width, self.rect.height), outline)
 
+    def detected(self, collider):
+        # print("Detected")
+        for k, c in self.parent.components.items():
+            c.collisionDetected(collider, colType="box")
+
 
 class CircleCollider(Component):
     def __init__(self, parent, args):
@@ -75,7 +80,7 @@ class CircleCollider(Component):
     def detected(self, collider):
         # print("Detected")
         for k, c in self.parent.components.items():
-            c.collisionDetected(collider)
+            c.collisionDetected(collider, colType="circle")
 
     def action(self):
         # print(self.circle)
