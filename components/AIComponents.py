@@ -16,7 +16,7 @@ class EnemyAI(Component):
     def update(self):
         pass
 
-    def collisionDetected(self, collider):
+    def collisionDetected(self, collider, colType=None):
         # print("Enemy in sights!")
         self.moveTowards(collider)
 
@@ -47,7 +47,7 @@ class AnimalAI(Component):
     def update(self):
         pass
 
-    def collisionDetected(self, collider):
+    def collisionDetected(self, collider, colType=None):
         # print("Enemy in sights!")
         self.moveAway(collider)
 
@@ -101,7 +101,7 @@ class WanderingAI(Component):
 
         self.current = self.parent.getPosition()
 
-    def collisionDetected(self, collider):
+    def collisionDetected(self, collider, colType=None):
         pass
 
     def aroundTarget(self, distance):

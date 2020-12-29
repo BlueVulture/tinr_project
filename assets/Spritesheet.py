@@ -6,7 +6,7 @@ from config.Settings import *
 
 class Spritesheet:
     def __init__(self, filename, tilesize=16):
-        self.sheet = image.load(RESOURCES + filename)
+        self.sheet = image.load(RESOURCES + "spritesheets\\" + filename)
         self.width = self.sheet.get_width()
         self.height = self.sheet.get_height()
         self.tilesize = tilesize

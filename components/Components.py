@@ -1,5 +1,8 @@
 import pygame as pg
 
+from config.Settings import *
+from config.Controls import *
+
 
 class Component:
     def __init__(self, parent, args):
@@ -15,24 +18,47 @@ class Component:
     def update(self):
         pass
 
-    def collisionDetected(self, object):
+    def interact(self):
         pass
 
-    def checkArgs(self, key):
+    def collisionDetected(self, object, colType=None):
+        pass
+
+    def checkArgs(self, key, alternative=None):
         if key in self.args.keys():
             return self.args[key]
+        elif alternative:
+            return alternative
         else:
-            return None
+            None
 
 
 class Consumable(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
 
+    def collisionDetected(self, object, colType=None):
+        print(object.name)
+        if object.name == "player" and colType is "box":
+            self.parent.game.level.scene.removeEntity(self.parent, self.parent.id)
+
 
 class Interactable(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
+        self.fontSize = self.checkArgs("fontSize", 25)
+        self.font = self.checkArgs("font", "monospace")
+        self.gameFont = pg.font.SysFont(self.font, self.fontSize)
+        self.text = self.checkArgs("text", "text")
+        self.label = self.gameFont.render(self.text, True, BLACK)
+
+    def collisionDetected(self, object, colType=None):
+        if object.name == "player" and colType is "circle":
+            self.parent.game.renderer.addToQueue(self.label, (self.parent.x, self.parent.y-(self.fontSize+5)))
+            for e in self.parent.game.events:
+                if e == INTERACT_KEY:
+                    for k, c in self.parent.components.items():
+                        c.interact()
 
 
 class Animated(Component):

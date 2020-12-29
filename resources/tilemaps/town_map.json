@@ -80,6 +80,18 @@
                  "width":16,
                  "x":256,
                  "y":768
+                }, 
+                {
+                 "gid":673,
+                 "height":16,
+                 "id":146,
+                 "name":"",
+                 "rotation":0,
+                 "type":"consumable",
+                 "visible":true,
+                 "width":16,
+                 "x":336,
+                 "y":656
                 }],
          "opacity":1,
          "properties":[
@@ -98,17 +110,6 @@
          "id":14,
          "name":"Characters",
          "objects":[
-                {
-                 "height":16,
-                 "id":71,
-                 "name":"test",
-                 "rotation":0,
-                 "type":"npc",
-                 "visible":true,
-                 "width":16,
-                 "x":496,
-                 "y":496
-                }, 
                 {
                  "height":16,
                  "id":74,
@@ -1036,7 +1037,7 @@
          "y":0
         }],
  "nextlayerid":17,
- "nextobjectid":145,
+ "nextobjectid":148,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.3",

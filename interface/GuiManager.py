@@ -16,7 +16,20 @@ class GuiScene:
         self.gameFont = pg.font.Font(fontPath, size)
 
     def addTextBox(self, position, text):
-        self.components.append(TextDisplay(self, {"text": "test", "position": (0, 0)}))
+        self.components.append(TextDisplay(self, {"text": text, "position": position}))
+
+    def addButton(self, position, text):
+        self.components.append(Button(self, {"text": text, "position": position}))
+
+    def getElement(self, name=None, id=None):
+        if name:
+            for c in self.components:
+                if c.name == name:
+                    return c
+        elif id:
+            for c in self.components:
+                if c.id == id:
+                    return c
 
 
 class GuiRenderer:
@@ -44,4 +57,3 @@ class GuiGenerator:
             gui.components.append(component)
 
         return gui
-

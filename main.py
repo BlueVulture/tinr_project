@@ -62,27 +62,34 @@ class Game:
 
         # Set up physics
         self.physics = PhysicsEngine(self)
+
+        # FPS Counter
+        self.fpsCounter = self.gui.getElement(name="FPS")
+
+        # Initial update
         self.events = pg.event.get()
         self.update()
 
     def load(self):
         """ Load resources """
         # Load sheets
-        environmentSheet = Spritesheet("roguelikeSheet_transparent_no_margins.png")
-        charactersSheet = Spritesheet("roguelikeChar_transparent_no_margins.png")
-        otherSheet = Spritesheet("1bit_sheet_transparent.png")
-        tilesSheet = Spritesheet("spritesheets\\roguelikeSheet_transparent_fix.png")
-        charSheet = Spritesheet("spritesheets\\roguelikeChar_transparent.png")
+        roguelikeSheet = Spritesheet("roguelikeSheet_transparent_no_margins.png")
+        roguelikeChar = Spritesheet("roguelikeChar_transparent_no_margins.png")
+        oneBitSheet = Spritesheet("1bit_sheet_transparent.png")
+        tilesSheet = Spritesheet("roguelikeSheet_transparent_fix.png")
+        charSheet = Spritesheet("roguelikeChar_transparent.png")
+        objectsSheet = Spritesheet("roguelikeChar_transparent.png")
 
         # Load images from sheets into dicts
-        self.tiles = loadTiles(environmentSheet)
-        self.chars = loadCharacters(charactersSheet)
-        self.objects = loadObjects(environmentSheet)
-        self.other = loadOther(otherSheet)
+        self.tiles = loadTiles(roguelikeSheet)
+        self.chars = loadCharacters(roguelikeChar)
+        self.objects = loadObjects(roguelikeSheet)
+        self.other = loadOther(oneBitSheet)
         self.named_images = {**self.tiles, **self.chars, **self.objects, **self.other}
 
         loadSheet(tilesSheet, self.all_images)
         loadSheet(charSheet, self.all_images)
+        loadSheet(objectsSheet, self.all_images)
         # print(len(self.test_images))
         self.sounds = loadSounds()
 
@@ -110,10 +117,6 @@ class Game:
 
     def update(self):
         """ Update logic """
-        for e in self.events:
-            if e.type == pg.QUIT:
-                display.quit()
-
         self.dt = self.clock.tick_busy_loop(FPS) / 1000
 
         for o in self.level.scene.updatable:
@@ -122,7 +125,20 @@ class Game:
         for o in self.gui.components:
             o.update()
 
+        self.fpsCounter.setText(str(int(self.clock.get_fps())))
         # self.camera.update(self.player)
+
+    def eventsUpdate(self):
+        self.events = pg.event.get()
+        for e in self.events:
+            if e.type == pg.QUIT:
+                display.quit()
+            elif e.type == pg.KEYDOWN:
+                if e.key == pg.K_e:
+                    if self.paused:
+                        self.unpause()
+                    else:
+                        self.pause()
 
     def physicsUpdate(self):
         """ Update physics """
@@ -132,14 +148,24 @@ class Game:
         """ Call to renderer """
         self.renderer.render()
 
+    def pause(self):
+        """ Pause the game """
+        self.paused = True
+
+    def unpause(self):
+        """ Unpause the game """
+        self.paused = False
+
     def run(self):
         """ Gameloop """
         self.clock.tick(FPS)
-        self.events = pg.event.get()
+        self.eventsUpdate()
         if not self.paused:
             self.update()
             self.physicsUpdate()
             self.camera.update(self.player)
+        else:
+            pass
         self.draw()
 
 

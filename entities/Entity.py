@@ -4,13 +4,14 @@ from config.Settings import *
 
 class Entity(pg.sprite.Sprite):
     """ Entity """
-    def __init__(self, position, name, image, game, scale=(1, 1), rect=None):
+    def __init__(self, position, name, image, game, entityID, scale=(1, 1), rect=None):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.name = name
         self.tags = []
         self.scale = scale
         self.image = image
+        self.id = entityID
 
         self.x = position[0]
         self.y = position[1]
@@ -54,9 +55,14 @@ class Entity(pg.sprite.Sprite):
             self.components[component.__name__] = component(self, args)
 
     def changeImage(self, image):
-        self.image = self.game.named_images[image]
+        if type(image) == str:
+            self.image = self.game.named_images[image]
+        else:
+            self.image = self.game.all_images[image]
+
         preScale = self.image.get_rect()
         self.image = pg.transform.scale(self.image, (int(preScale.width * self.scale[0]), int(preScale.height * self.scale[1])))
+
 
     def addTag(self, tag):
         self.tags.append(tag)
