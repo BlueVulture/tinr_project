@@ -63,17 +63,17 @@ class Animated(Component):
             self.parent.changeImage(self.images[self.currentFrame])
 
 
-class MultiTile(Component):
-    def __init__(self, parent, args):
-        super().__init__(parent, args)
-        self.parts = self.checkArgs("parts")
-        self.size = self.checkArgs("size")
-
-    def draw(self, screen, camera):
-        o = self.parent
-        for pos, i in self.parts.items():
-            image = self.parent.game.all_images[i]
-            screen.blit(image, camera.applyPosition((o.x + pos[0] * o.rect.width, o.y + pos[1] * o.rect.height)))
+# class MultiTile(Component):
+#     def __init__(self, parent, args):
+#         super().__init__(parent, args)
+#         self.parts = self.checkArgs("parts")
+#         self.size = self.checkArgs("size")
+#
+#     def draw(self, screen, camera):
+#         o = self.parent
+#         for pos, i in self.parts.items():
+#             image = self.parent.game.all_images[i]
+#             screen.blit(image, camera.applyPosition((o.x + pos[0] * o.rect.width, o.y + pos[1] * o.rect.height)))
 
 
 class SoundEffect(Component):

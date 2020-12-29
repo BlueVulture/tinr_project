@@ -50,7 +50,7 @@ class ImageDisplay(GuiComponent):
     def __init__(self, parent, args, screen):
         super().__init__(parent, args, screen)
         image = self.checkArgs("image")
-        self.image = self.parent.game.all_images[image]
+        self.image = self.parent.game.named_images[image]
         self.position = self.checkArgs("position")
         self.rect = self.image.get_rect()
         self.rect.x = self.position[0]
@@ -69,7 +69,7 @@ class Button(GuiComponent):
         self.color = self.checkArgs("color")
         image = self.checkArgs("image")
         if image:
-            self.image = self.parent.game.all_images[image]
+            self.image = self.parent.game.named_images[image]
         self.text = self.checkArgs("text")
         self.position = self.checkArgs("position")
         self.size = self.checkArgs("size")

@@ -14,7 +14,6 @@ class Camera:
     def applyPosition(self, position):
         return position[0] + self.camera.x, position[1] + self.camera.y
 
-
     def update(self, target):
         # print(self.camera)
         x = -target.rect.x - target.rect.width/2 + int(WIDTH / 2)

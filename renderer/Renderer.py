@@ -20,23 +20,28 @@ class Renderer:
         self.camera = camera
 
     def draw(self, entity):
-        self.screen.blit(entity.image, self.camera.apply(entity))
+        if entity.image:
+            self.screen.blit(entity.image, self.camera.apply(entity))
 
     def render(self):
-        for t in self.game.level.scene.tiles:
-           self.draw(t)
+        self.screen.fill(BLACK)
+        # for t in self.game.level.scene.tiles:
+        #    self.draw(t)
+
+        for layer in self.game.level.scene.layers:
+            if layer:
+                for t in layer:
+                    self.draw(t)
 
         if self.grid:
             self.drawGrid()
 
-        for o in self.game.level.scene.objects:
-            self.draw(o)
-            if "MultiTile" in o.components.keys():
-                multi = o.components["MultiTile"]
-                multi.draw(self.screen, self.camera)
-
+        for o in self.game.level.scene.updatable:
+            # pass
+            # self.draw(o)
             if self.debug:
                 self.drawColliders(o)
+
         if self.guiRenderer:
             self.guiRenderer.render(self.debug)
 
@@ -49,9 +54,9 @@ class Renderer:
             pg.draw.line(self.screen, WHITE, (0, y), (WIDTH, y))
 
     def drawColliders(self, object):
-        rect = object.rect
-        rPos = self.camera.applyPosition((rect.x, rect.y))
-        pg.draw.rect(self.screen, RED, (rPos[0], rPos[1], rect.width, rect.height), 10)
+        # rect = object.rect
+        # rPos = self.camera.applyPosition((rect.x, rect.y))
+        # pg.draw.rect(self.screen, RED, (rPos[0], rPos[1], rect.width, rect.height), 10)
 
         if "BoxCollider" in object.components.keys():
             object.components["BoxCollider"].draw(self.screen, GREEN, 3, self.camera)

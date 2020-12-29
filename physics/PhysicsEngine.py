@@ -23,7 +23,7 @@ class PhysicsEngine:
 
     def physicsUpdate(self):
         """ Updates all physical components of objects in the scene. """
-        for o in self.scene.objects:
+        for o in self.scene.updatable:
             if "BoxCollider" in o.components.keys():
                 o.components["BoxCollider"].physicsUpdate()
 
@@ -39,7 +39,7 @@ class PhysicsEngine:
             if "Rigidbody" in o.components.keys():
                 o.components["Rigidbody"].physicsUpdate()
                 if o.components["Rigidbody"].active:
-                    for o2 in self.scene.objects:
+                    for o2 in self.scene.updatable:
                         if "Rigidbody" in o2.components.keys() and o != o2:
                             self.collisionCheck(o, o2)
 

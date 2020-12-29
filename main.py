@@ -1,3 +1,5 @@
+import os
+
 import pygame as pg
 from pygame import *
 
@@ -18,12 +20,16 @@ class Game:
     chars = {}
     other = {}
     objects = {}
-    all_images = {}
+    named_images = {}
+    all_images = []
     sounds = {}
+
     events = None
     level = None
     camera = None
     player = None
+
+    paused = False
 
     def __init__(self):
         pg.init()
@@ -56,6 +62,8 @@ class Game:
 
         # Set up physics
         self.physics = PhysicsEngine(self)
+        self.events = pg.event.get()
+        self.update()
 
     def load(self):
         """ Load resources """
@@ -63,20 +71,25 @@ class Game:
         environmentSheet = Spritesheet("roguelikeSheet_transparent_no_margins.png")
         charactersSheet = Spritesheet("roguelikeChar_transparent_no_margins.png")
         otherSheet = Spritesheet("1bit_sheet_transparent.png")
+        tilesSheet = Spritesheet("spritesheets\\roguelikeSheet_transparent_fix.png")
+        charSheet = Spritesheet("spritesheets\\roguelikeChar_transparent.png")
 
         # Load images from sheets into dicts
         self.tiles = loadTiles(environmentSheet)
         self.chars = loadCharacters(charactersSheet)
         self.objects = loadObjects(environmentSheet)
         self.other = loadOther(otherSheet)
-        self.all_images = {**self.tiles, **self.chars, **self.objects, **self.other}
+        self.named_images = {**self.tiles, **self.chars, **self.objects, **self.other}
+
+        loadSheet(tilesSheet, self.all_images)
+        loadSheet(charSheet, self.all_images)
+        # print(len(self.test_images))
         self.sounds = loadSounds()
 
     def init(self):
         """ Initialize gamestate """
         # Set level and build it
-        self.level = Town("town_tile.txt", "town_obj.txt", self)
-        self.level.buildLevel()
+        self.setLevel("Town", "town_map.json")
 
         # Diagnostics
         print(self.clock.tick_busy_loop(FPS) / 1000)
@@ -87,20 +100,23 @@ class Game:
         self.renderer.setCamera(self.camera)
 
         # Set player
-        for o in self.level.scene.objects:
+        for o in self.level.scene.characters:
             if o.name == "player":
                 self.player = o
 
+    def setLevel(self, level, tilemap):
+        self.level = eval(level)(tilemap, self)
+        self.level.buildLevel()
+
     def update(self):
         """ Update logic """
-        self.events = pg.event.get()
         for e in self.events:
             if e.type == pg.QUIT:
                 display.quit()
 
         self.dt = self.clock.tick_busy_loop(FPS) / 1000
 
-        for o in self.level.scene.objects:
+        for o in self.level.scene.updatable:
             o.update()
 
         for o in self.gui.components:
@@ -119,9 +135,11 @@ class Game:
     def run(self):
         """ Gameloop """
         self.clock.tick(FPS)
-        self.update()
-        self.physicsUpdate()
-        self.camera.update(self.player)
+        self.events = pg.event.get()
+        if not self.paused:
+            self.update()
+            self.physicsUpdate()
+            self.camera.update(self.player)
         self.draw()
 
 

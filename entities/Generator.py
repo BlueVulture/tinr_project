@@ -12,9 +12,13 @@ class Generator:
         self.game = game
         self.debug = debug
 
-    def generate(self, entity, position=None, oArgs=None):
+    def generate(self, entity, position=None, oArgs=None, rectangle=None, gid=None, n=None):
         if self.debug:
-            print(entity)
+            # print(entity)
+            pass
+
+        if entity not in entities.keys():
+            return None
 
         e = entities[entity]
         if position is None:
@@ -29,8 +33,20 @@ class Generator:
             scale = (1, 1)
 
         entityClass = eval(e["class"])
+        image = None
 
-        generated = entityClass(position, e["name"], self.game.all_images[e["image"]], self.game, scale=scale)
+        if e["image"]:
+            image = self.game.named_images[e["image"]]
+        elif gid:
+            image = self.game.all_images[gid-1]
+
+        if e["name"]:
+            name = e["name"]
+        else:
+            name = n
+
+        generated = entityClass(position, name, image, self.game, scale=scale, rect=rectangle)
+
         for c, args in e["components"].items():
             component = eval(c)
             generated.addComponent(component, args)

@@ -78,8 +78,8 @@ entities = {
     "player": {
         "class": "Player",
         "name": "player",
-        "image": "jester",
-        "tags" : ["player"],
+        "image": None,
+        "tags": ["player"],
         "components": {
             "Rigidbody": {
                 "active": True,
@@ -99,8 +99,30 @@ entities = {
     "enemy": {
         "class": "Entity",
         "name": "enemy",
-        "image": "barbarian",
-        "tags" : ["enemy"],
+        "image": None,
+        "tags": ["enemy"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 1
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 150
+            },
+            "EnemyAI": {
+                "speed": 128
+            }
+        }
+    },
+    "guard": {
+        "class": "Entity",
+        "name": "enemy",
+        "image": None,
+        "tags": ["enemy"],
         "components": {
             "Rigidbody": {
                 "active": True,
@@ -149,7 +171,7 @@ entities = {
     "tree": {
         "class": "Entity",
         "name": "tree",
-        "image": "tree_1_bot",
+        "image": None,
         "scale": (1, 1),
         "tags": ["static"],
         "components": {
@@ -159,12 +181,6 @@ entities = {
             },
             "BoxCollider": {
                 "kinematic": True
-            },
-            "MultiTile": {
-                "parts": {
-                    (0, -1): "tree_1_top"
-                },
-                "size": (1, 2)
             }
         }
     },
@@ -182,18 +198,9 @@ entities = {
             "BoxCollider": {
                 "kinematic": True,
                 "rect": [0, 0, 128, 64]
-            },
-            "MultiTile": {
-                "parts": {
-                    (1, 0): "tent_1_br",
-                    (0, -1): "tent_1_tl",
-                    (1, -1): "tent_1_tr",
-                },
-                "size": (2, 2)
             }
         }
     },
-
     "blacksmith": {
         "class": "Entity",
         "name": "neutral",
@@ -216,4 +223,56 @@ entities = {
             }
         }
     },
+    "npc": {
+        "class": "Entity",
+        "name": "neutral",
+        "image": None,
+        "tags": ["neutral"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 1
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 150
+            },
+            "WanderingAI": {
+                "speed": 128
+            }
+        }
+    },
+    "structure": {
+        "class": "Entity",
+        "name": "structure",
+        "image": None,
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+        }
+    },
+    "bounds": {
+        "class": "Entity",
+        "name": "bounds",
+        "image": None,
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+        }
+    }
 }

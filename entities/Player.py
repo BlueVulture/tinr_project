@@ -5,8 +5,8 @@ from entities.Entity import Entity
 
 
 class Player(Entity):
-    def __init__(self, position, name, image, game, scale=(1, 1)):
-        Entity.__init__(self, position, name, image, game, scale=scale)
+    def __init__(self, position, name, image, game, scale=(1, 1), rect=None):
+        Entity.__init__(self, position, name, image, game, scale=scale, rect=rect)
         self.vx, self.vy = 0, 0
         self.moving = False
         self.sound = None

@@ -47,3 +47,11 @@ def loadSounds():
         assets[key] = pg.mixer.Sound(SOUNDS + sound)
 
     return assets
+
+
+def loadSheet(sheet, assets):
+    tilesize = sheet.tilesize
+    for y in range(0, sheet.height, tilesize+1):
+        for x in range(0, sheet.width, tilesize+1):
+            assets.append(sheet.imageAt((x, y, TM_COL, TM_ROW)))
+
