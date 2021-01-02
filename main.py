@@ -23,6 +23,7 @@ class Game:
     objects = {}
     named_images = {}
     all_images = []
+    all_images_offset = []
     sounds = {}
 
     events = None
@@ -82,7 +83,7 @@ class Game:
         oneBitSheet = Spritesheet("1bit_sheet_transparent.png")
         tilesSheet = Spritesheet("roguelikeSheet_transparent_fix.png")
         charSheet = Spritesheet("roguelikeChar_transparent.png")
-        objectsSheet = Spritesheet("roguelikeChar_transparent.png")
+        objectsSheet = Spritesheet("1bit_sheet_transparent.png")
 
         # Load images from sheets into dicts
         self.tiles = loadTiles(roguelikeSheet)
@@ -91,10 +92,10 @@ class Game:
         self.other = loadOther(oneBitSheet)
         self.named_images = {**self.tiles, **self.chars, **self.objects, **self.other}
 
-        loadSheet(tilesSheet, self.all_images)
-        loadSheet(charSheet, self.all_images)
-        loadSheet(objectsSheet, self.all_images)
-        # print(len(self.test_images))
+        self.all_images_offset.append(loadSheet(tilesSheet, self.all_images))
+        self.all_images_offset.append(loadSheet(charSheet, self.all_images))
+        self.all_images_offset.append(loadSheet(objectsSheet, self.all_images))
+        print(self.all_images_offset)
         self.sounds = loadSounds()
 
     def init(self):

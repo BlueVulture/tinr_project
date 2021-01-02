@@ -79,13 +79,22 @@ entities = {
             },
             "CircleCollider": {
                 "kinematic": False,
-                "circle": 150
+                "circle": 75
             },
             "SoundEffect": {
                 "play": True,
                 "time": "length",
                 "sound": "campfire_s",
                 "volume": 0.5
+            },
+            "ParticleSystem": {
+                "vector": (0, -1),
+                "offset": (0, 0),
+                "angle": 45,
+                "particle": 3171,
+                "speed": 100,
+                "timeToLive": 3,
+                "frequency": 3
             }
         }
     },

@@ -1,5 +1,4 @@
-import pygame as pg
-from interface.GuiComponents import *
+from components.GuiComponents import *
 from config.Settings import *
 
 

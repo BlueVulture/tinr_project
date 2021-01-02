@@ -41,6 +41,9 @@ class PhysicsEngine:
             if "Rotatable" in o.components.keys():
                 pass
 
+            if "ParticleSystem" in o.components.keys():
+                o.components["ParticleSystem"].physicsUpdate()
+
             if "Rigidbody" in o.components.keys():
                 o.components["Rigidbody"].physicsUpdate()
                 if o.components["Rigidbody"].active:

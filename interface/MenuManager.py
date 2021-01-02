@@ -1,7 +1,5 @@
-import pygame as pg
 from config.Interface import *
-from config.Settings import *
-from interface.GuiComponents import *
+from components.GuiComponents import *
 
 
 class MenuManager:

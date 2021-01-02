@@ -36,7 +36,6 @@ class Renderer:
         self.delayed.append((surface, position))
 
     def render(self):
-        self.game.gui.getElement(name="CameraOffset").setText(str(self.camera.rect.x) + " " + str(self.camera.rect.y))
         self.screen.fill(BLACK)
 
         for layer in self.game.level.scene.layers:
@@ -44,29 +43,23 @@ class Renderer:
                 for t in layer:
                     self.draw(t)
 
+        for o in self.game.level.scene.updatable:
+            for k, c in o.components.items():
+                # if o.name == "campfire":
+                #     print(o.name)
+                c.draw()
+
         if self.grid:
             self.drawGrid()
 
-        for o in self.game.level.scene.updatable:
-            if self.debug and DEBUG:
-                self.drawColliders(o)
+        if self.debug and DEBUG:
+            self.drawColliders()
 
         for q in self.delayed:
             self.drawSurface(q[0], q[1])
 
-        if self.guiRenderer and self.game.drawGui:
-            if self.debug and DEBUG:
-                self.guiRenderer.render(True)
-            else:
-                self.guiRenderer.render(False)
-
-        if self.game.paused:
-            self.screen.blit(self.cover, (0, 0))
-
-        if self.game.showMenu:
-            self.game.menuManager.render(self.debug)
-            if self.debug and DEBUG:
-                pg.draw.line(self.screen, WHITE, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
+        self.drawGui()
+        self.drawMenu()
 
         self.delayed = []
         display.update()
@@ -77,16 +70,32 @@ class Renderer:
         for y in range(0, HEIGHT, TILESIZE):
             pg.draw.line(self.screen, WHITE, (0, y), (WIDTH, y))
 
-    def drawColliders(self, object):
+    def drawGui(self):
+        if self.guiRenderer and self.game.drawGui:
+            if self.debug and DEBUG:
+                self.guiRenderer.render(True)
+            else:
+                self.guiRenderer.render(False)
+
+    def drawMenu(self):
+        if self.game.paused:
+            self.screen.blit(self.cover, (0, 0))
+
+        if self.game.showMenu:
+            self.game.menuManager.render(self.debug)
+            if self.debug and DEBUG:
+                pg.draw.line(self.screen, WHITE, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
+
+    def drawColliders(self):
         # rect = object.rect
         # rPos = self.camera.applyPosition((rect.x, rect.y))
         # pg.draw.rect(self.screen, RED, (rPos[0], rPos[1], rect.width, rect.height), 10)
+        for o in self.game.level.scene.updatable:
+            if "BoxCollider" in o.components.keys():
+                o.components["BoxCollider"].drawCollider(self.screen, GREEN, 3, self.camera)
 
-        if "BoxCollider" in object.components.keys():
-            object.components["BoxCollider"].draw(self.screen, GREEN, 3, self.camera)
-
-        if "CircleCollider" in object.components.keys():
-            object.components["CircleCollider"].draw(self.screen, BLUE, 3, self.camera)
+            if "CircleCollider" in o.components.keys():
+                o.components["CircleCollider"].drawCollider(self.screen, BLUE, 3, self.camera)
 
     def isOnScreen(self, entity):
         c = self.camera

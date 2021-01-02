@@ -21,6 +21,9 @@ class Component:
     def interact(self):
         pass
 
+    def draw(self):
+        pass
+
     def collisionDetected(self, object, colType=None):
         pass
 

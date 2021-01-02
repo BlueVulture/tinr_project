@@ -51,7 +51,13 @@ def loadSounds():
 
 def loadSheet(sheet, assets):
     tilesize = sheet.tilesize
+    count = 0
     for y in range(0, sheet.height, tilesize+1):
         for x in range(0, sheet.width, tilesize+1):
             assets.append(sheet.imageAt((x, y, TM_COL, TM_ROW)))
+            count += 1
+
+    return count
+
+
 
