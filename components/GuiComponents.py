@@ -2,7 +2,6 @@ from components.Components import *
 from config.Settings import *
 from physics.Math import *
 import pygame as pg
-import config.ChangableSettings as settings
 
 
 class GuiComponent:
@@ -187,11 +186,13 @@ class Button(GuiComponent):
     def changeSetting(self):
         setting = self.actionArgs["setting"]
         changeSetting(self.parent.game, setting, switch=True)
-        settings.changeCSetting()
-        print(settings.SOUND)
 
         if self.switch:
             self.textAdd = "ON" if self.gameSettings[setting] else "OFF"
+
+    def save(self):
+        saveSettings(self.parent.game)
+        self.parent.game.menuManager.setMenu("back")
 
     def defaultAction(self):
         pass

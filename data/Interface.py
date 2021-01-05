@@ -245,9 +245,23 @@ menuInterfaces = {
                     "background": None,
                     "color": GREEN,
                     "size": (256, 64),
-                    "position": (WIDTH / 2, 600),
+                    "position": ((WIDTH / 2)+138, 600),
                     "centered": True,
                     "action": "back"
+                }
+            },
+            "saveBtn": {
+                "type": "Button",
+                "name": "SaveButton",
+                "args": {
+                    "text": "Save",
+                    "image": BUTTON_IMAGE_BLUE,
+                    "background": None,
+                    "color": GREEN,
+                    "size": (256, 64),
+                    "position": ((WIDTH / 2)-138, 600),
+                    "centered": True,
+                    "action": "save"
                 }
             },
             "musicBtn": {
