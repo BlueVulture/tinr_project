@@ -10,3 +10,9 @@ class Town(Level):
     def __init__(self, tilemap, game, scene=None):
         Level.__init__(self, tilemap, game, scene)
         self.gui = True
+
+
+class House(Level):
+    def __init__(self, tilemap, game, scene=None):
+        Level.__init__(self, tilemap, game, scene)
+        self.gui = True

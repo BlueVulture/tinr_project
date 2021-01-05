@@ -92,6 +92,17 @@
                  "width":16,
                  "x":336,
                  "y":656
+                }, 
+                {
+                 "height":16,
+                 "id":148,
+                 "name":"",
+                 "rotation":0,
+                 "type":"house",
+                 "visible":true,
+                 "width":16,
+                 "x":464,
+                 "y":432
                 }],
          "opacity":1,
          "properties":[
@@ -1037,7 +1048,7 @@
          "y":0
         }],
  "nextlayerid":17,
- "nextobjectid":148,
+ "nextobjectid":149,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.3",

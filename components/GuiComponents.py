@@ -160,10 +160,11 @@ class Button(GuiComponent):
 
     def resolveBtnClick(self):
         action = self.action
-        m = self
-        fn = getattr(m, action, self.defaultAction())
-        if fn:
-            fn()
+        if action:
+            m = self
+            fn = getattr(m, action, self.defaultAction())
+            if fn:
+                fn()
 
     def new(self):
         self.parent.game.setLevel("Town", "town_map.json")

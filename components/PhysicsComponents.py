@@ -1,6 +1,7 @@
 from components.Components import *
 from physics.CustomShapes import *
 from components.Timer import *
+from physics.Math import *
 
 
 class Movable(Component):
@@ -111,16 +112,15 @@ class ParticleSystem(Component):
         self.speed = self.checkArgs("speed")
         self.timeToLive = self.checkArgs("timeToLive")
         self.frequency = self.checkArgs("frequency")
+        self.size = self.checkArgs("size", (1, 1))
         self.timer = Timer(1000/self.frequency, self.parent.game)
         self.particles = []
         self.spawnParticle()
 
     def physicsUpdate(self):
         time = self.timer.checkTime()
-        # print(time)
         if time:
             self.spawnParticle()
-            # print("a")
 
         for p in self.particles:
             p.update()
@@ -128,7 +128,8 @@ class ParticleSystem(Component):
     def spawnParticle(self):
         x = self.parent.x + self.parent.rect.width/2
         y = self.parent.y + self.parent.rect.height/2
-        self.particles.append(Particle(self, x, y, self.vector, self.particle, self.speed, self.timeToLive))
+        vector = randomAngle(self.vector, self.angle)
+        self.particles.append(Particle(self, x, y, vector, self.particle, self.speed, self.timeToLive, self.size))
 
     def draw(self):
         for p in self.particles:
@@ -136,19 +137,23 @@ class ParticleSystem(Component):
 
 
 class Particle:
-    def __init__(self, parent, x, y, vector, image, speed, ttl):
+    def __init__(self, parent, x, y, vector, image, speed, ttl, scale=None):
         self.parent = parent
         self.vector = pg.Vector2(vector)
         self.image = image
         self.speed = speed
-        self.x = x
-        self.y = y
         self.screen = self.parent.parent.game.renderer.screen
         self.camera = self.parent.parent.game.renderer.camera
         self.ttl = ttl
         self.timer = Timer(self.ttl*1000, self.parent.parent.game)
-        self.cover = pg.Surface((32, 32))
-        self.cover.fill(BLACK)
+        if scale:
+            preScale = self.image.get_rect()
+            self.image = pg.transform.scale(self.image, (int(preScale.width * scale[0]), int(preScale.height * scale[1])))
+        self.rect = self.image.get_rect()
+        self.x = x - self.rect.width/2
+        self.y = y - self.rect.height/2
+        # self.cover = pg.Surface((32, 32))
+        # self.cover.fill(BLACK)
 
     def update(self):
         self.x += self.vector.x * self.speed * self.parent.parent.game.dt

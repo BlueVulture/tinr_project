@@ -89,8 +89,8 @@ class Game:
         self.other = loadOther(oneBitSheet)
         self.named_images = {**self.tiles, **self.chars, **self.objects, **self.other}
 
-        self.all_images_offset.append(loadSheet(tilesSheet, self.all_images))
-        self.all_images_offset.append(loadSheet(charSheet, self.all_images))
+        self.all_images_offset.append(loadSheet(tilesSheet, self.all_images, 1))
+        self.all_images_offset.append(loadSheet(charSheet, self.all_images, 1))
         self.all_images_offset.append(loadSheet(objectsSheet, self.all_images))
         print(self.all_images_offset)
         self.sounds = loadSounds()

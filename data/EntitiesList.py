@@ -88,11 +88,12 @@ entities = {
             "ParticleSystem": {
                 "vector": (0, -1),
                 "offset": (0, 0),
-                "angle": 45,
+                "angle": 30,
                 "particle": 3171,
                 "speed": 100,
-                "timeToLive": 3,
-                "frequency": 3
+                "timeToLive": 2,
+                "frequency": 10,
+                "size": (0.25, 0.25)
             }
         }
     },
@@ -314,6 +315,45 @@ entities = {
             },
             "Consumable": {
             },
+        }
+    },
+    "house": {
+        "class": "Entity",
+        "name": "enterHouse",
+        "image": None,
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "SceneChange": {
+                "scene": "House",
+                "map": "house_map.json"
+            }
+        }
+    },
+    "town": {
+        "class": "Entity",
+        "name": "Town",
+        "image": None,
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "SceneChange": {
+                "scene": "Town",
+                "map": "town_map.json",
+                "position": 1
+            }
         }
     }
 }

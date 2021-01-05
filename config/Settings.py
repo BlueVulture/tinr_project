@@ -25,7 +25,7 @@ DEFAULT_POSITION = (100, 100)
 DEBUG = False
 
 # Controls
-# INTERACT_KEY = pg.K_f
+INTERACT_KEY = pg.K_f
 
 # Colors 
 WHITE = (255, 255, 255)

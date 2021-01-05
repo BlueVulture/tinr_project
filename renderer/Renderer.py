@@ -18,23 +18,6 @@ class Renderer:
         self.cover.fill(BLACK)
         self.delayed = []
 
-    def setGuiRenderer(self, guiRenderer):
-        self.guiRenderer = guiRenderer
-
-    def setCamera(self, camera):
-        self.camera = camera
-
-    def draw(self, entity):
-        if entity.image and self.isOnScreen(entity):
-            self.screen.blit(entity.image, self.camera.apply(entity))
-
-    def drawSurface(self, surface, position):
-        self.screen.blit(surface, self.camera.applyPosition(position))
-
-    def addToQueue(self, surface, position):
-        """ Add surface to queue for later bliting """
-        self.delayed.append((surface, position))
-
     def render(self):
         self.screen.fill(BLACK)
 
@@ -63,6 +46,23 @@ class Renderer:
 
         self.delayed = []
         display.update()
+
+    def setGuiRenderer(self, guiRenderer):
+        self.guiRenderer = guiRenderer
+
+    def setCamera(self, camera):
+        self.camera = camera
+
+    def draw(self, entity):
+        if entity.image and self.isOnScreen(entity):
+            self.screen.blit(entity.image, self.camera.apply(entity))
+
+    def drawSurface(self, surface, position):
+        self.screen.blit(surface, self.camera.applyPosition(position))
+
+    def addToQueue(self, surface, position):
+        """ Add surface to queue for later bliting """
+        self.delayed.append((surface, position))
 
     def drawGrid(self):
         for x in range(0, WIDTH, TILESIZE):

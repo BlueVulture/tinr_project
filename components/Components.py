@@ -132,6 +132,18 @@ class SoundEffect(Component):
         else:
             self.currentTime += self.dt
 
+
 class MusicComponent(Component):
     pass
+
+
+class SceneChange(Component):
+    def __init__(self, parent, args):
+        super().__init__(parent, args)
+        self.target = self.checkArgs("scene")
+        self.tilemap = self.checkArgs("map")
+
+    def collisionDetected(self, object, colType=None):
+        if object.name == "player" and colType is "box":
+            self.parent.game.setLevel(self.target, self.tilemap)
 
