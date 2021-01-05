@@ -2,6 +2,7 @@ from components.Components import *
 from config.Settings import *
 from physics.Math import *
 import pygame as pg
+import config.ChangableSettings as settings
 
 
 class GuiComponent:
@@ -91,12 +92,19 @@ class Button(GuiComponent):
         self.backgroundColor = self.checkArgs("backgroundColor")
         self.image = self.checkArgs("image")
         self.text = self.checkArgs("text")
+        self.switch = self.checkArgs("switch")
         self.position = self.checkArgs("position")
         self.size = self.checkArgs("size")
         self.centered = self.checkArgs("centered")
         self.verticalAlign = self.checkArgs("vertical")
         self.action = self.checkArgs("action")
         self.active = self.checkArgs("active", True)
+        self.actionArgs = self.checkArgs("actionArgs", {})
+        self.gameSettings = self.parent.game.settings
+        if self.switch:
+            self.textAdd = "ON" if self.gameSettings[self.actionArgs["setting"]] else "OFF"
+        else:
+            self.textAdd = ""
 
         self.cover = pg.Surface(self.size, pg.SRCALPHA)
         self.cover.set_alpha(128)
@@ -122,7 +130,9 @@ class Button(GuiComponent):
             self.screen.blit(self.image, self.position)
 
         if self.text:
-            label = self.parent.gameFont.render(self.text, True, BLACK)
+            text = self.text + self.textAdd
+
+            label = self.parent.gameFont.render(text, True, BLACK)
             r = label.get_rect()
 
             if self.centered:
@@ -151,16 +161,37 @@ class Button(GuiComponent):
 
     def resolveBtnClick(self):
         action = self.action
+        m = self
+        fn = getattr(m, action, self.defaultAction())
+        if fn:
+            fn()
 
-        if action is "quit":
-            pg.display.quit()
-        elif action is "resume":
-            self.parent.game.unpause()
-        elif action is "settings":
-            self.parent.game.menuManager.setMenu("SettingsMenu")
-        elif action is "back":
-            self.parent.game.menuManager.setMenu("back")
-        elif action is "new":
-            self.parent.game.setLevel("Town", "town_map.json")
-        elif action is "continue":
-            pass
+    def new(self):
+        self.parent.game.setLevel("Town", "town_map.json")
+
+    def quit(self):
+        self.parent.game.quit()
+
+    def resume(self):
+        self.parent.game.unpause()
+
+    def settings(self):
+        self.parent.game.menuManager.setMenu("SettingsMenu")
+
+    def back(self):
+        self.parent.game.menuManager.setMenu("back")
+
+    def continueGame(self):
+        self.parent.game.setLevel("Town", "town_map.json")
+
+    def changeSetting(self):
+        setting = self.actionArgs["setting"]
+        changeSetting(self.parent.game, setting, switch=True)
+        settings.changeCSetting()
+        print(settings.SOUND)
+
+        if self.switch:
+            self.textAdd = "ON" if self.gameSettings[setting] else "OFF"
+
+    def defaultAction(self):
+        pass

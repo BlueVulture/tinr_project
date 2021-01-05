@@ -1,8 +1,6 @@
-import pygame as pg
-from config.SoundList import *
+from data.SoundList import *
 
 # Object tags to entities
-from physics.CustomShapes import Circle
 
 entityTags = {
     "P": "player",

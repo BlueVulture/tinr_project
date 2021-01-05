@@ -254,14 +254,36 @@ menuInterfaces = {
                 "type": "Button",
                 "name": "MusicButton",
                 "args": {
-                    "text": "Music: On",
+                    "text": "Music: ",
+                    "switch": True,
                     "image": BUTTON_IMAGE_BLUE,
                     "background": None,
                     "color": GREEN,
                     "size": (256, 64),
                     "position": (WIDTH / 2, 100),
                     "centered": True,
-                    "action": "music"
+                    "action": "changeSetting",
+                    "actionArgs": {
+                        "setting": "music"
+                    }
+                }
+            },
+            "soundBtn": {
+                "type": "Button",
+                "name": "SoundButton",
+                "args": {
+                    "text": "Sound: ",
+                    "switch": True,
+                    "image": BUTTON_IMAGE_BLUE,
+                    "background": None,
+                    "color": GREEN,
+                    "size": (256, 64),
+                    "position": (WIDTH / 2, 200),
+                    "centered": True,
+                    "action": "changeSetting",
+                    "actionArgs": {
+                        "setting": "sound"
+                    }
                 }
             }
         }

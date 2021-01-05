@@ -120,7 +120,7 @@ class ParticleSystem(Component):
         # print(time)
         if time:
             self.spawnParticle()
-            print("a")
+            # print("a")
 
         for p in self.particles:
             p.update()

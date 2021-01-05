@@ -1,11 +1,12 @@
-from config.EntitiesList import *
-from config.Settings import *
+from data.EntitiesList import *
+from components.PhysicsComponents import *
+from entities.Tile import Tile
 from entities.Entity import *
 from entities.Player import *
+from components.Components import *
 from components.AIComponents import *
 from components.PhysicsComponents import *
-# from entities import *
-from entities.Tile import Tile
+from components.GuiComponents import *
 
 
 class Generator:

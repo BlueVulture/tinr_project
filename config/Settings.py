@@ -1,4 +1,6 @@
 import pathlib
+import pygame as pg
+import json
 
 # Load from
 RESOURCES = str(pathlib.Path(__file__).parent.parent.absolute()) + "\\resources\\"
@@ -22,6 +24,9 @@ IMAGE_TILESIZE = 16
 DEFAULT_POSITION = (100, 100)
 DEBUG = True
 
+# Controls
+# INTERACT_KEY = pg.K_f
+
 # Colors 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -32,8 +37,4 @@ RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 BLUE = (0, 0, 255)
 LIGHTGREY = (128, 128, 128)
-
-
-
-
 

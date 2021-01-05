@@ -1,7 +1,5 @@
 import pygame as pg
-
 from config.Settings import *
-from config.Controls import *
 
 
 class Component:

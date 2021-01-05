@@ -1,13 +1,6 @@
-import os
-
-import pygame as pg
-from pygame import *
-
-from config.Interface import *
 from interface.GuiManager import *
 from assets.Loader import *
 from assets.Spritesheet import *
-from entities.Player import *
 from interface.MenuManager import *
 from renderer.Camera import Camera
 from renderer.DisplayManager import *
@@ -25,6 +18,7 @@ class Game:
     all_images = []
     all_images_offset = []
     sounds = {}
+    settings = {}
 
     events = None
     level = None
@@ -36,6 +30,9 @@ class Game:
 
     def __init__(self):
         pg.init()
+
+        self.end = False
+        readSettings(self)
 
         # Display
         self.gameDisplay = DisplayManager(WINSIZE, TITLE, ICON)
@@ -152,7 +149,7 @@ class Game:
         self.events = pg.event.get()
         for e in self.events:
             if e.type == pg.QUIT:
-                display.quit()
+                self.quit()
             elif e.type == pg.KEYDOWN:
                 if e.key == pg.K_e:
                     if self.paused:
@@ -180,6 +177,9 @@ class Game:
         self.menuManager.setMenu(None)
         self.showMenu = False
 
+    def quit(self):
+        self.end = True
+
     def run(self):
         """ Gameloop """
         self.clock.tick(FPS)
@@ -192,6 +192,10 @@ class Game:
         if self.showMenu:
             self.menuManager.update()
         self.draw()
+        if self.end:
+            global done
+            done = True
+            pg.display.quit()
 
 
 g = Game()

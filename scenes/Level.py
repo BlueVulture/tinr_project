@@ -1,12 +1,7 @@
-from random import *
 from config.Settings import *
-from config.EntitiesList import *
-from entities.Generator import Generator
-from entities.Player import Player
-from entities.Tile import *
+from entities.Generator import *
 from scenes.Level import *
 from scenes.Scene import *
-import copy
 import json
 
 
@@ -15,7 +10,6 @@ class Level:
 
     def __init__(self, tilemap, game, scene=None):
         self.tilemap = TILEMAPS + tilemap
-        # self.objectmap = TILEMAPS + objectmap
         self.game = game
         self.generator = Generator(self.game, debug=True)
         self.gui = False

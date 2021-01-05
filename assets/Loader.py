@@ -1,8 +1,5 @@
-import pygame as pg
-
-from config.Settings import *
-from config.ImageList import *
-from config.SoundList import *
+from data.ImageList import *
+from data.SoundList import *
 
 
 def loadTiles(sheet):

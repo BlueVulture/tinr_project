@@ -1,4 +1,4 @@
-from config.Interface import *
+from data.Interface import *
 from components.GuiComponents import *
 
 
