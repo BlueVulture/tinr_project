@@ -40,4 +40,9 @@ otherImages = {
     "heart": (23, 22)
 }
 
+AXE = 1868
+SWORD = 2297
+HALBERD = 1872
+BOW = 1820
+AXE_THROW = 1868
 

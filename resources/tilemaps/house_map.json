@@ -39,7 +39,7 @@
                  "id":1,
                  "name":"",
                  "rotation":0,
-                 "type":"npc",
+                 "type":"npc_3",
                  "visible":true,
                  "width":16,
                  "x":128,
@@ -150,6 +150,17 @@
                  "width":16,
                  "x":80,
                  "y":176
+                }, 
+                {
+                 "height":0,
+                 "id":21,
+                 "name":"",
+                 "rotation":0,
+                 "type":"town",
+                 "visible":true,
+                 "width":16,
+                 "x":128,
+                 "y":238
                 }],
          "opacity":1,
          "properties":[
@@ -280,7 +291,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":21,
+ "nextobjectid":22,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.3",

@@ -79,7 +79,7 @@ class Game:
         roguelikeChar = Spritesheet("roguelikeChar_transparent_no_margins.png")
         oneBitSheet = Spritesheet("1bit_sheet_transparent.png")
         tilesSheet = Spritesheet("roguelikeSheet_transparent_fix.png")
-        charSheet = Spritesheet("roguelikeChar_transparent.png")
+        charSheet = Spritesheet("roguelikeChar_transparent_fixed.png")
         objectsSheet = Spritesheet("1bit_sheet_transparent.png")
 
         # Load images from sheets into dicts

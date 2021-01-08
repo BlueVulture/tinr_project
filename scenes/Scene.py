@@ -25,16 +25,16 @@ class Scene:
         self.layers = []
         self.updatable = []
 
-    def addEntity(self, entity, entityType, layer, entityID, updatable=False):
+    def addEntity(self, entity, entityType, layer, entityID=None, updatable=False):
         self.entities.append(entity)
         includedIn = ["self.entities"]
 
         if len(self.layers) <= layer:
-            for x in range((layer-len(self.layers))+1):
+            for x in range((layer - len(self.layers)) + 1):
                 self.layers.append([])
 
         self.layers[layer].append(entity)
-        includedIn.append("self.layers["+str(layer)+"]")
+        includedIn.append("self.layers[" + str(layer) + "]")
 
         if entityType == "tile":
             self.tiles.append(entity)
@@ -53,10 +53,25 @@ class Scene:
             self.updatable.append(entity)
             includedIn.append("self.updatable")
 
-        self.index[entityID] = includedIn
+        if entityID:
+            self.index[entityID] = includedIn
+        else:
+            i = len(self.index)
+            self.index[entityID] = includedIn
 
-    def removeEntity(self, entity, entityID):
-        for i in self.index[entityID]:
-            eval(i).remove(entity)
+    def removeEntity(self, entity, entityID=None):
+        if entityID:
+            for i in self.index[entityID]:
+                eval(i).remove(entity)
+        else:
+            lists = [self.entities,
+                     self.structures,
+                     self.objects,
+                     self.tiles,
+                     self.characters,
+                     self.layers,
+                     self.updatable]
 
-
+            for i in lists:
+                if entity in i:
+                    i.remove(entity)

@@ -1,3 +1,4 @@
+from data.ImageList import *
 from data.SoundList import *
 
 # Object tags to entities
@@ -136,7 +137,53 @@ entities = {
                 "circle": 150
             },
             "EnemyAI": {
-                "speed": 128
+                "speed": 200,
+                "damage": 0.5,
+                "weapon": SWORD
+            }
+        }
+    },
+    "enemy_throw": {
+        "class": "Entity",
+        "name": "enemy",
+        "image": None,
+        "tags": ["enemy"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 1
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 150
+            },
+            "EnemyAI": {
+                "speed": 200,
+                "damage": 1,
+                "ranged": True,
+                "weapon": AXE
+            }
+        }
+    },
+    "projectile": {
+        "class": "Entity",
+        "name": "projectile",
+        "image": None,
+        "tags": ["projectile"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 1
+            },
+            "CircleCollider": {
+                "kinematic": True,
+                "circle": 10
+            },
+            "Projectile": {
+
             }
         }
     },
@@ -158,14 +205,16 @@ entities = {
                 "circle": 150
             },
             "EnemyAI": {
-                "speed": 128
+                "speed": 150,
+                "damage": 2
             }
         }
     },
-    "orc": {
+    "bunny": {
         "class": "Entity",
         "name": "neutral",
-        "image": "orc_base",
+        "image": None,
+        "scale": (0.5, 0.5),
         "tags": ["neutral"],
         "components": {
             "Rigidbody": {
@@ -180,14 +229,14 @@ entities = {
                 "circle": 150
             },
             "AnimalAI": {
-                "speed": 128
+                "speed": 256
             },
-            "SoundEffect": {
-                "play": True,
-                "time": 3,
-                "sound": "pig_s",
-                "volume": 0.5
-            }
+            # "SoundEffect": {
+            #     "play": True,
+            #     "time": 3,
+            #     "sound": "pig_s",
+            #     "volume": 0.5
+            # }
         }
     },
     "tree": {
@@ -203,23 +252,6 @@ entities = {
             },
             "BoxCollider": {
                 "kinematic": True
-            }
-        }
-    },
-    "tent": {
-        "class": "Entity",
-        "name": "tent",
-        "image": "tent_1_bl",
-        "scale": (1, 1),
-        "tags": ["static"],
-        "components": {
-            "Rigidbody": {
-                "active": False,
-                "mass": 0
-            },
-            "BoxCollider": {
-                "kinematic": True,
-                "rect": [0, 0, 128, 64]
             }
         }
     },
@@ -355,5 +387,49 @@ entities = {
                 "position": 1
             }
         }
-    }
+    },
+    "npc_2": {
+        "class": "Entity",
+        "name": "neutral",
+        "image": None,
+        "tags": ["neutral"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 150
+            },
+            "Interactable": {
+                "text": "\'E\'"
+            },
+        }
+    },
+    "npc_3": {
+        "class": "Entity",
+        "name": "neutral",
+        "image": None,
+        "tags": ["neutral"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 150
+            },
+            "Interactable": {
+                "text": "\'E\'"
+            },
+        }
+    },
 }
