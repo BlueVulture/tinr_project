@@ -44,7 +44,7 @@ class Game:
         self.clock = time.Clock()
         self.clock.tick()
         self.dt = self.clock.tick_busy_loop(FPS) / 1000
-        pg.mixer.init()
+        # pg.mixer.init()
 
         # Load all
         self.load()
@@ -99,6 +99,7 @@ class Game:
         """ Initialize gamestate """
         # Set level and build it
         # self.setLevel("Town", "town_map.json")
+        pg.mixer.init()
         self.setLevel("MainMenu", "main_menu.json")
         self.menuManager.setMenu("MainMenu")
         self.showMenu = True
@@ -164,6 +165,17 @@ class Game:
     def draw(self):
         """ Call to renderer """
         self.renderer.render()
+
+    def reset(self):
+        pg.mixer.quit()
+        self.unpause()
+        self.init()
+
+    def gameOver(self):
+        print("Game over")
+        self.paused = True
+        self.menuManager.setMenu("GameOver")
+        self.showMenu = True
 
     def pause(self):
         """ Pause the game """

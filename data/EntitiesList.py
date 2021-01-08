@@ -162,7 +162,7 @@ entities = {
             },
             "RangedEnemyAI": {
                 "speed": 128,
-                "damage": 1,
+                "damage": 10,
                 "weapon": AXE,
                 "projImage": AXE_THROW
             }
@@ -184,6 +184,9 @@ entities = {
             },
             "Projectile": {
                 "speed": 300,
+            },
+            "Rotatable": {
+                "angleChange": 10
             }
         }
     },

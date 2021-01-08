@@ -128,11 +128,11 @@ class Projectile(Component):
         self.parent.x += self.vector.x * self.speed * self.parent.game.dt
         self.parent.y += self.vector.y * self.speed * self.parent.game.dt
 
-        orig_rect = self.originalImage.get_rect()
-        rot_image = pg.transform.rotate(self.originalImage, self.angle)
-        rot_rect = orig_rect.copy()
-        rot_rect.center = rot_image.get_rect().center
-        self.parent.image = rot_image.subsurface(rot_rect).copy()
+        # orig_rect = self.originalImage.get_rect()
+        # rot_image = pg.transform.rotate(self.originalImage, self.angle)
+        # rot_rect = orig_rect.copy()
+        # rot_rect.center = rot_image.get_rect().center
+        # self.parent.image = rot_image.subsurface(rot_rect).copy()
 
         self.parent.rect.x = self.parent.x
         self.parent.rect.y = self.parent.y
@@ -149,7 +149,6 @@ class Projectile(Component):
             self.die()
 
     def die(self):
-        print("dead")
         self.parent.game.level.scene.removeEntity(self.parent, self.parent.id)
 
 

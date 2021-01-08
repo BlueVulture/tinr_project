@@ -19,9 +19,19 @@ class Movable(Component):
 class Rotatable(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
+        self.originalImage = self.parent.image
+        self.angle = 0
+        self.angleChange = self.checkArgs("angleChange")
 
     def physicsUpdate(self):
-        pass
+        orig_rect = self.originalImage.get_rect()
+        rot_image = pg.transform.rotate(self.originalImage, self.angle)
+        rot_rect = orig_rect.copy()
+        rot_rect.center = rot_image.get_rect().center
+        self.parent.image = rot_image.subsurface(rot_rect).copy()
+
+        self.angle += self.angleChange
+        self.angle = self.angle % 360
 
 
 class Rigidbody(Component):
@@ -113,7 +123,7 @@ class ParticleSystem(Component):
         self.timeToLive = self.checkArgs("timeToLive")
         self.frequency = self.checkArgs("frequency")
         self.size = self.checkArgs("size", (1, 1))
-        self.timer = Timer(1000/self.frequency, self.parent.game)
+        self.timer = Timer(1/self.frequency, self.parent.game)
         self.particles = []
         self.spawnParticle()
 

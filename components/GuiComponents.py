@@ -203,5 +203,8 @@ class Button(GuiComponent):
         saveSettings(self.parent.game)
         self.parent.game.menuManager.setMenu("back")
 
+    def reset(self):
+        self.parent.game.reset()
+
     def defaultAction(self):
         pass

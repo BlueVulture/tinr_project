@@ -22,9 +22,9 @@ class Player(Entity):
         self.health -= damage
 
     def update(self):
-        print(self.health)
+        # print(self.health)
         if self.health <= 0:
-            self.game.quit()
+            self.game.gameOver()
         self.move()
         for i, c in self.components.items():
             # c.action()

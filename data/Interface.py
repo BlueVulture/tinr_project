@@ -319,5 +319,53 @@ menuInterfaces = {
                 }
             }
         }
-    }
+    },
+
+    "GameOver": {
+        "font": "pixel.ttf",
+        "fontSize": 25,
+        "components": {
+            "titleLabel": {
+                "type": "TextBox",
+                "name": "GameOver",
+                "args": {
+                    "text": "Game Over",
+                    "position": (WIDTH / 2, 0),
+                    "anchor": "center-top",
+                    "centered": True,
+                    "font": "pixel.ttf",
+                    "fontSize": 100,
+                    "textColor": RED,
+                }
+            },
+            "backBtn": {
+                "type": "Button",
+                "name": "BackButton",
+                "args": {
+                    "text": "Back to menu",
+                    "image": BUTTON_IMAGE_BLUE,
+                    "background": None,
+                    "color": GREEN,
+                    "size": (256, 64),
+                    "position": ((WIDTH / 2)+138, 600),
+                    "centered": True,
+                    "action": "reset"
+                }
+            },
+            "quitBtn": {
+                "type": "Button",
+                "name": "QuitButton",
+                "args": {
+                    "text": "Quit",
+                    "image": BUTTON_IMAGE_RED,
+                    "background": None,
+                    "color": GREEN,
+                    "size": (256, 64),
+                    "position": ((WIDTH / 2)-138, 600),
+                    "centered": True,
+                    "action": "quit"
+                }
+            }
+        }
+    },
 }

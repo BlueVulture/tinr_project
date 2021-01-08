@@ -11,19 +11,24 @@ class MenuManager:
         self.game = game
         self.generateMenus()
         Menu(self.game).components.append(None)
+        print(self.menus)
 
     def update(self):
         for c in self.currentMenu.components:
             c.update()
 
     def setMenu(self, menu):
+        print(menu)
         if menu is "back" and self.prevMenu:
+            print("Wrong")
             self.currentMenu = self.prevMenu
             self.prevMenu = None
         elif menu:
+            print("Right")
             self.prevMenu = self.currentMenu
             self.currentMenu = self.menus[menu]
         else:
+            print("Why")
             self.currentMenu = None
 
     def render(self, debug):
@@ -53,6 +58,7 @@ class MenuManager:
                 components.append(component)
 
             menu.components = components
+            menu.name = k
             self.menus[k] = menu
 
 
@@ -63,6 +69,7 @@ class Menu:
         self.game = game
         pg.font.init()
         self.gameFont = pg.font.SysFont("monospace", 15)
+        self.name = ""
 
     def setFont(self, font, size):
         fontPath = RESOURCES + "fonts\\" + font
