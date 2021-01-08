@@ -89,7 +89,7 @@ menuInterfaces = {
                 "type": "TextBox",
                 "name": "Title",
                 "args": {
-                    "text": "Igra",
+                    "text": "Breath of the Mild",
                     "position": (WIDTH / 2, 0),
                     "anchor": "center-top",
                     "centered": True,

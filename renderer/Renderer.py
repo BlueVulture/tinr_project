@@ -87,10 +87,11 @@ class Renderer:
                 pg.draw.line(self.screen, WHITE, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
 
     def drawColliders(self):
-        # rect = object.rect
-        # rPos = self.camera.applyPosition((rect.x, rect.y))
-        # pg.draw.rect(self.screen, RED, (rPos[0], rPos[1], rect.width, rect.height), 10)
         for o in self.game.level.scene.updatable:
+            rect = o.rect
+            rPos = self.camera.applyPosition((rect.x, rect.y))
+            pg.draw.rect(self.screen, RED, (rPos[0], rPos[1], rect.width, rect.height), 10)
+
             if "BoxCollider" in o.components.keys():
                 o.components["BoxCollider"].drawCollider(self.screen, GREEN, 3, self.camera)
 

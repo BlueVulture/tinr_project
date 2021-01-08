@@ -9,6 +9,6 @@ class Timer:
             self.currentTime = 0
             return True
         else:
-            self.currentTime += self.game.dt * 1000
+            self.currentTime += (self.game.dt * 1000)
             return False
 

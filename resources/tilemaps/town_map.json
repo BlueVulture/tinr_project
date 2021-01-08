@@ -440,6 +440,18 @@
                  "width":16,
                  "x":704,
                  "y":288
+                }, 
+                {
+                 "gid":2094,
+                 "height":16,
+                 "id":160,
+                 "name":"",
+                 "rotation":0,
+                 "type":"enemy_throw",
+                 "visible":true,
+                 "width":16,
+                 "x":208,
+                 "y":672
                 }],
          "opacity":1,
          "properties":[
@@ -1156,7 +1168,7 @@
          "y":0
         }],
  "nextlayerid":17,
- "nextobjectid":160,
+ "nextobjectid":161,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.3",

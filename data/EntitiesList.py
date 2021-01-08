@@ -134,7 +134,7 @@ entities = {
             },
             "CircleCollider": {
                 "kinematic": False,
-                "circle": 150
+                "circle": 200
             },
             "EnemyAI": {
                 "speed": 200,
@@ -160,11 +160,11 @@ entities = {
                 "kinematic": False,
                 "circle": 150
             },
-            "EnemyAI": {
-                "speed": 200,
+            "RangedEnemyAI": {
+                "speed": 150,
                 "damage": 1,
-                "ranged": True,
-                "weapon": AXE
+                "weapon": AXE,
+                "projImage": AXE_THROW
             }
         }
     },
@@ -180,10 +180,10 @@ entities = {
             },
             "CircleCollider": {
                 "kinematic": True,
-                "circle": 10
+                "circle": 32
             },
             "Projectile": {
-
+                "speed": 300,
             }
         }
     },

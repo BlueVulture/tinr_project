@@ -50,6 +50,7 @@ class EnemyAI(Component):
 class RangedEnemyAI(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
+        self.generator = self.parent.game.level.generator
         self.speed = self.checkArgs("speed")
         if self.speed is None:
             self.speed = 0
@@ -57,11 +58,14 @@ class RangedEnemyAI(Component):
         self.weapon = self.checkArgs("weapon")
         self.camera = self.parent.game.renderer.camera
         self.screen = self.parent.game.renderer.screen
-        self.vector = self.checkArgs("vector")
         self.projSpeed = self.checkArgs("projSpeed")
+        self.projImage = self.checkArgs("projImage")
+        self.ok = True
+        self.projectiles = []
 
     def update(self):
-        pass
+        for p in self.projectiles:
+            p.update()
 
     def draw(self):
         if self.weapon:
@@ -71,41 +75,73 @@ class RangedEnemyAI(Component):
     def collisionDetected(self, collider, colType=None):
         # print("Enemy in sights!")
         self.rangedWeaponAttack(collider)
+        self.moveAway(collider)
 
     def rangedWeaponAttack(self, object):
+        if "player" in object.tags and self.ok:
+            print("yes")
+            p = self.generator.generate("projectile", (self.parent.x, self.parent.y), gid=self.projImage+1)
+            self.parent.game.level.scene.addEntity(p, "object", 3, p.id, updatable=True)
+            self.ok = False
+
+    def moveAway(self, object):
         if "player" in object.tags:
             direction = pg.Vector2(0, 0)
-            direction.x = object.x - self.parent.x
-            direction.y = object.y - self.parent.y
+            direction.x = self.parent.x - object.x
+            direction.y = self.parent.y - object.y
 
             if direction.length() != 0:
                 direction = direction.normalize()
 
-            p = self.Projectile(self, self.weapon, self.vector, self.projSpeed)
-            self.parent.game.level.scene.addEntity(p, object, 3, updatable=True)
+            self.parent.x += direction.x * (self.speed * 1.5) * self.dt
+            self.parent.y += direction.y * (self.speed * 1.5) * self.dt
+
+            self.parent.rect.x = self.parent.x
+            self.parent.rect.y = self.parent.y
 
 
-class Projectile:
-    def __init__(self, parent, image, vector, speed):
-        self.parent = parent
-        self.image = image
-        self.vector = vector
-        self.speed = speed
-        self.timer = Timer(5 * 1000, self.parent.parent.game)
-        self.components = []
-        self.components.append(Rigidbody)
-        self.components.append(CircleCollider)
+class Projectile(Component):
+    def __init__(self, parent, args):
+        super().__init__(parent, args)
+        self.originalImage = self.parent.image
+        self.speed = self.checkArgs("speed")
+        self.screen = self.parent.game.renderer.screen
+        self.camera = self.parent.game.renderer.camera
+        self.timer = Timer(2 * 1000, self.parent.game)
+        self.vector = pg.Vector2(0, 1)
+        self.angle = 0
+        self.angle_change = 10
 
     def update(self):
+        # print(self.timer.currentTime)
+        self.parent.x += self.vector.x * self.speed * self.parent.game.dt
+        self.parent.y += self.vector.y * self.speed * self.parent.game.dt
+
+        orig_rect = self.originalImage.get_rect()
+        rot_image = pg.transform.rotate(self.originalImage, self.angle)
+        rot_rect = orig_rect.copy()
+        rot_rect.center = rot_image.get_rect().center
+        self.parent.image = rot_image.subsurface(rot_rect).copy()
+
+        # self.parent.image = pg.transform.rotate(self.originalImage, self.angle)
+        # self.parent.rect = self.parent.image.get_rect(center=self.parent.rect.center)
+
+        self.parent.rect.x = self.parent.x
+        self.parent.rect.y = self.parent.y
+        self.angle += self.angle_change
+        self.angle = self.angle % 360
+        # print(self.angle)
         if self.timer.checkTime():
             self.die()
 
     def collisionDetected(self, collider, colType=None):
-        # print("Enemy in sights!")
-        self.rangedWeaponAttack(collider)
+        print("goteem")
+        if collider.name == "player":
+            self.die()
 
     def die(self):
-        self.parent.parent.game.level.scene.removeEntity(self)
+        print("dead")
+        self.parent.game.level.scene.removeEntity(self.parent, self.parent.id)
 
 
 class AnimalAI(Component):
@@ -124,8 +160,8 @@ class AnimalAI(Component):
             seed(pg.time.get_ticks())
             if self.aroundTarget(32):
                 self.target = (
-                self.current[0] + (randrange(32, 64, 1) * randomNegative(self.current[0])), self.current[1] +
-                (randrange(32, 64, 1) * randomNegative(self.current[1])))
+                    self.current[0] + (randrange(32, 64, 1) * randomNegative(self.current[0])), self.current[1] +
+                    (randrange(32, 64, 1) * randomNegative(self.current[1])))
             else:
                 self.moveTowards(self.target)
 
