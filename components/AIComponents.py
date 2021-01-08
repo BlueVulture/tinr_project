@@ -60,12 +60,14 @@ class RangedEnemyAI(Component):
         self.screen = self.parent.game.renderer.screen
         self.projSpeed = self.checkArgs("projSpeed")
         self.projImage = self.checkArgs("projImage")
-        self.ok = True
-        self.projectiles = []
+        self.reloading = False
+        self.timer = Timer(1, self.parent.game)
+        self.damage = self.checkArgs("damage")
 
     def update(self):
-        for p in self.projectiles:
-            p.update()
+        if self.reloading:
+            if self.timer.checkTime():
+                self.reloading = False
 
     def draw(self):
         if self.weapon:
@@ -78,11 +80,19 @@ class RangedEnemyAI(Component):
         self.moveAway(collider)
 
     def rangedWeaponAttack(self, object):
-        if "player" in object.tags and self.ok:
-            print("yes")
+        if "player" in object.tags and not self.reloading:
+            self.reloading = True
             p = self.generator.generate("projectile", (self.parent.x, self.parent.y), gid=self.projImage+1)
+            direction = pg.Vector2(0, 0)
+            direction.x = object.x - self.parent.x
+            direction.y = object.y - self.parent.y
+
+            if direction.length() != 0:
+                direction = direction.normalize()
+
+            p.components["Projectile"].vector = pg.Vector2(direction)
+            p.components["Projectile"].damage = self.damage
             self.parent.game.level.scene.addEntity(p, "object", 3, p.id, updatable=True)
-            self.ok = False
 
     def moveAway(self, object):
         if "player" in object.tags:
@@ -107,8 +117,9 @@ class Projectile(Component):
         self.speed = self.checkArgs("speed")
         self.screen = self.parent.game.renderer.screen
         self.camera = self.parent.game.renderer.camera
-        self.timer = Timer(2 * 1000, self.parent.game)
-        self.vector = pg.Vector2(0, 1)
+        self.timer = Timer(2, self.parent.game)
+        self.vector = pg.Vector2(0, 0)
+        self.damage = 0
         self.angle = 0
         self.angle_change = 10
 
@@ -123,20 +134,18 @@ class Projectile(Component):
         rot_rect.center = rot_image.get_rect().center
         self.parent.image = rot_image.subsurface(rot_rect).copy()
 
-        # self.parent.image = pg.transform.rotate(self.originalImage, self.angle)
-        # self.parent.rect = self.parent.image.get_rect(center=self.parent.rect.center)
-
         self.parent.rect.x = self.parent.x
         self.parent.rect.y = self.parent.y
         self.angle += self.angle_change
         self.angle = self.angle % 360
-        # print(self.angle)
+
         if self.timer.checkTime():
             self.die()
 
     def collisionDetected(self, collider, colType=None):
-        print("goteem")
+        # print("goteem")
         if collider.name == "player":
+            collider.damaged(self.damage)
             self.die()
 
     def die(self):

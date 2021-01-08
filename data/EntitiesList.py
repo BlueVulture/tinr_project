@@ -158,10 +158,10 @@ entities = {
             },
             "CircleCollider": {
                 "kinematic": False,
-                "circle": 150
+                "circle": 250
             },
             "RangedEnemyAI": {
-                "speed": 150,
+                "speed": 128,
                 "damage": 1,
                 "weapon": AXE,
                 "projImage": AXE_THROW

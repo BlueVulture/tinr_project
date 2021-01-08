@@ -39,6 +39,22 @@ interface = {
             "position": (126, 0)
         }
     },
+"heart_4": {
+        "type": "ImageBox",
+        "name": "H4",
+        "args": {
+            "image": "heart",
+            "position": (189, 0)
+        }
+    },
+"heart_5": {
+        "type": "ImageBox",
+        "name": "H5",
+        "args": {
+            "image": "heart",
+            "position": (252, 0)
+        }
+    },
     "position_text": {
         "type": "TextBox",
         "name": "Position",
@@ -52,12 +68,14 @@ interface = {
         "type": "Button",
         "name": "TestBtn",
         "args": {
-            "text": "Test",
+            "text": "Pause",
             "image": BUTTON_IMAGE_RED,
             "backgroundColor": RED,
             "color": GREEN,
             "size": (128, 64),
-            "position": (0, 63)
+            "position": (0, 63),
+            "centeredText": True,
+            "action": "pause"
         }
     },
     "fps_text": {

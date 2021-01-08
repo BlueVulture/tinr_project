@@ -93,7 +93,8 @@ class PhysicsEngine:
             object1.components["CircleCollider"].detected(object2)
 
         if distanceSquared < (circle.radius * circle.radius) and object1.components["CircleCollider"].kinematic:
-            pass
+            object1.components["CircleCollider"].detected(object2)
+
 
     def resolveCollision(self, object1, object2):
         """ Collision resolution method. Restricts object movement for active-passive collisions. """

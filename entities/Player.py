@@ -11,13 +11,20 @@ class Player(Entity):
         self.moving = False
         self.sound = None
         self.label = None
+        self.health = 10
 
     def init(self):
         self.sound = self.components["SoundEffect"]
         self.label = self.game.gui.getElement(name="Position")
         # self.label = self.game.gui.c
 
+    def damaged(self, damage):
+        self.health -= damage
+
     def update(self):
+        print(self.health)
+        if self.health <= 0:
+            self.game.quit()
         self.move()
         for i, c in self.components.items():
             # c.action()

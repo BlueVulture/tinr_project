@@ -99,6 +99,7 @@ class Button(GuiComponent):
         self.action = self.checkArgs("action")
         self.active = self.checkArgs("active", True)
         self.actionArgs = self.checkArgs("actionArgs", {})
+        self.centeredText = self.checkArgs("centeredText")
         self.gameSettings = self.parent.game.settings
         if self.switch:
             self.textAdd = "ON" if self.gameSettings[self.actionArgs["setting"]] else "OFF"
@@ -134,7 +135,7 @@ class Button(GuiComponent):
             label = self.parent.gameFont.render(text, True, BLACK)
             r = label.get_rect()
 
-            if self.centered:
+            if self.centered or self.centeredText:
                 xPosition = self.position[0]+(self.size[0] / 2) - (r.width / 2)
             else:
                 xPosition = self.position[0]
@@ -168,6 +169,13 @@ class Button(GuiComponent):
 
     def new(self):
         self.parent.game.setLevel("Town", "town_map.json")
+
+    def pause(self):
+        game = self.parent.game
+        if game.paused:
+            game.unpause()
+        else:
+            game.pause()
 
     def quit(self):
         self.parent.game.quit()

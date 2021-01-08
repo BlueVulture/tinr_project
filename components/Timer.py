@@ -1,6 +1,6 @@
 class Timer:
     def __init__(self, t, game):
-        self.t = t
+        self.t = t * 1000
         self.game = game
         self.currentTime = 0
 
@@ -9,6 +9,6 @@ class Timer:
             self.currentTime = 0
             return True
         else:
-            self.currentTime += (self.game.dt * 1000)
+            self.currentTime += (self.game.dt * 2000)
             return False
 
