@@ -30,19 +30,23 @@ class PhysicsEngine:
         for o in self.scene.updatable:
             # print(o.name)
             if "BoxCollider" in o.components.keys():
-                o.components["BoxCollider"].physicsUpdate()
+                self.runUpdate(o, "BoxCollider")
 
             if "CircleCollider" in o.components.keys():
-                o.components["CircleCollider"].physicsUpdate()
+                # o.components["CircleCollider"].physicsUpdate()
+                self.runUpdate(o, "CircleCollider")
 
             if "Movable" in o.components.keys():
-                o.components["Movable"].physicsUpdate()
+                # o.components["Movable"].physicsUpdate()
+                self.runUpdate(o, "Movable")
 
             if "Rotatable" in o.components.keys():
-                o.components["Rotatable"].physicsUpdate()
+                # o.components["Rotatable"].physicsUpdate()
+                self.runUpdate(o, "Rotatable")
 
             if "ParticleSystem" in o.components.keys():
-                o.components["ParticleSystem"].physicsUpdate()
+                # o.components["ParticleSystem"].physicsUpdate()
+                self.runUpdate(o, "ParticleSystem")
 
             if "Rigidbody" in o.components.keys():
                 o.components["Rigidbody"].physicsUpdate()
@@ -50,6 +54,11 @@ class PhysicsEngine:
                     for o2 in self.scene.updatable:
                         if "Rigidbody" in o2.components.keys() and o != o2:
                             self.collisionCheck(o, o2)
+
+    def runUpdate(self, o, component):
+        c = o.components[component]
+        if not c.disabled:
+            c.physicsUpdate()
 
     def collisionCheck(self, object1, object2):
         """

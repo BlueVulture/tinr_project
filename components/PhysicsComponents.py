@@ -127,6 +127,9 @@ class ParticleSystem(Component):
         self.particles = []
         self.spawnParticle()
 
+    def disabledUpdate(self):
+        self.particles = []
+
     def physicsUpdate(self):
         time = self.timer.checkTime()
         if time:

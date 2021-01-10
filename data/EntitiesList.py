@@ -96,6 +96,17 @@ entities = {
                 "timeToLive": 2,
                 "frequency": 10,
                 "size": (0.25, 0.25)
+            },
+            "SwitchState": {
+                "state" : True,
+                "offImage": 1368,
+                "onImage": 1369,
+                "components": [
+                    "Animated",
+                    "SoundEffect",
+                    "ParticleSystem"
+                ]
+
             }
         }
     },
@@ -412,6 +423,15 @@ entities = {
             "Interactable": {
                 "text": "\'E\'"
             },
+            "InteractableAI": {
+                "dialog": [
+                    "Hello wanderer! How are you?",
+                    "Oh? You're looking for the princess?",
+                    "You should probably talk to our innkeeper.",
+                    "She knows much, and is probably the only one who can help you.",
+                    "You'll find her in the inn, middle of town."
+                ]
+            }
         }
     },
     "npc_3": {

@@ -262,3 +262,14 @@ class WanderingAI(Component):
         if abs(euclidean(self.current, self.target)) < distance:
             return True
         return False
+
+
+class InteractableAI(Component):
+    def __init__(self, parent, args):
+        super().__init__(parent, args)
+        self.dialog = self.checkArgs("dialog")
+
+    def interact(self):
+        print("AI")
+        i = self.parent.components["Interactable"]
+        i.disabled = True

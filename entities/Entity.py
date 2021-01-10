@@ -41,7 +41,10 @@ class Entity(pg.sprite.Sprite):
 
     def update(self):
         for key, c in self.components.items():
-            c.update()
+            if not c.disabled:
+                c.update()
+            else:
+                c.disabledUpdate()
 
     def getPosition(self):
         return round(self.x, 2), round(self.y, 2)

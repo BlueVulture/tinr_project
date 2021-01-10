@@ -7,6 +7,8 @@ class Component:
     def __init__(self, parent, args):
         self.parent = parent
         self.args = args
+        self.disabled = False
+        self.disabledUpdateDone = False
 
     def init(self):
         pass
@@ -17,10 +19,16 @@ class Component:
     def update(self):
         pass
 
+    def physicsUpdate(self):
+        pass
+
     def interact(self):
         pass
 
     def draw(self):
+        pass
+
+    def disabledUpdate(self):
         pass
 
     def collisionDetected(self, object, colType=None):
@@ -41,7 +49,7 @@ class Consumable(Component):
 
     def collisionDetected(self, object, colType=None):
         # print(object.name)
-        if object.name == "player" and colType is "box":
+        if object.name == "player" and colType == "box":
             self.parent.game.level.scene.removeEntity(self.parent, self.parent.id)
 
 
@@ -53,15 +61,22 @@ class Interactable(Component):
         self.gameFont = pg.font.SysFont(self.font, self.fontSize)
         self.text = self.checkArgs("text", "text")
         self.label = self.gameFont.render(self.text, True, WHITE)
+        self.disabled = False
 
     def collisionDetected(self, object, colType=None):
-        if object.name == "player" and colType is "circle":
-            x = self.parent.x + self.parent.rect.width/2 - self.label.get_rect().width/2
-            self.parent.game.renderer.addToQueue(self.label, (x, self.parent.y - self.fontSize))
-            for e in self.parent.game.events:
-                if e == INTERACT_KEY:
-                    for k, c in self.parent.components.items():
-                        c.interact()
+        if not self.disabled:
+            if object.name == "player" and colType == "circle":
+                x = self.parent.x + self.parent.rect.width/2 - self.label.get_rect().width/2
+                self.parent.game.renderer.addToQueue(self.label, (x, self.parent.y - self.fontSize))
+                for e in self.parent.game.events:
+                    if e.type == pg.KEYDOWN:
+                        if e.key == INTERACT_KEY:
+                            print("Interact")
+                            for k, c in self.parent.components.items():
+                                c.interact()
+
+    # def disable(self):
+    #     self.disabled = True
 
 
 class Animated(Component):
@@ -113,18 +128,19 @@ class SoundEffect(Component):
         self.player = self.parent.game.player
         self.distance = self.checkArgs("distance", 300)
 
+    def disabledUpdate(self):
+        if self.channel:
+            self.channel.stop()
+        self.channel = None
+        self.currentTime = 0
+
     def update(self):
         if self.player.name != "player":
             self.player = self.parent.game.player
 
         d = euclidean(self.parent.getPosition(), self.player.getPosition())
-        v = clamp(((self.distance - d)/self.distance), 0, self.maxVolume)
-        self.setVolume(v)
-        print(self.parent.getPosition(), self.player.name)
-        print(self.distance, d)
-        print("v:", v)
-        if self.channel:
-            print("c: ", self.channel.get_volume())
+        v = clamp(((self.distance - d)/self.distance), 0, 1)
+        self.setVolume(v*self.maxVolume)
 
         if self.play:
             if self.currentTime == 0:
@@ -181,6 +197,33 @@ class SceneChange(Component):
         self.tilemap = self.checkArgs("map")
 
     def collisionDetected(self, object, colType=None):
-        if object.name == "player" and colType is "box":
+        if object.name == "player" and colType == "box":
             self.parent.game.setLevel(self.target, self.tilemap)
+
+
+class SwitchState(Component):
+    def __init__(self, parent, args):
+        super().__init__(parent, args)
+        self.state = self.checkArgs("state")
+        self.offImage = self.checkArgs("offImage")
+        self.onImage = self.checkArgs("onImage")
+        self.components = self.checkArgs("components")
+
+    def interact(self):
+        if self.state:
+            self.turnOff()
+        else:
+            self.turnOn()
+
+    def turnOn(self):
+        self.parent.changeImage(self.onImage)
+        for c in self.components:
+            self.parent.components[c].disabled = False
+        self.state = True
+
+    def turnOff(self):
+        self.parent.changeImage(self.offImage)
+        for c in self.components:
+            self.parent.components[c].disabled = True
+        self.state = False
 

@@ -26,7 +26,7 @@ DEBUG = True
 GAME_FONT = "fonts\\pixel.ttf"
 
 # Controls
-INTERACT_KEY = pg.K_f
+INTERACT_KEY = pg.K_e
 
 # Colors 
 WHITE = (255, 255, 255)
