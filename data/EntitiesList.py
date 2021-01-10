@@ -84,7 +84,8 @@ entities = {
                 "play": True,
                 "time": "length",
                 "sound": "campfire_s",
-                "volume": 0.5
+                "volume": 0.5,
+                "distance": 300
             },
             "ParticleSystem": {
                 "vector": (0, -1),

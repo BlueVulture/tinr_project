@@ -155,7 +155,7 @@ class Particle:
         self.screen = self.parent.parent.game.renderer.screen
         self.camera = self.parent.parent.game.renderer.camera
         self.ttl = ttl
-        self.timer = Timer(self.ttl*1000, self.parent.parent.game)
+        self.timer = Timer(self.ttl, self.parent.parent.game)
         if scale:
             preScale = self.image.get_rect()
             self.image = pg.transform.scale(self.image, (int(preScale.width * scale[0]), int(preScale.height * scale[1])))

@@ -23,6 +23,7 @@ TM_COL = 16
 IMAGE_TILESIZE = 16
 DEFAULT_POSITION = (100, 100)
 DEBUG = True
+GAME_FONT = "fonts\\pixel.ttf"
 
 # Controls
 INTERACT_KEY = pg.K_f

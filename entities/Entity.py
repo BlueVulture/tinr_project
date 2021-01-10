@@ -44,7 +44,6 @@ class Entity(pg.sprite.Sprite):
             c.update()
 
     def getPosition(self):
-
         return round(self.x, 2), round(self.y, 2)
 
     def addComponent(self, component, args=None):

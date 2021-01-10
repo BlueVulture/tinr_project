@@ -152,7 +152,7 @@ class Game:
             if e.type == pg.QUIT:
                 self.quit()
             elif e.type == pg.KEYDOWN:
-                if e.key == pg.K_e:
+                if e.key == pg.K_ESCAPE:
                     if self.paused:
                         self.unpause()
                     else:

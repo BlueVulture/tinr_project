@@ -1,5 +1,6 @@
 import pygame as pg
 from config.Settings import *
+from physics.Math import euclidean, clamp
 
 
 class Component:
@@ -47,15 +48,16 @@ class Consumable(Component):
 class Interactable(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
-        self.fontSize = self.checkArgs("fontSize", 25)
-        self.font = self.checkArgs("font", "monospace")
+        self.fontSize = self.checkArgs("fontSize", 50)
+        self.font = self.checkArgs("font", GAME_FONT)
         self.gameFont = pg.font.SysFont(self.font, self.fontSize)
         self.text = self.checkArgs("text", "text")
-        self.label = self.gameFont.render(self.text, True, BLACK)
+        self.label = self.gameFont.render(self.text, True, WHITE)
 
     def collisionDetected(self, object, colType=None):
         if object.name == "player" and colType is "circle":
-            self.parent.game.renderer.addToQueue(self.label, (self.parent.x, self.parent.y-(self.fontSize+5)))
+            x = self.parent.x + self.parent.rect.width/2 - self.label.get_rect().width/2
+            self.parent.game.renderer.addToQueue(self.label, (x, self.parent.y - self.fontSize))
             for e in self.parent.game.events:
                 if e == INTERACT_KEY:
                     for k, c in self.parent.components.items():
@@ -104,15 +106,30 @@ class SoundEffect(Component):
 
         self.currentTime = 0
         self.dt = self.parent.game.dt
-        self.volume = self.checkArgs("volume")
-        if self.volume:
-            pg.mixer.Sound.set_volume(self.sound, self.volume)
+        self.maxVolume = self.checkArgs("volume")
+        if self.maxVolume:
+            pg.mixer.Sound.set_volume(self.sound, self.maxVolume)
+        self.channel = None
+        self.player = self.parent.game.player
+        self.distance = self.checkArgs("distance", 300)
 
     def update(self):
+        if self.player.name != "player":
+            self.player = self.parent.game.player
+
+        d = euclidean(self.parent.getPosition(), self.player.getPosition())
+        v = clamp(((self.distance - d)/self.distance), 0, self.maxVolume)
+        self.setVolume(v)
+        print(self.parent.getPosition(), self.player.name)
+        print(self.distance, d)
+        print("v:", v)
+        if self.channel:
+            print("c: ", self.channel.get_volume())
+
         if self.play:
             if self.currentTime == 0:
                 print("Playing sound " + self.parent.name)
-                pg.mixer.Sound.play(self.sound)
+                self.playSound()
                 self.currentTime += self.dt
             elif self.currentTime > self.time:
                 self.currentTime = 0
@@ -120,21 +137,41 @@ class SoundEffect(Component):
                 self.currentTime += self.dt
 
     def playSound(self):
-        pg.mixer.Sound.play(self.sound)
+        self.channel = pg.mixer.Sound.play(self.sound)
 
     def playSoundOnRepeat(self):
         if self.currentTime == 0:
-            # print("sound")
-            pg.mixer.Sound.play(self.sound)
+            self.channel = pg.mixer.Sound.play(self.sound)
             self.currentTime += self.dt
         elif self.currentTime > self.time:
             self.currentTime = 0
         else:
             self.currentTime += self.dt
 
+    def setVolume(self, v):
+        if self.channel:
+            self.channel.set_volume(v)
+
 
 class MusicComponent(Component):
-    pass
+    def __init__(self, parent, args):
+        super().__init__(parent, args)
+        file = self.checkArgs("sound")
+        if file is not None:
+            self.sound = self.parent.game.sounds[file]
+
+        self.volume = self.checkArgs("volume")
+        if self.volume:
+            pg.mixer.Sound.set_volume(self.sound, self.volume)
+
+        self.channel = None
+
+    def playSound(self):
+        self.channel = pg.mixer.Sound.play(self.sound)
+
+    def setVolume(self, v):
+        if self.channel:
+            self.channel.set_volume(v)
 
 
 class SceneChange(Component):
