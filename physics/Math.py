@@ -28,9 +28,8 @@ def positionWithin(check, static):
 def randomAngle(vector, angle):
     seed(pg.time.get_ticks())
     r = random()
-    angle = randrange(0, round(angle/2)) * (1 if r < 0.5 else -1)
+    angle = randrange(0, round(angle / 2)) * (1 if r < 0.5 else -1)
     x = math.cos(radians(angle)) * vector[0] - math.sin(radians(angle)) * vector[1]
     y = (math.sin(radians(angle)) * vector[0]) + (math.cos(radians(angle)) * vector[1])
 
     return x, y
-

@@ -12,3 +12,6 @@ class Timer:
             self.currentTime += (self.game.dt * 2000)
             return False
 
+    def reset(self):
+        self.currentTime = 0
+

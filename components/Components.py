@@ -62,21 +62,20 @@ class Interactable(Component):
         self.text = self.checkArgs("text", "text")
         self.label = self.gameFont.render(self.text, True, WHITE)
         self.disabled = False
+        self.displayLabel = True
 
     def collisionDetected(self, object, colType=None):
         if not self.disabled:
             if object.name == "player" and colType == "circle":
-                x = self.parent.x + self.parent.rect.width/2 - self.label.get_rect().width/2
-                self.parent.game.renderer.addToQueue(self.label, (x, self.parent.y - self.fontSize))
+                if self.displayLabel:
+                    x = self.parent.x + self.parent.rect.width/2 - self.label.get_rect().width/2
+                    self.parent.game.renderer.addToQueue(self.label, (x, self.parent.y - self.fontSize))
                 for e in self.parent.game.events:
                     if e.type == pg.KEYDOWN:
                         if e.key == INTERACT_KEY:
                             print("Interact")
                             for k, c in self.parent.components.items():
                                 c.interact()
-
-    # def disable(self):
-    #     self.disabled = True
 
 
 class Animated(Component):

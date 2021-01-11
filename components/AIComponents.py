@@ -229,14 +229,67 @@ class WanderingAI(Component):
         self.dt = self.parent.game.dt
         self.target = (self.parent.x, self.parent.y)
         self.current = (self.parent.x, self.parent.y)
+        self.dialog = self.checkArgs("dialog")
+        self.fontSize = self.checkArgs("fontSize", 25)
+        self.font = self.checkArgs("font", GAME_FONT)
+        self.gameFont = pg.font.SysFont(self.font, self.fontSize)
+        self.showDialog = False
+        self.timer = Timer(4, self.parent.game)
+        self.waitTimer = Timer(randrange(0, 5, 1), self.parent.game)
+        self.option = 0
+        self.stuck = [self.parent.getPosition()]
 
     def update(self):
+        if self.showDialog:
+            if self.timer.checkTime():
+                self.showDialog = False
+                self.parent.components["Interactable"].displayLabel = True
+                self.timer.reset()
+            else:
+                self.displayDialog()
+
         seed(pg.time.get_ticks())
         if self.aroundTarget(32):
-            self.target = (self.current[0] + (randrange(64, 65, 1) * randomNegative(self.current[0])), self.current[1] +
-                           (randrange(64, 65, 1) * randomNegative(self.current[1])))
+            if self.wait():
+                self.newTarget()
         else:
             self.moveTowards(self.target)
+            if self.checkIfStuck():
+                self.newTarget()
+
+    def newTarget(self):
+        self.target = (self.current[0] + (randrange(64, 128, 1) * randomNegative(self.current[0])), self.current[1] +
+                       (randrange(64, 65, 1) * randomNegative(self.current[1])))
+
+    def wait(self):
+        return self.waitTimer.checkTime()
+
+    def checkIfStuck(self):
+        if len(self.stuck) > 75:
+            s = n = 0
+            for pos in self.stuck:
+                s += euclidean(pos, self.parent.getPosition())
+                n += 1
+
+            if s/n < 10:
+                self.newTarget()
+
+            self.stuck = []
+        else:
+            self.stuck.append(self.parent.getPosition())
+
+
+    def interact(self):
+        r = randrange(0, len(self.dialog), 1)
+        self.option = r
+        self.showDialog = True
+        self.parent.components["Interactable"].displayLabel = False
+
+    def displayDialog(self):
+        label = self.gameFont.render(self.dialog[self.option], True, WHITE)
+        x = self.parent.x - label.get_rect().width / 2 + self.parent.rect.width/2
+        position = (x, self.parent.y - self.fontSize - 10)
+        self.parent.game.renderer.addToQueue(label, position)
 
     def moveTowards(self, position):
         direction = pg.Vector2(0, 0)
@@ -268,8 +321,32 @@ class InteractableAI(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
         self.dialog = self.checkArgs("dialog")
+        self.step = 0
+        self.fontSize = self.checkArgs("fontSize", 25)
+        self.font = self.checkArgs("font", GAME_FONT)
+        self.gameFont = pg.font.SysFont(self.font, self.fontSize)
+        self.showDialog = False
+
+    def update(self):
+        if self.showDialog:
+            self.displayDialog()
 
     def interact(self):
-        print("AI")
-        i = self.parent.components["Interactable"]
-        i.disabled = True
+        if self.step == 0:
+            self.parent.components["Interactable"].displayLabel = False
+            self.step += 1
+            self.showDialog = True
+        elif self.step >= 1:
+            self.step += 1
+
+        if self.step > len(self.dialog):
+            self.parent.components["Interactable"].displayLabel = True
+            self.showDialog = False
+            self.step = 0
+
+    def displayDialog(self, option=0):
+        label = self.gameFont.render(self.dialog[self.step-1], True, WHITE)
+        x = self.parent.x - label.get_rect().width / 2 + self.parent.rect.width/2
+        position = (x, self.parent.y - self.fontSize - 10)
+        self.parent.game.renderer.addToQueue(label, position)
+

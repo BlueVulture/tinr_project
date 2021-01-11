@@ -269,7 +269,15 @@ entities = {
                 "circle": 150
             },
             "WanderingAI": {
-                "speed": 128
+                "speed": 128,
+                "dialog": [
+                    "Oof, this heat!",
+                    "I heard the princess was kidnaped...",
+                    "Are you new in town?",
+                    "What's with 42 anyways?",
+                    "The bandits have been giving us a hard time lately...",
+                    "Have a fine day!"
+                ]
             },
             "Interactable": {
                 "text": "\'E\'"
