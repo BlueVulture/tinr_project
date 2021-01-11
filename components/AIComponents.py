@@ -82,7 +82,7 @@ class RangedEnemyAI(Component):
     def rangedWeaponAttack(self, object):
         if "player" in object.tags and not self.reloading:
             self.reloading = True
-            p = self.generator.generate("projectile", (self.parent.x, self.parent.y), gid=self.projImage+1)
+            p = self.generator.generate("projectile", (self.parent.x, self.parent.y), gid=self.projImage + 1)
             direction = pg.Vector2(0, 0)
             direction.x = object.x - self.parent.x
             direction.y = object.y - self.parent.y
@@ -271,23 +271,23 @@ class WanderingAI(Component):
                 s += euclidean(pos, self.parent.getPosition())
                 n += 1
 
-            if s/n < 10:
+            if s / n < 10:
                 self.newTarget()
 
             self.stuck = []
         else:
             self.stuck.append(self.parent.getPosition())
 
-
     def interact(self):
         r = randrange(0, len(self.dialog), 1)
         self.option = r
         self.showDialog = True
         self.parent.components["Interactable"].displayLabel = False
+        self.timer.reset()
 
     def displayDialog(self):
         label = self.gameFont.render(self.dialog[self.option], True, WHITE)
-        x = self.parent.x - label.get_rect().width / 2 + self.parent.rect.width/2
+        x = self.parent.x - label.get_rect().width / 2 + self.parent.rect.width / 2
         position = (x, self.parent.y - self.fontSize - 10)
         self.parent.game.renderer.addToQueue(label, position)
 
@@ -345,8 +345,7 @@ class InteractableAI(Component):
             self.step = 0
 
     def displayDialog(self, option=0):
-        label = self.gameFont.render(self.dialog[self.step-1], True, WHITE)
-        x = self.parent.x - label.get_rect().width / 2 + self.parent.rect.width/2
+        label = self.gameFont.render(self.dialog[self.step - 1], True, WHITE)
+        x = self.parent.x - label.get_rect().width / 2 + self.parent.rect.width / 2
         position = (x, self.parent.y - self.fontSize - 10)
         self.parent.game.renderer.addToQueue(label, position)
-
