@@ -28,25 +28,6 @@ tileTags = {
 
 # Entities
 entities = {
-    "rooster": {
-        "class": "Entity",
-        "name": "rooster",
-        "image": "rooster",
-        "scale": (0.75, 0.75),
-        "tags": ["static"],
-        "components": {
-            "Movable": {
-                "vector": pg.Vector2(0, 0)
-            },
-            "Rigidbody": {
-                "active": False,
-                "mass": 0
-            },
-            "BoxCollider": {
-                "kinematic": True
-            }
-        }
-    },
     "cameraPoint": {
         "class": "Entity",
         "name": "cameraPoint",
@@ -270,28 +251,6 @@ entities = {
             }
         }
     },
-    "blacksmith": {
-        "class": "Entity",
-        "name": "neutral",
-        "image": "blacksmith",
-        "tags": ["neutral"],
-        "components": {
-            "Rigidbody": {
-                "active": True,
-                "mass": 1
-            },
-            "BoxCollider": {
-                "kinematic": True
-            },
-            "CircleCollider": {
-                "kinematic": False,
-                "circle": 150
-            },
-            "WanderingAI": {
-                "speed": 128
-            }
-        }
-    },
     "npc": {
         "class": "Entity",
         "name": "neutral",
@@ -379,7 +338,8 @@ entities = {
             },
             "SceneChange": {
                 "scene": "House",
-                "map": "house_map.json"
+                "map": "house_map.json",
+                "position": 0
             }
         }
     },
@@ -400,6 +360,46 @@ entities = {
                 "scene": "Town",
                 "map": "town_map.json",
                 "position": 1
+            }
+        }
+    },
+    "cave": {
+        "class": "Entity",
+        "name": "Cave",
+        "image": None,
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "SceneChange": {
+                "scene": "Cave",
+                "map": "cave_map.json",
+                "position": 0
+            }
+        }
+    },
+    "castle": {
+        "class": "Entity",
+        "name": "Castle",
+        "image": None,
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "SceneChange": {
+                "scene": "Castle",
+                "map": "castle_map.json",
+                "position": 0
             }
         }
     },

@@ -46,6 +46,14 @@ def loadSounds():
     return assets
 
 
+def loadMusic():
+    assets = {}
+    for key, music in musics.items():
+        assets[key] = pg.mixer.Sound(MUSIC + music)
+
+    return assets
+
+
 def loadSheet(sheet, assets, offset=0):
     tilesize = sheet.tilesize
     count = 0

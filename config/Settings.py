@@ -5,6 +5,7 @@ import json
 # Load from
 RESOURCES = str(pathlib.Path(__file__).parent.parent.absolute()) + "\\resources\\"
 SOUNDS = str(pathlib.Path(__file__).parent.parent.absolute()) + "\\resources\\sounds\\"
+MUSIC = str(pathlib.Path(__file__).parent.parent.absolute()) + "\\resources\\music\\"
 TILEMAPS = RESOURCES + "\\tilemaps\\"
 
 # Basic window variables

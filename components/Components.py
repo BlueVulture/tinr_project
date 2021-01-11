@@ -135,55 +135,79 @@ class SoundEffect(Component):
         self.currentTime = 0
 
     def update(self):
-        if self.player.name != "player":
-            self.player = self.parent.game.player
+        if self.parent.game.settings["sound"]:
+            if self.player.name != "player":
+                self.player = self.parent.game.player
 
-        d = euclidean(self.parent.getPosition(), self.player.getPosition())
-        v = clamp(((self.distance - d)/self.distance), 0, 1)
-        self.setVolume(v*self.maxVolume)
+            d = euclidean(self.parent.getPosition(), self.player.getPosition())
+            v = clamp(((self.distance - d)/self.distance), 0, 1)
+            self.setVolume(v*self.maxVolume)
 
-        if self.play:
+            if self.play:
+                if self.currentTime == 0:
+                    print("Playing sound " + self.parent.name)
+                    self.playSound()
+                    self.currentTime += self.dt
+                elif self.currentTime > self.time:
+                    self.currentTime = 0
+                else:
+                    self.currentTime += self.dt
+
+    def playSound(self):
+        self.channel = pg.mixer.Sound.play(self.sound)
+
+    def playSoundOnRepeat(self):
+        if self.parent.game.settings["sound"]:
             if self.currentTime == 0:
-                print("Playing sound " + self.parent.name)
-                self.playSound()
+                self.channel = pg.mixer.Sound.play(self.sound)
                 self.currentTime += self.dt
             elif self.currentTime > self.time:
                 self.currentTime = 0
             else:
                 self.currentTime += self.dt
 
-    def playSound(self):
-        self.channel = pg.mixer.Sound.play(self.sound)
-
-    def playSoundOnRepeat(self):
-        if self.currentTime == 0:
-            self.channel = pg.mixer.Sound.play(self.sound)
-            self.currentTime += self.dt
-        elif self.currentTime > self.time:
-            self.currentTime = 0
-        else:
-            self.currentTime += self.dt
-
     def setVolume(self, v):
         if self.channel:
             self.channel.set_volume(v)
 
 
-class MusicComponent(Component):
+class MusicPlayer(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
         file = self.checkArgs("sound")
         if file is not None:
-            self.sound = self.parent.game.sounds[file]
+            self.sound = self.parent.game.music[file]
 
         self.volume = self.checkArgs("volume")
         if self.volume:
             pg.mixer.Sound.set_volume(self.sound, self.volume)
 
         self.channel = None
+        self.time = pg.mixer.Sound.get_length(self.sound)
+        self.currentTime = 0
+        self.dt = self.parent.game.dt
+
+    def update(self):
+        if self.parent.game.settings["music"]:
+            if self.channel:
+                if self.channel.get_volume() <= 0:
+                    self.setVolume(self.volume)
+            if self.currentTime == 0:
+                self.channel = pg.mixer.Sound.play(self.sound)
+                self.currentTime += self.dt
+            elif self.currentTime >= self.time:
+                self.currentTime = 0
+            else:
+                self.currentTime += self.dt
+        else:
+            self.setVolume(0)
 
     def playSound(self):
         self.channel = pg.mixer.Sound.play(self.sound)
+
+    def stop(self):
+        if self.channel:
+            self.channel.stop()
 
     def setVolume(self, v):
         if self.channel:

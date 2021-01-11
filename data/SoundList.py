@@ -7,3 +7,7 @@ sounds = {
     "dry_grass_step_": "dry_grass_step.wav",
 }
 
+musics = {
+    "main_menu_music": "our_mountain.mp3"
+}
+

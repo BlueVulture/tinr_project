@@ -15,6 +15,20 @@ class Level:
         self.gui = False
         if scene:
             self.scene = scene
+        self.components = {}
+
+    def update(self):
+        for k, c in self.components.items():
+            c.update()
+
+    def stop(self):
+        pass
+
+    def addComponent(self, component, args=None):
+        if args is None:
+            self.components[component.__name__] = component
+        else:
+            self.components[component.__name__] = component(self, args)
 
     def buildLevel(self):
         print(self.scene)

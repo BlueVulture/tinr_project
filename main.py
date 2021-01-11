@@ -94,6 +94,7 @@ class Game:
         self.all_images_offset.append(loadSheet(objectsSheet, self.all_images))
         print(self.all_images_offset)
         self.sounds = loadSounds()
+        self.music = loadMusic()
 
     def init(self):
         """ Initialize gamestate """
@@ -124,6 +125,8 @@ class Game:
                 break
 
     def setLevel(self, level, tilemap):
+        if self.level:
+            self.level.stop()
         self.level = eval(level)(tilemap, self, scene=Scene())
         self.level.buildLevel()
         self.drawGui = self.level.gui
@@ -142,6 +145,8 @@ class Game:
 
         for o in self.gui.components:
             o.update()
+
+        self.level.update()
 
         self.fpsCounter.setText(str(int(self.clock.get_fps())))
         # self.camera.update(self.player)

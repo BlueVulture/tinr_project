@@ -12,6 +12,7 @@ class Player(Entity):
         self.sound = None
         self.label = None
         self.health = 10
+        self.speed = PLAYER_SPEED
 
     def init(self):
         self.sound = self.components["SoundEffect"]
@@ -23,6 +24,7 @@ class Player(Entity):
 
     def update(self):
         # print(self.health)
+        self.checkSprint()
         if self.health <= 0:
             self.game.gameOver()
         self.move()
@@ -52,8 +54,8 @@ class Player(Entity):
         if velocity.length() != 0:
             velocity = velocity.normalize()
 
-        self.x += velocity.x * PLAYER_SPEED * self.game.dt
-        self.y += velocity.y * PLAYER_SPEED * self.game.dt
+        self.x += velocity.x * self.speed * self.game.dt
+        self.y += velocity.y * self.speed * self.game.dt
 
         self.rect.x = self.x
         self.rect.y = self.y
@@ -69,3 +71,10 @@ class Player(Entity):
         if self.moving:
             # print("playing")
             self.sound.playSoundOnRepeat()
+
+    def checkSprint(self):
+        keys = pg.key.get_pressed()
+        if keys[pg.K_LSHIFT]:
+            self.speed = PLAYER_SPEED * 2
+        else:
+            self.speed = PLAYER_SPEED

@@ -103,6 +103,17 @@
                  "width":16,
                  "x":464,
                  "y":433
+                }, 
+                {
+                 "height":16,
+                 "id":161,
+                 "name":"",
+                 "rotation":0,
+                 "type":"cave",
+                 "visible":true,
+                 "width":16,
+                 "x":736,
+                 "y":160
                 }],
          "opacity":1,
          "properties":[
@@ -1168,7 +1179,7 @@
          "y":0
         }],
  "nextlayerid":17,
- "nextobjectid":161,
+ "nextobjectid":162,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.3",
