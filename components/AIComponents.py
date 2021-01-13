@@ -110,48 +110,6 @@ class RangedEnemyAI(Component):
             self.parent.rect.y = self.parent.y
 
 
-class Projectile(Component):
-    def __init__(self, parent, args):
-        super().__init__(parent, args)
-        self.originalImage = self.parent.image
-        self.speed = self.checkArgs("speed")
-        self.screen = self.parent.game.renderer.screen
-        self.camera = self.parent.game.renderer.camera
-        self.timer = Timer(2, self.parent.game)
-        self.vector = pg.Vector2(0, 0)
-        self.damage = 0
-        self.angle = 0
-        self.angle_change = 10
-
-    def update(self):
-        # print(self.timer.currentTime)
-        self.parent.x += self.vector.x * self.speed * self.parent.game.dt
-        self.parent.y += self.vector.y * self.speed * self.parent.game.dt
-
-        # orig_rect = self.originalImage.get_rect()
-        # rot_image = pg.transform.rotate(self.originalImage, self.angle)
-        # rot_rect = orig_rect.copy()
-        # rot_rect.center = rot_image.get_rect().center
-        # self.parent.image = rot_image.subsurface(rot_rect).copy()
-
-        self.parent.rect.x = self.parent.x
-        self.parent.rect.y = self.parent.y
-        self.angle += self.angle_change
-        self.angle = self.angle % 360
-
-        if self.timer.checkTime():
-            self.die()
-
-    def collisionDetected(self, collider, colType=None):
-        # print("goteem")
-        if collider.name == "player":
-            collider.damaged(self.damage)
-            self.die()
-
-    def die(self):
-        self.parent.game.level.scene.removeEntity(self.parent, self.parent.id)
-
-
 class AnimalAI(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)

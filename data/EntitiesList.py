@@ -158,6 +158,9 @@ entities = {
                 "damage": 10,
                 "weapon": AXE,
                 "projImage": AXE_THROW
+            },
+            "Damageble": {
+                "health": 1
             }
         }
     },
@@ -177,9 +180,11 @@ entities = {
             },
             "Projectile": {
                 "speed": 300,
+                "playerInteract": True
             },
             "Rotatable": {
-                "angleChange": 10
+                "angleChange": 10,
+                "continous": True
             }
         }
     },
@@ -462,6 +467,38 @@ entities = {
             "Interactable": {
                 "text": "\'E\'"
             },
+        }
+    },
+    "arrow": {
+        "class": "Entity",
+        "name": "projectile",
+        "image": None,
+        "tags": ["projectile"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 1
+            },
+            "CircleCollider": {
+                "kinematic": True,
+                "circle": 32
+            },
+            "Projectile": {
+                "speed": 600,
+                "playerInteract": False
+            },
+            "Rotatable": {
+                "continous": False
+            },
+            "SoundEffect": {
+                "play": True,
+                "time": 9999,
+                "sound": "bow",
+                "volume": 1
+            },
+            "Damageble": {
+                "health": 1
+            }
         }
     },
 }

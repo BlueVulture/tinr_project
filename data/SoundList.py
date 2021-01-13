@@ -5,6 +5,7 @@ sounds = {
     "campfire_s": "campfire.wav",
     "grass_step_s": "grass_step.wav",
     "dry_grass_step_": "dry_grass_step.wav",
+    "bow": "bow.wav"
 }
 
 musics = {

@@ -1,4 +1,6 @@
 import pygame as pg
+
+from components.Timer import Timer
 from config.Settings import *
 from physics.Math import euclidean, clamp
 
@@ -126,6 +128,7 @@ class SoundEffect(Component):
         self.channel = None
         self.player = self.parent.game.player
         self.distance = self.checkArgs("distance", 300)
+        self.playOnce = self.checkArgs("playOnce", False)
 
     def disabledUpdate(self):
         if self.channel:
@@ -144,7 +147,7 @@ class SoundEffect(Component):
 
             if self.play:
                 if self.currentTime == 0:
-                    print("Playing sound " + self.parent.name)
+                    # print("Playing sound " + self.parent.name)
                     self.playSound()
                     self.currentTime += self.dt
                 elif self.currentTime > self.time:
@@ -249,4 +252,56 @@ class SwitchState(Component):
         for c in self.components:
             self.parent.components[c].disabled = True
         self.state = False
+
+
+class Damageble(Component):
+    def __init__(self, parent, args):
+        super().__init__(parent, args)
+        self.health = self.checkArgs("health", None)
+        self.parent.addTag("damagable")
+
+    def applyDamage(self, damage):
+        if self.health:
+            self.health -= 1
+            if self.health <= 0:
+                self.die()
+
+    def die(self):
+        self.parent.game.level.scene.removeEntity(self.parent, self.parent.id)
+
+
+class Projectile(Component):
+    def __init__(self, parent, args):
+        super().__init__(parent, args)
+        self.originalImage = self.parent.image
+        self.speed = self.checkArgs("speed")
+        self.screen = self.parent.game.renderer.screen
+        self.camera = self.parent.game.renderer.camera
+        self.timer = Timer(2, self.parent.game)
+        self.vector = pg.Vector2(0, 0)
+        self.damage = 0
+        self.interactPlayer = self.checkArgs("interactPlayer")
+
+    def update(self):
+        # print(self.timer.currentTime)
+        self.parent.x += self.vector.x * self.speed * self.parent.game.dt
+        self.parent.y += self.vector.y * self.speed * self.parent.game.dt
+
+        self.parent.rect.x = self.parent.x
+        self.parent.rect.y = self.parent.y
+
+        if self.timer.checkTime():
+            self.die()
+
+    def collisionDetected(self, collider, colType=None):
+        # print("goteem")
+        if collider.name == "player" and self.interactPlayer:
+            collider.components["Damageble"].applyDamage(self.damage)
+            self.die()
+        elif "damagable" in collider.tags:
+            collider.components["Damageble"].applyDamage(self.damage)
+            self.die()
+
+    def die(self):
+        self.parent.game.level.scene.removeEntity(self.parent, self.parent.id)
 

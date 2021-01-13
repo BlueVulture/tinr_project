@@ -85,6 +85,7 @@ class Renderer:
             self.game.menuManager.render(self.debug)
             if self.debug and DEBUG:
                 pg.draw.line(self.screen, WHITE, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
+                pg.draw.line(self.screen, WHITE, (0, HEIGHT / 2), (WIDTH, HEIGHT / 2))
 
     def drawColliders(self):
         for o in self.game.level.scene.updatable:

@@ -21,17 +21,30 @@ class Rotatable(Component):
         super().__init__(parent, args)
         self.originalImage = self.parent.image
         self.angle = 0
-        self.angleChange = self.checkArgs("angleChange")
+        self.angleChange = self.checkArgs("angleChange", 0)
+        self.continous = self.checkArgs("continous")
 
     def physicsUpdate(self):
+        if self.continous:
+            self.setRotation(self.angle)
+            self.angle += self.angleChange
+            self.angle = self.angle % 360
+
+        # orig_rect = self.originalImage.get_rect()
+        # rot_image = pg.transform.rotate(self.originalImage, self.angle)
+        # rot_rect = orig_rect.copy()
+        # rot_rect.center = rot_image.get_rect().center
+        # self.parent.image = rot_image.subsurface(rot_rect).copy()
+        #
+        # self.angle += self.angleChange
+        # self.angle = self.angle % 360
+
+    def setRotation(self, angle):
         orig_rect = self.originalImage.get_rect()
-        rot_image = pg.transform.rotate(self.originalImage, self.angle)
+        rot_image = pg.transform.rotate(self.originalImage, angle)
         rot_rect = orig_rect.copy()
         rot_rect.center = rot_image.get_rect().center
         self.parent.image = rot_image.subsurface(rot_rect).copy()
-
-        self.angle += self.angleChange
-        self.angle = self.angle % 360
 
 
 class Rigidbody(Component):

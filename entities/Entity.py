@@ -64,6 +64,5 @@ class Entity(pg.sprite.Sprite):
         preScale = self.image.get_rect()
         self.image = pg.transform.scale(self.image, (int(preScale.width * self.scale[0]), int(preScale.height * self.scale[1])))
 
-
     def addTag(self, tag):
         self.tags.append(tag)

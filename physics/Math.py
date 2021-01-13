@@ -29,7 +29,34 @@ def randomAngle(vector, angle):
     seed(pg.time.get_ticks())
     r = random()
     angle = randrange(0, round(angle / 2)) * (1 if r < 0.5 else -1)
+
+    return rotateVector(vector, angle)
+
+
+def rotateVector(vector, angle):
     x = math.cos(radians(angle)) * vector[0] - math.sin(radians(angle)) * vector[1]
     y = (math.sin(radians(angle)) * vector[0]) + (math.cos(radians(angle)) * vector[1])
 
     return x, y
+
+
+def subTuples(t1, t2):
+    return t1[0]-t2[0], t1[1]-t2[1]
+
+
+def sumTuples(t1, t2):
+    return t1[0]+t2[0], t1[1]+t2[1]
+
+
+def angleBetweenVectors(vector1, vector2):
+    angle = math.degrees(math.acos(dot(vector1, vector2)))
+    vector2 = rotateVector(vector2, 90)
+    direction = vector1[0] * vector2[0] - vector1[1] * vector2[1]
+    if direction < 0:
+        return angle*-1
+    else:
+        return angle
+
+
+def dot(vector1, vector2):
+    return vector1[0] * vector2[0] + vector1[1] * vector2[1]

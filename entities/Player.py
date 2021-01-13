@@ -1,7 +1,10 @@
 import pygame as pg
 
+from components.Timer import Timer
 from config.Settings import *
+from data.ImageList import *
 from entities.Entity import Entity
+from physics.Math import *
 
 
 class Player(Entity):
@@ -13,6 +16,11 @@ class Player(Entity):
         self.label = None
         self.health = 10
         self.speed = PLAYER_SPEED
+        self.reloading = False
+        self.reloadTimer = Timer(1, self.game)
+        self.generator = self.game.level.generator
+        self.projImage = ARROW
+        self.damage = 1
 
     def init(self):
         self.sound = self.components["SoundEffect"]
@@ -23,18 +31,23 @@ class Player(Entity):
         self.health -= damage
 
     def update(self):
-        # print(self.health)
         self.checkSprint()
+
+        if self.reloading:
+            if self.reloadTimer.checkTime():
+                self.reloading = False
+                self.reloadTimer.reset()
+            # print(self.reloadTimer.currentTime)
+        else:
+            self.checkMouse()
+
         if self.health <= 0:
             self.game.gameOver()
         self.move()
-        for i, c in self.components.items():
-            # c.action()
-            pass
+
         if self.sound:
             self.playSound()
 
-        # print(self.label.name)
         if self.label:
             self.label.setText(self.getPosition())
 
@@ -78,3 +91,29 @@ class Player(Entity):
             self.speed = PLAYER_SPEED * 2
         else:
             self.speed = PLAYER_SPEED
+
+    def checkMouse(self):
+        for e in self.game.events:
+            if e.type == pg.MOUSEBUTTONDOWN:
+                pos = pg.mouse.get_pos()
+                pos = self.game.renderer.camera.screenToWorld(pos)
+                print("shoot!", pos)
+                self.shoot(pos)
+
+    def shoot(self, position):
+        self.reloading = True
+        p = self.generator.generate("arrow", (self.x, self.y), gid=self.projImage + 1)
+        direction = pg.Vector2(0, 0)
+        direction.x = position[0] - self.x
+        direction.y = position[1] - self.y
+
+        if direction.length() != 0:
+            direction = direction.normalize()
+
+        angle = angleBetweenVectors((0, -1), direction)
+        print(angle)
+
+        p.components["Projectile"].vector = pg.Vector2(direction)
+        p.components["Projectile"].damage = self.damage
+        p.components["Rotatable"].setRotation(45-angle)
+        self.game.level.scene.addEntity(p, "object", 3, p.id, updatable=True)
