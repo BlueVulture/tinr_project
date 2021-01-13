@@ -133,6 +133,9 @@ entities = {
                 "speed": 200,
                 "damage": 0.5,
                 "weapon": SWORD
+            },
+            "Damageble": {
+                "health": 1
             }
         }
     },
@@ -499,6 +502,36 @@ entities = {
             "Damageble": {
                 "health": 1
             }
+        }
+    },
+    "torch": {
+        "class": "Entity",
+        "name": "torch",
+        "image": None,
+        "scale": (1, 1),
+        "tags": ["static"],
+        "components": {
+            "Animated": {
+                "images": [473, 474],
+                "time": 1
+            },
+            "SoundEffect": {
+                "play": True,
+                "time": "length",
+                "sound": "campfire_s",
+                "volume": 0.25,
+                "distance": 200
+            },
+            "ParticleSystem": {
+                "vector": (0, -1),
+                "offset": (0, 0),
+                "angle": 25,
+                "particle": 3171,
+                "speed": 100,
+                "timeToLive": 1,
+                "frequency": 5,
+                "size": (0.25, 0.25)
+            },
         }
     },
 }

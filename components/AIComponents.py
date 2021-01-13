@@ -92,6 +92,7 @@ class RangedEnemyAI(Component):
 
             p.components["Projectile"].vector = pg.Vector2(direction)
             p.components["Projectile"].damage = self.damage
+            p.components["Projectile"].firedFrom = self.parent
             self.parent.game.level.scene.addEntity(p, "object", 3, p.id, updatable=True)
 
     def moveAway(self, object):

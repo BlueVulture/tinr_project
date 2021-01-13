@@ -258,13 +258,20 @@ class Damageble(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
         self.health = self.checkArgs("health", None)
+        self.maxHealth = self.checkArgs("maxHealth", self.health)
         self.parent.addTag("damagable")
 
     def applyDamage(self, damage):
         if self.health:
-            self.health -= 1
+            self.health -= damage
             if self.health <= 0:
                 self.die()
+
+    def restoreHealth(self, restore):
+        if self.health:
+            self.health += restore
+            if self.health > self.maxHealth:
+                self.health = self.maxHealth
 
     def die(self):
         self.parent.game.level.scene.removeEntity(self.parent, self.parent.id)
@@ -281,6 +288,7 @@ class Projectile(Component):
         self.vector = pg.Vector2(0, 0)
         self.damage = 0
         self.interactPlayer = self.checkArgs("interactPlayer")
+        self.firedFrom = None
 
     def update(self):
         # print(self.timer.currentTime)
@@ -298,7 +306,8 @@ class Projectile(Component):
         if collider.name == "player" and self.interactPlayer:
             collider.components["Damageble"].applyDamage(self.damage)
             self.die()
-        elif "damagable" in collider.tags:
+        elif "damagable" in collider.tags and collider is not self.firedFrom:
+            print(collider, self.firedFrom)
             collider.components["Damageble"].applyDamage(self.damage)
             self.die()
 
