@@ -29,6 +29,7 @@ class Gui:
                     return c
         elif id:
             for c in self.components:
+                print(c.id, id)
                 if c.id == id:
                     return c
 
@@ -51,10 +52,16 @@ class GuiGenerator:
         gui = Gui(self.game)
 
         for k, o in interfaceList.items():
-            args = o["args"]
-            args["name"] = o["name"]
-            args["id"] = k
-            component = eval(o["type"])(gui, args, self.game.gameDisplay.screen)
-            gui.components.append(component)
+            c = self.addComponent(gui, k, o)
+            print(c)
+            gui.components.append(c)
 
         return gui
+
+    def addComponent(self, gui, k, o):
+        args = o["args"]
+        args["name"] = o["name"]
+        args["id"] = k
+        component = eval(o["type"])(gui, args, self.game.gameDisplay.screen)
+        return component
+

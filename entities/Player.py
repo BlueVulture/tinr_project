@@ -116,4 +116,5 @@ class Player(Entity):
         p.components["Projectile"].vector = pg.Vector2(direction)
         p.components["Projectile"].damage = self.damage
         p.components["Rotatable"].setRotation(45-angle)
+        p.components["Projectile"].firedFrom = self
         self.game.level.scene.addEntity(p, "object", 3, p.id, updatable=True)

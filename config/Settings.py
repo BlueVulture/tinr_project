@@ -23,7 +23,7 @@ TM_ROW = 16
 TM_COL = 16
 IMAGE_TILESIZE = 16
 DEFAULT_POSITION = (100, 100)
-DEBUG = True
+DEBUG = False
 GAME_FONT = "fonts\\pixel.ttf"
 
 # Controls

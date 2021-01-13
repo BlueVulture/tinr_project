@@ -36,6 +36,36 @@ class GuiComponent:
             return None
 
 
+class Container(GuiComponent):
+    def __init__(self, parent, args, screen):
+        super().__init__(parent, args, screen)
+        self.items = []
+        self.position = self.checkArgs("position")
+        # self.addImage(FULL_HEART, (0 * 64, 0))
+
+    def update(self):
+        # print(self.items)
+        pass
+
+    def clear(self):
+        self.items = []
+
+    def addImage(self, image, position):
+        print("adding")
+        args = {
+            "name": "image"+str(len(self.items)),
+            "id": str(self.id)+"Child"+str(len(self.items)),
+            "image": image,
+            "position": sumTuples(self.position, position)
+        }
+        component = ImageBox(self.parent, args, self.parent.game.gameDisplay.screen)
+        self.items.append(component)
+
+    def render(self, debug=False):
+        for i in self.items:
+            i.render(debug=debug)
+
+
 class TextBox(GuiComponent):
     def __init__(self, parent, args, screen):
         super().__init__(parent, args, screen)
@@ -72,7 +102,10 @@ class ImageBox(GuiComponent):
     def __init__(self, parent, args, screen):
         super().__init__(parent, args, screen)
         image = self.checkArgs("image")
-        self.image = self.parent.game.named_images[image]
+        if type(image) is int:
+            self.image = self.parent.game.all_images[image]
+        else:
+            self.image = self.parent.game.named_images[image]
         self.position = self.checkArgs("position")
         self.centered = self.checkArgs("centered")
         self.rect = self.image.get_rect()

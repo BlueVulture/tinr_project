@@ -15,44 +15,11 @@ interface = {
             "position": (WIDTH / 2 - 48, 0)
         }
     },
-    "heart_1": {
-        "type": "ImageBox",
-        "name": "H1",
+    "player_health": {
+        "type": "Container",
+        "name": "PlayerHealth",
         "args": {
-            "image": "heart",
             "position": (0, 0)
-        }
-    },
-    "heart_2": {
-        "type": "ImageBox",
-        "name": "H2",
-        "args": {
-            "image": "heart",
-            "position": (63, 0)
-        }
-    },
-    "heart_3": {
-        "type": "ImageBox",
-        "name": "H3",
-        "args": {
-            "image": "heart",
-            "position": (126, 0)
-        }
-    },
-"heart_4": {
-        "type": "ImageBox",
-        "name": "H4",
-        "args": {
-            "image": "heart",
-            "position": (189, 0)
-        }
-    },
-"heart_5": {
-        "type": "ImageBox",
-        "name": "H5",
-        "args": {
-            "image": "heart",
-            "position": (252, 0)
         }
     },
     "position_text": {
@@ -263,7 +230,7 @@ menuInterfaces = {
                     "background": None,
                     "color": GREEN,
                     "size": (256, 64),
-                    "position": ((WIDTH / 2)+138, 600),
+                    "position": ((WIDTH / 2) + 138, 600),
                     "centered": True,
                     "action": "back"
                 }
@@ -277,7 +244,7 @@ menuInterfaces = {
                     "background": None,
                     "color": GREEN,
                     "size": (256, 64),
-                    "position": ((WIDTH / 2)-138, 600),
+                    "position": ((WIDTH / 2) - 138, 600),
                     "centered": True,
                     "action": "save"
                 }
@@ -347,7 +314,7 @@ menuInterfaces = {
                     "background": None,
                     "color": GREEN,
                     "size": (256, 64),
-                    "position": ((WIDTH / 2)+138, 600),
+                    "position": ((WIDTH / 2) + 138, 600),
                     "centered": True,
                     "action": "reset"
                 }
@@ -361,7 +328,7 @@ menuInterfaces = {
                     "background": None,
                     "color": GREEN,
                     "size": (256, 64),
-                    "position": ((WIDTH / 2)-138, 600),
+                    "position": ((WIDTH / 2) - 138, 600),
                     "centered": True,
                     "action": "quit"
                 }

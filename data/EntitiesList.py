@@ -109,6 +109,10 @@ entities = {
                 "time": 0.2,
                 "sound": "grass_step_s",
                 "volume": 1
+            },
+            "Damageble": {
+                "health": 10,
+                "guiHealthContainer": "player_health"
             }
         }
     },
@@ -158,6 +162,34 @@ entities = {
             },
             "RangedEnemyAI": {
                 "speed": 128,
+                "damage": 2,
+                "weapon": AXE,
+                "projImage": AXE_THROW
+            },
+            "Damageble": {
+                "health": 1
+            }
+        }
+    },
+    "orc_boss": {
+        "class": "Entity",
+        "name": "enemy",
+        "image": None,
+        "tags": ["enemy"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 1
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 250
+            },
+            "RangedEnemyAI": {
+                "speed": 128,
                 "damage": 10,
                 "weapon": AXE,
                 "projImage": AXE_THROW
@@ -183,7 +215,6 @@ entities = {
             },
             "Projectile": {
                 "speed": 300,
-                "playerInteract": True
             },
             "Rotatable": {
                 "angleChange": 10,
@@ -488,7 +519,6 @@ entities = {
             },
             "Projectile": {
                 "speed": 600,
-                "playerInteract": False
             },
             "Rotatable": {
                 "continous": False

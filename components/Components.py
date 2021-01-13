@@ -2,6 +2,7 @@ import pygame as pg
 
 from components.Timer import Timer
 from config.Settings import *
+from data.ImageList import *
 from physics.Math import euclidean, clamp
 
 
@@ -260,18 +261,45 @@ class Damageble(Component):
         self.health = self.checkArgs("health", None)
         self.maxHealth = self.checkArgs("maxHealth", self.health)
         self.parent.addTag("damagable")
+        self.guiID = self.checkArgs("guiHealthContainer", None)
+        self.guiHealthContainer = None
+        if self.guiID:
+            self.guiHealthContainer = self.parent.game.gui.getElement(id=self.guiID)
+            self.updateGui()
 
     def applyDamage(self, damage):
         if self.health:
             self.health -= damage
             if self.health <= 0:
+                if self.parent.name == "player":
+                    self.parent.game.gameOver()
                 self.die()
+            self.updateGui()
 
     def restoreHealth(self, restore):
         if self.health:
             self.health += restore
             if self.health > self.maxHealth:
                 self.health = self.maxHealth
+            self.updateGui()
+
+    def updateGui(self):
+        print("Updating")
+        count = 0
+        if self.guiHealthContainer:
+            self.guiHealthContainer.clear()
+            for i in range(int(self.health / 2)):
+                self.guiHealthContainer.addImage(FULL_HEART, (count*64, 0))
+                count += 1
+
+            if self.health % 2 == 1:
+                self.guiHealthContainer.addImage(HALF_HEART, (count*64, 0))
+                count += 1
+
+            for i in range(int((self.maxHealth-self.health) / 2)):
+                self.guiHealthContainer.addImage(EMPTY_HEART, (count * 64, 0))
+                count += 1
+        print(count)
 
     def die(self):
         self.parent.game.level.scene.removeEntity(self.parent, self.parent.id)
@@ -303,10 +331,10 @@ class Projectile(Component):
 
     def collisionDetected(self, collider, colType=None):
         # print("goteem")
-        if collider.name == "player" and self.interactPlayer:
-            collider.components["Damageble"].applyDamage(self.damage)
-            self.die()
-        elif "damagable" in collider.tags and collider is not self.firedFrom:
+        # if collider.name == "player" and self.interactPlayer:
+        #     collider.components["Damageble"].applyDamage(self.damage)
+        #     self.die()
+        if "damagable" in collider.tags and collider is not self.firedFrom:
             print(collider, self.firedFrom)
             collider.components["Damageble"].applyDamage(self.damage)
             self.die()
