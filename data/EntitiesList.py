@@ -3,27 +3,27 @@ from data.SoundList import *
 
 # Object tags to entities
 
-entityTags = {
-    "P": "player",
-    "R": "rooster",
-    "C": "campfire",
-    "E": "enemy",
-    "O": "orc",
-    "T": "tree",
-    "t": "tent",
-    "B": "blacksmith",
-    ".": None,
-    "\n": None
-}
-
-# Tile tags to entities
-tileTags = {
-    ".": "grass_1",
-    ":": "grass_2",
-    ",": "stone_1",
-    ";": "stone_2",
-    "\n": None
-}
+# entityTags = {
+#     "P": "player",
+#     "R": "rooster",
+#     "C": "campfire",
+#     "E": "enemy",
+#     "O": "orc",
+#     "T": "tree",
+#     "t": "tent",
+#     "B": "blacksmith",
+#     ".": None,
+#     "\n": None
+# }
+#
+# # Tile tags to entities
+# tileTags = {
+#     ".": "grass_1",
+#     ":": "grass_2",
+#     ",": "stone_1",
+#     ";": "stone_2",
+#     "\n": None
+# }
 
 
 # Entities
@@ -135,12 +135,19 @@ entities = {
             },
             "EnemyAI": {
                 "speed": 200,
-                "damage": 0.5,
-                "weapon": SWORD
+                "damage": 1,
+                "weapon": SWORD,
+                "cooldown": 1
             },
             "Damageble": {
                 "health": 1
-            }
+            },
+            "SoundEffect": {
+                "play": False,
+                "time": 9999,
+                "sound": "sword",
+                "volume": 0.25
+            },
         }
     },
     "enemy_throw": {
@@ -179,7 +186,7 @@ entities = {
         "components": {
             "Rigidbody": {
                 "active": True,
-                "mass": 1
+                "mass": 0
             },
             "BoxCollider": {
                 "kinematic": True
@@ -188,14 +195,16 @@ entities = {
                 "kinematic": False,
                 "circle": 250
             },
-            "RangedEnemyAI": {
-                "speed": 128,
-                "damage": 10,
-                "weapon": AXE,
-                "projImage": AXE_THROW
-            },
             "Damageble": {
                 "health": 1
+            },
+            "BossAI": {
+                "speed": 256,
+                "damage": 10,
+                "projImage": AXE_THROW,
+                "projSpeed": 300,
+                "waypoints": [(256, 192), (640 ,192)],
+
             }
         }
     },

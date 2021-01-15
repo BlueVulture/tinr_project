@@ -18,9 +18,16 @@ class EnemyAI(Component):
         self.weapon = self.checkArgs("weapon")
         self.camera = self.parent.game.renderer.camera
         self.screen = self.parent.game.renderer.screen
+        self.cooldown = self.checkArgs("cooldown", 1)
+        self.timer = Timer(self.cooldown, self.parent.game)
+        self.attackOnCooldown = False
+        self.damage = self.checkArgs("damage")
 
     def update(self):
-        pass
+        if self.attackOnCooldown:
+            if self.timer.checkTime():
+                self.attackOnCooldown = False
+                self.timer.reset()
 
     def draw(self):
         if self.weapon:
@@ -30,6 +37,11 @@ class EnemyAI(Component):
     def collisionDetected(self, collider, colType=None):
         # print("Enemy in sights!")
         self.moveTowards(collider)
+        if collider.name == "player" and colType == "box":
+            if not self.attackOnCooldown:
+                collider.components["Damageble"].applyDamage(self.damage)
+                self.parent.components["SoundEffect"].playSound()
+                self.attackOnCooldown = True
 
     def moveTowards(self, object):
         if "player" in object.tags:
@@ -308,3 +320,67 @@ class InteractableAI(Component):
         x = self.parent.x - label.get_rect().width / 2 + self.parent.rect.width / 2
         position = (x, self.parent.y - self.fontSize - 10)
         self.parent.game.renderer.addToQueue(label, position)
+
+
+class BossAI(Component):
+    def __init__(self, parent, args):
+        super().__init__(parent, args)
+        self.speed = self.checkArgs("speed")
+        self.waypoints = self.checkArgs("waypoints", [(0, 0)])
+        self.projImage = self.checkArgs("projImage")
+        self.projSpeed = self.checkArgs("projSpeed")
+        self.damage = self.checkArgs("damage")
+        self.current = (self.parent.x, self.parent.y)
+        self.dt = self.parent.game.dt
+        self.state = 0
+        self.currentWaypoint = 0
+        self.target = self.waypoints[self.currentWaypoint]
+
+    def update(self):
+        if self.state == 0:
+            pass
+        if self.state == 1:
+            self.moveWaypoints()
+
+    def changeState(self):
+        pass
+
+    def waitForInteract(self):
+        pass
+
+    def collisionDetected(self, collider, colType=None):
+        self.state = 1
+
+    def moveWaypoints(self):
+        if self.aroundTarget(2):
+            self.currentWaypoint += 1
+            if self.currentWaypoint >= len(self.waypoints):
+                self.currentWaypoint = 0
+            self.target = self.waypoints[self.currentWaypoint]
+        else:
+            self.moveTowards(self.target)
+
+    def moveTowards(self, position):
+        direction = pg.Vector2(0, 0)
+        direction.x = position[0] - self.parent.x
+        direction.y = position[1] - self.parent.y
+
+        if direction.length() != 0:
+            direction = direction.normalize()
+
+        self.parent.x += direction.x * self.speed * self.dt
+        self.parent.y += direction.y * self.speed * self.dt
+
+        self.parent.rect.x = self.parent.x
+        self.parent.rect.y = self.parent.y
+
+        self.current = self.parent.getPosition()
+
+    def aroundTarget(self, distance):
+        # print((self.current, self.target))
+        if abs(euclidean(self.current, self.target)) < distance:
+            return True
+        return False
+
+
+
