@@ -20,7 +20,7 @@ class Player(Entity):
         self.reloadTimer = Timer(1, self.game)
         self.generator = self.game.level.generator
         self.projImage = ARROW
-        self.damage = 1
+        self.damage = 2
 
     def init(self):
         self.sound = self.components["SoundEffect"]

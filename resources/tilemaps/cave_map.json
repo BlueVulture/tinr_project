@@ -337,7 +337,7 @@
                  "id":44,
                  "name":"",
                  "rotation":0,
-                 "type":"town",
+                 "type":"town_3",
                  "visible":true,
                  "width":128,
                  "x":64,
@@ -408,6 +408,18 @@
                  "width":32,
                  "x":208,
                  "y":48
+                }, 
+                {
+                 "gid":1353,
+                 "height":16,
+                 "id":56,
+                 "name":"",
+                 "rotation":0,
+                 "type":"upgrade",
+                 "visible":true,
+                 "width":16,
+                 "x":128,
+                 "y":16
                 }],
          "opacity":1,
          "properties":[
@@ -571,7 +583,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":56,
+ "nextobjectid":57,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.3",

@@ -10,6 +10,12 @@ sounds = {
 }
 
 musics = {
-    "main_menu_music": "our_mountain.mp3"
+    "main_menu_music": "our_mountain.mp3",
+    "town": "winding_down.mp3",
+    "cave": "spells.mp3",
+    "castle": "gentle_closure.mp3",
+    "inn": "ye_olde_pub.mp3",
+    "boss": "arcade.mp3",
+    "victory": "fun_times.mp3"
 }
 

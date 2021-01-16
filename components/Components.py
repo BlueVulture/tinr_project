@@ -31,6 +31,9 @@ class Component:
     def draw(self):
         pass
 
+    def onDeath(self):
+        pass
+
     def disabledUpdate(self):
         pass
 
@@ -49,10 +52,30 @@ class Component:
 class Consumable(Component):
     def __init__(self, parent, args):
         super().__init__(parent, args)
+        self.restore = self.checkArgs("restoreHP")
+        self.hp = self.checkArgs("hp")
+        self.text = self.checkArgs("text")
+        self.fontSize = self.checkArgs("fontSize", 50)
+        self.font = self.checkArgs("font", GAME_FONT)
+        self.gameFont = pg.font.SysFont(self.font, self.fontSize)
+        self.label = self.gameFont.render(self.text, True, WHITE)
+        self.damage = self.checkArgs("damage")
+        self.showText = False
+
+    def update(self):
+        x = self.parent.x + self.parent.rect.width / 2 - self.label.get_rect().width / 2
+        self.parent.game.renderer.addToQueue(self.label, (x, self.parent.y - self.fontSize))
 
     def collisionDetected(self, object, colType=None):
         # print(object.name)
         if object.name == "player" and colType == "box":
+            if self.restore:
+                object.components["Damageble"].restoreHealth(self.hp)
+            if self.text:
+                self.showText = True
+            if self.damage:
+                object.damage = self.damage
+
             self.parent.game.level.scene.removeEntity(self.parent, self.parent.id)
 
 
@@ -157,6 +180,7 @@ class SoundEffect(Component):
                     self.currentTime += self.dt
 
     def playSound(self):
+        print("playing ", self.sound)
         self.channel = pg.mixer.Sound.play(self.sound)
 
     def playSoundOnRepeat(self):
@@ -216,6 +240,14 @@ class MusicPlayer(Component):
         if self.channel:
             self.channel.set_volume(v)
 
+    def changeSound(self, file):
+        self.stop()
+        if file is not None:
+            self.sound = self.parent.game.music[file]
+        self.time = pg.mixer.Sound.get_length(self.sound)
+        self.playSound()
+
+
 
 class SceneChange(Component):
     def __init__(self, parent, args):
@@ -225,7 +257,7 @@ class SceneChange(Component):
 
     def collisionDetected(self, object, colType=None):
         if object.name == "player" and colType == "box":
-            self.parent.game.setLevel(self.target, self.tilemap)
+            self.parent.game.setLevel(self.target, self.tilemap, self.parent.game.player.components["Damageble"].health)
 
 
 class SwitchState(Component):
@@ -263,12 +295,27 @@ class Damageble(Component):
         self.parent.addTag("damagable")
         self.guiID = self.checkArgs("guiHealthContainer", None)
         self.guiHealthContainer = None
+        self.showGui = self.checkArgs("showGui", False)
+        self.invincible = False
         if self.guiID:
             self.guiHealthContainer = self.parent.game.gui.getElement(id=self.guiID)
+            if self.showGui:
+                self.updateGui()
+
+    def draw(self):
+        if self.invincible:
+            self.parent.game.renderer.addToQueue(self.parent.game.all_images[INVULNERABLE], self.parent.getPosition())
+
+    def changeGui(self, b):
+        if b:
+            self.showGui = True
+            self.updateGui()
+        else:
+            self.showGui = False
             self.updateGui()
 
     def applyDamage(self, damage):
-        if self.health:
+        if self.health and not self.invincible:
             self.health -= damage
             if self.health <= 0:
                 if self.parent.name == "player":
@@ -284,24 +331,31 @@ class Damageble(Component):
             self.updateGui()
 
     def updateGui(self):
-        print("Updating")
         count = 0
-        if self.guiHealthContainer:
+        if self.showGui:
+            if self.guiHealthContainer and self.health <= 0:
+                self.guiHealthContainer.clear()
+            elif self.guiHealthContainer:
+                self.guiHealthContainer.clear()
+                for i in range(int(self.health / 2)):
+                    self.guiHealthContainer.addImage(FULL_HEART, (count*64, 0))
+                    count += 1
+
+                if self.health % 2 == 1:
+                    self.guiHealthContainer.addImage(HALF_HEART, (count*64, 0))
+                    count += 1
+
+                for i in range(int((self.maxHealth-self.health) / 2)):
+                    self.guiHealthContainer.addImage(EMPTY_HEART, (count * 64, 0))
+                    count += 1
+        elif self.guiHealthContainer:
             self.guiHealthContainer.clear()
-            for i in range(int(self.health / 2)):
-                self.guiHealthContainer.addImage(FULL_HEART, (count*64, 0))
-                count += 1
-
-            if self.health % 2 == 1:
-                self.guiHealthContainer.addImage(HALF_HEART, (count*64, 0))
-                count += 1
-
-            for i in range(int((self.maxHealth-self.health) / 2)):
-                self.guiHealthContainer.addImage(EMPTY_HEART, (count * 64, 0))
-                count += 1
-        print(count)
 
     def die(self):
+        # print("dead")
+        for k, c in self.parent.components.items():
+            # print(k)
+            c.onDeath()
         self.parent.game.level.scene.removeEntity(self.parent, self.parent.id)
 
 
@@ -330,12 +384,8 @@ class Projectile(Component):
             self.die()
 
     def collisionDetected(self, collider, colType=None):
-        # print("goteem")
-        # if collider.name == "player" and self.interactPlayer:
-        #     collider.components["Damageble"].applyDamage(self.damage)
-        #     self.die()
         if "damagable" in collider.tags and collider is not self.firedFrom:
-            print(collider, self.firedFrom)
+            # print(collider, self.firedFrom)
             collider.components["Damageble"].applyDamage(self.damage)
             self.die()
 

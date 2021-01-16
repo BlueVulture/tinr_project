@@ -101,6 +101,8 @@ class Game:
         # Set level and build it
         # self.setLevel("Town", "town_map.json")
         pg.mixer.init()
+        pg.mixer.set_num_channels(32)
+        print("channels", pg.mixer.get_num_channels())
         self.setLevel("MainMenu", "main_menu.json")
         self.menuManager.setMenu("MainMenu")
         self.showMenu = True
@@ -124,7 +126,7 @@ class Game:
                 self.player = o
                 break
 
-    def setLevel(self, level, tilemap):
+    def setLevel(self, level, tilemap, playerHp=None, playerDmg=None):
         if self.level:
             self.level.stop()
         self.level = eval(level)(tilemap, self, scene=Scene())
@@ -132,6 +134,14 @@ class Game:
         self.drawGui = self.level.gui
         self.showMenu = False
         self.setPlayer()
+
+        if playerHp:
+            if "Damageble" in self.player.components:
+                self.player.components["Damageble"].health = playerHp
+                self.player.components["Damageble"].updateGui()
+        if playerDmg:
+            self.player.damage = playerDmg
+
         if self.physics:
             self.physics.setScene()
         # print(id(self.level.scene))
@@ -180,6 +190,12 @@ class Game:
         print("Game over")
         self.paused = True
         self.menuManager.setMenu("GameOver")
+        self.showMenu = True
+
+    def victory(self):
+        print("Victory")
+        self.paused = True
+        self.menuManager.setMenu("Victory")
         self.showMenu = True
 
     def pause(self):

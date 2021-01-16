@@ -41,7 +41,7 @@ entities = {
         "name": "campfire",
         "image": "campfire_1",
         "scale": (0.75, 0.75),
-        "tags" : ["static"],
+        "tags": ["static"],
         "components": {
             "Interactable": {
                 "text": "\'E\'"
@@ -79,7 +79,7 @@ entities = {
                 "size": (0.25, 0.25)
             },
             "SwitchState": {
-                "state" : True,
+                "state": True,
                 "offImage": 1368,
                 "onImage": 1369,
                 "components": [
@@ -112,7 +112,8 @@ entities = {
             },
             "Damageble": {
                 "health": 10,
-                "guiHealthContainer": "player_health"
+                "guiHealthContainer": "player_health",
+                "showGui": True
             }
         }
     },
@@ -140,7 +141,7 @@ entities = {
                 "cooldown": 1
             },
             "Damageble": {
-                "health": 1
+                "health": 2
             },
             "SoundEffect": {
                 "play": False,
@@ -196,14 +197,50 @@ entities = {
                 "circle": 250
             },
             "Damageble": {
-                "health": 1
+                "health": 20,
+                "maxHealth": 20,
+                "guiHealthContainer": "boss_health",
+                "showGui": False
             },
             "BossAI": {
                 "speed": 256,
-                "damage": 10,
+                "damage": 2,
                 "projImage": AXE_THROW,
                 "projSpeed": 300,
-                "waypoints": [(256, 192), (640 ,192)],
+                "waypoints": [(256, 192), (640, 192)],
+
+            }
+        }
+    },
+    "castle_boss": {
+        "class": "Entity",
+        "name": "enemy",
+        "image": None,
+        "tags": ["enemy"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 250
+            },
+            "Damageble": {
+                "health": 20,
+                "maxHealth": 20,
+                "guiHealthContainer": "boss_health",
+                "showGui": False
+            },
+            "FinalBossAI": {
+                "speed": 512,
+                "damage": 4,
+                "projImage": DISC,
+                "projSpeed": 300,
+                "waypoints": [(640, 320), (1024, 320), (1408, 320)],
 
             }
         }
@@ -251,7 +288,16 @@ entities = {
             "EnemyAI": {
                 "speed": 150,
                 "damage": 2
-            }
+            },
+            "Damageble": {
+                "health": 3
+            },
+            "SoundEffect": {
+                "play": False,
+                "time": 9999,
+                "sound": "sword",
+                "volume": 0.25
+            },
         }
     },
     "bunny": {
@@ -379,6 +425,25 @@ entities = {
             },
         }
     },
+    "food": {
+        "class": "Entity",
+        "name": "food",
+        "image": None,
+        "tags": ["static", "removable"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "Consumable": {
+                "restoreHP": True,
+                "hp": 4
+            },
+        }
+    },
     "house": {
         "class": "Entity",
         "name": "enterHouse",
@@ -415,6 +480,46 @@ entities = {
             "SceneChange": {
                 "scene": "Town",
                 "map": "town_map.json",
+                "position": 1
+            }
+        }
+    },
+    "town_2": {
+        "class": "Entity",
+        "name": "Town",
+        "image": None,
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "SceneChange": {
+                "scene": "Town",
+                "map": "town_map_2.json",
+                "position": 1
+            }
+        }
+    },
+    "town_3": {
+        "class": "Entity",
+        "name": "Town",
+        "image": None,
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "SceneChange": {
+                "scene": "Town",
+                "map": "town_map_3.json",
                 "position": 1
             }
         }
@@ -510,6 +615,16 @@ entities = {
             "Interactable": {
                 "text": "\'E\'"
             },
+            "InteractableAI": {
+                "dialog": [
+                    "Why hello there darling!",
+                    "The princess? Ow, that poor thing...",
+                    "Your best bet would be to check the nearby cave.",
+                    "I heard there's a bunch of bandits hiding there.",
+                    "If you're low on health be sure to eat some food.",
+                    "Bye!"
+                ]
+            }
         }
     },
     "arrow": {
@@ -573,4 +688,92 @@ entities = {
             },
         }
     },
+    "scroll": {
+        "class": "Entity",
+        "name": "scroll",
+        "image": None,
+        "scale": (1, 1),
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "Consumable": {
+                "text": "The princess is in the castle!"
+            },
+        }
+    },
+    "scroll_2": {
+        "class": "Entity",
+        "name": "scroll",
+        "image": None,
+        "scale": (1, 1),
+        "tags": ["static"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "Consumable": {
+                "text": "42"
+            },
+        }
+    },
+    "upgrade": {
+        "class": "Entity",
+        "name": "upgrade",
+        "image": None,
+        "tags": ["static", "removable"],
+        "components": {
+            "Rigidbody": {
+                "active": False,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "Consumable": {
+                "damage": 3
+            },
+        }
+    },
+    "princess": {
+        "class": "Entity",
+        "name": "princess",
+        "image": None,
+        "tags": ["neutral"],
+        "components": {
+            "Rigidbody": {
+                "active": True,
+                "mass": 0
+            },
+            "BoxCollider": {
+                "kinematic": True
+            },
+            "CircleCollider": {
+                "kinematic": False,
+                "circle": 150
+            },
+            "Interactable": {
+                "text": "\'E\'"
+            },
+            "InteractableAI": {
+                "dialog": [
+                    "Oh, brave warrior!",
+                    "Thank you for saving me!",
+                    "As a reward you get to win the game! :)",
+                    "Just press E!"
+                ],
+                "victory": True
+            }
+        }
+    },
+
 }

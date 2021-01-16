@@ -9,22 +9,34 @@ levels = {
     },
     "Town": {
         "components": {
-
+            "MusicPlayer": {
+                "sound": "town",
+                "volume": 0.25,
+            },
         }
     },
     "House": {
         "components": {
-
+            "MusicPlayer": {
+                "sound": "inn",
+                "volume": 0.25,
+            },
         }
     },
     "Cave": {
         "components": {
-
+            "MusicPlayer": {
+                "sound": "cave",
+                "volume": 0.25,
+            },
         }
     },
     "Castle": {
         "components": {
-
+            "MusicPlayer": {
+                "sound": "castle",
+                "volume": 0.25,
+            },
         }
     }
 }
