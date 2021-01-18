@@ -17,13 +17,18 @@ class Renderer:
         self.cover.set_alpha(128)
         self.cover.fill(BLACK)
         self.delayed = []
+        self.showed = 0
 
     def render(self):
+        all = 0
+        self.showed = 0
+        label = self.game.gui.getElement(name="Position")
         self.screen.fill(BLACK)
 
         for layer in self.game.level.scene.layers:
             if layer:
                 for t in layer:
+                    all += 1
                     self.draw(t)
 
         for o in self.game.level.scene.updatable:
@@ -45,6 +50,8 @@ class Renderer:
         self.drawMenu()
 
         self.delayed = []
+        if label:
+            label.setText((str(self.showed) + "/" + str(all)))
         display.update()
 
     def setGuiRenderer(self, guiRenderer):
@@ -56,6 +63,7 @@ class Renderer:
     def draw(self, entity):
         if entity.image and self.isOnScreen(entity):
             self.screen.blit(entity.image, self.camera.apply(entity))
+            self.showed += 1
 
     def drawSurface(self, surface, position):
         self.screen.blit(surface, self.camera.applyPosition(position))

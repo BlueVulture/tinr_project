@@ -48,8 +48,8 @@ class Player(Entity):
         if self.sound:
             self.playSound()
 
-        if self.label:
-            self.label.setText(self.getPosition())
+        # if self.label:
+        #     self.label.setText(self.getPosition())
 
     def move(self):
         velocity = pg.Vector2((0, 0))

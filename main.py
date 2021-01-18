@@ -101,7 +101,7 @@ class Game:
         # Set level and build it
         # self.setLevel("Town", "town_map.json")
         pg.mixer.init()
-        pg.mixer.set_num_channels(32)
+        pg.mixer.set_num_channels(128)
         print("channels", pg.mixer.get_num_channels())
         self.setLevel("MainMenu", "main_menu.json")
         self.menuManager.setMenu("MainMenu")
@@ -158,7 +158,7 @@ class Game:
 
         self.level.update()
 
-        self.fpsCounter.setText(str(int(self.clock.get_fps())))
+        # self.fpsCounter.setText(str(int(self.clock.get_fps())))
         # self.camera.update(self.player)
 
     def eventsUpdate(self):

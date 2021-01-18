@@ -29,15 +29,15 @@ interface = {
             "position": (WIDTH / 2 - 320, 64)
         }
     },
-    "position_text": {
-        "type": "TextBox",
-        "name": "Position",
-        "args": {
-            "text": "Test",
-            "position": (WIDTH / 2, HEIGHT - 64),
-            "centered": True
-        }
-    },
+    # "position_text": {
+    #     "type": "TextBox",
+    #     "name": "Position",
+    #     "args": {
+    #         "text": "Test",
+    #         "position": (WIDTH / 2, HEIGHT - 64),
+    #         "centered": True
+    #     }
+    # },
     "test_button": {
         "type": "Button",
         "name": "TestBtn",
@@ -52,24 +52,24 @@ interface = {
             "action": "pause"
         }
     },
-    "fps_text": {
-        "type": "TextBox",
-        "name": "FPS",
-        "args": {
-            "text": "Test",
-            "position": (WIDTH - 35, 0),
-            "centered": True
-        }
-    },
-    "camera_offset_text": {
-        "type": "TextBox",
-        "name": "CameraOffset",
-        "args": {
-            "text": "Test",
-            "position": (WIDTH / 2, HEIGHT - 128),
-            "centered": True
-        }
-    },
+    # "fps_text": {
+    #     "type": "TextBox",
+    #     "name": "FPS",
+    #     "args": {
+    #         "text": "Test",
+    #         "position": (WIDTH - 35, 0),
+    #         "centered": True
+    #     }
+    # },
+    # "camera_offset_text": {
+    #     "type": "TextBox",
+    #     "name": "CameraOffset",
+    #     "args": {
+    #         "text": "Test",
+    #         "position": (WIDTH / 2, HEIGHT - 128),
+    #         "centered": True
+    #     }
+    # },
 }
 
 menuInterfaces = {

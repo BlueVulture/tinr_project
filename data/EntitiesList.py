@@ -329,6 +329,38 @@ entities = {
             # }
         }
     },
+    "pig": {
+        "class": "Entity",
+        "name": "pig",
+        "image": None,
+        "scale": (0.75, 0.75),
+        "tags": ["static"],
+        "components": {
+            "SoundEffect": {
+                "play": True,
+                "time": "length",
+                "sound": "pig_s",
+                "volume": 0.5,
+                "distance": 300
+            },
+        }
+    },
+    "bow": {
+        "class": "Entity",
+        "name": "bow",
+        "image": None,
+        "scale": (0.75, 0.75),
+        "tags": ["static"],
+        "components": {
+            "SoundEffect": {
+                "play": True,
+                "time": "length",
+                "sound": "sword",
+                "volume": 0.5,
+                "distance": 300
+            },
+        }
+    },
     "tree": {
         "class": "Entity",
         "name": "tree",
